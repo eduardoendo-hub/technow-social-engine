@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ─── TECH NOW DESIGN SYSTEM — tokens canônicos ─────────────────────────────── */
+:root {
+  /* Core palette */
+  --tn-deep-teal:     #080F0F;
+  --tn-surface:       #0F2020;
+  --tn-surface-2:     #06100F;
+  --tn-muted:         #1A3535;
+  --tn-muted-2:       #2A4040;
+  --tn-pearl:         #EDF4F4;
+  --tn-pearl-dim:     #9ABABA;
+
+  /* Brand */
+  --tn-tiffany:       #0ABAB5;
+  --tn-tiffany-light: #81D8D0;
+  --tn-tiffany-dark:  #057572;
+  --tn-tiffany-deep:  #04201F;
+
+  /* Accent */
+  --tn-rose:          #EC6088;
+
+  /* Semantic */
+  --tn-gold:          #F7C948;
+  --tn-green:         #30D158;
+  --tn-error:         #EC6088;
+
+  /* Semantic aliases */
+  --bg:               var(--tn-deep-teal);
+  --bg-surface:       var(--tn-surface);
+  --bg-surface-2:     var(--tn-surface-2);
+  --fg1:              var(--tn-pearl);
+  --fg2:              var(--tn-muted);
+  --fg3:              var(--tn-muted-2);
+  --fg-on-brand:      var(--tn-deep-teal);
+  --brand:            var(--tn-tiffany);
+  --brand-soft:       var(--tn-tiffany-light);
+  --accent:           var(--tn-rose);
+  --border:           var(--tn-surface);
+  --border-strong:    var(--tn-muted);
+
+  /* Gradients */
+  --grad-duo:    linear-gradient(90deg, #0ABAB5 0%, #81D8D0 40%, #EC6088 100%);
+  --grad-brand:  linear-gradient(90deg, #04201F 0%, #0ABAB5 50%, #81D8D0 100%);
+  --grad-alert:  linear-gradient(90deg, #F7C948 0%, #EC6088 100%);
+  --grad-line:   linear-gradient(90deg, transparent 0%, #0ABAB5 30%, #81D8D0 50%, #EC6088 70%, transparent 100%);
+
+  /* Glows / shadows */
+  --glow-tiffany: 0 0 24px rgba(10,186,181,0.30);
+  --glow-rose:    0 0 12px rgba(236,96,136,0.70);
+  --shadow-1:     0 1px 2px rgba(0,0,0,0.30);
+  --shadow-2:     0 6px 24px rgba(0,0,0,0.40);
+  --shadow-card:  0 2px 0 rgba(0,0,0,0.20), 0 18px 48px -16px rgba(0,0,0,0.55);
+
+  /* Radii */
+  --radius-xs:   3px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   18px;
+  --radius-2xl:  24px;
+  --radius-pill: 999px;
+
+  /* Spacing (4pt) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-7: 32px; --s-8: 40px;
+  --s-9: 48px; --s-10: 64px; --s-11: 80px;
+}
+
+/* ─── BASELINE ────────────────────────────────────────────────────────────────── */
+html, body {
+  background: var(--bg);
+  color: var(--fg1);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ─── TIPOGRAFIA TN ──────────────────────────────────────────────────────────── */
+.tn-display { font-weight: 900; font-size: 48px; letter-spacing: -0.04em; line-height: 1.05; }
+.tn-h1      { font-weight: 900; font-size: 36px; letter-spacing: -0.04em; line-height: 1.05; }
+.tn-h2      { font-weight: 800; font-size: 28px; letter-spacing: -0.02em; line-height: 1.2;  }
+.tn-h3      { font-weight: 700; font-size: 22px; letter-spacing: -0.02em; line-height: 1.2;  }
+.tn-h4      { font-weight: 700; font-size: 18px; line-height: 1.2; }
+.tn-body    { font-size: 14px;  line-height: 1.5; color: var(--fg1); }
+.tn-muted   { font-size: 14px;  line-height: 1.5; color: var(--fg2); }
+.tn-small   { font-size: 12px;  color: var(--fg2); }
+.tn-eyebrow { font-size: 10px;  font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--brand); }
+.tn-mono    { font-family: 'JetBrains Mono', monospace; font-size: 0.92em; }
+
+/* Highlight dentro de headlines (<em> recebe brand-soft automaticamente) */
+.tn-h1 em, .tn-h2 em, .tn-display em { font-style: normal; color: var(--brand-soft); }
+
+/* ─── COMPONENTES BASE ───────────────────────────────────────────────────────── */
+
+/* BrandLine — 2px no topo de cards/banners */
+.brand-line {
+  position: relative;
+}
+.brand-line::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--grad-line);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* Card padrão TN */
+.tn-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+}
+
+/* Scrollbar fina */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--tn-muted); border-radius: 99px; }

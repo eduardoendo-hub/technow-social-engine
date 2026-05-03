@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" role="img" aria-label="Tech Now">
+  
+  <text x="0" y="92" class="tn-tech" font-size="96">Tech</text>
+  <text x="220" y="92" class="tn-now" font-size="96">Now</text>
+  <circle cx="450" cy="36" r="12" class="tn-dot"></circle>
+</svg>

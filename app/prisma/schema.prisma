@@ -1,0 +1,405 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── MULTI-TENANT ─────────────────────────────────────────────────────────────
+
+model Cliente {
+  id          String   @id @default(cuid())
+  nome        String
+  segmento    String?
+  tomDeVoz    Json?    // { formal, emojis, girias, nivel_tecnico, ... }
+  publicoAlvo Json?    // { principal, secundario }
+  produtos    String[]
+  concorrentes String[]
+  redesConectadas String[]
+  regras      Json?    // termos proibidos, palavras-chave, regras por rede
+  orcamentoMensalBRL Decimal? @db.Decimal(10,2)
+  criadoEm   DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  usuarios     UsuarioCliente[]
+  conteudos    Conteudo[]
+  tendencias   Tendencia[]
+  aprendizados Aprendizado[]
+  tokenUsages  TokenUsage[]
+}
+
+model Usuario {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  nome      String
+  avatarUrl String?
+  role      Role     @default(EDITOR)
+  criadoEm  DateTime @default(now())
+
+  clientes  UsuarioCliente[]
+}
+
+model UsuarioCliente {
+  usuarioId  String
+  clienteId  String
+  role       Role     @default(EDITOR)
+
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  cliente    Cliente  @relation(fields: [clienteId], references: [id])
+
+  @@id([usuarioId, clienteId])
+}
+
+enum Role {
+  ADMIN
+  GESTOR
+  EDITOR
+  VIEWER
+}
+
+// ─── CONTEÚDO ─────────────────────────────────────────────────────────────────
+
+model Conteudo {
+  id           String         @id @default(cuid())
+  clienteId    String
+  titulo       String
+  gancho       String?
+  descricao    String?
+  miniRoteiro  String?
+  objetivo     Objetivo?
+  tema         String?
+  campanha     String?
+  publicoAlvo  String?
+  status       StatusConteudo @default(RASCUNHO)
+  prioridade   Int            @default(0)
+  dataPlaneada DateTime?
+  criadoPorId  String?
+  criadoEm     DateTime       @default(now())
+  atualizadoEm DateTime       @updatedAt
+
+  // Scores da IA (Agente 1)
+  scoreGeral        Int?
+  scoreClareza      Int?
+  scoreEngajamento  Int?
+  scoreTomMarca     Int?
+  riscos            String[]
+  recomendacoes     String[]
+
+  // Para busca semântica de posts similares (pgvector — opcional na v1)
+  // embedding Unsupported("vector(1536)")?
+
+  cliente      Cliente         @relation(fields: [clienteId], references: [id])
+  versoes      VersaoPorRede[]
+  pecas        PecaCriativa[]
+  publicacoes  Publicacao[]
+}
+
+enum StatusConteudo {
+  RASCUNHO
+  EM_VALIDACAO
+  APROVADO
+  REPROVADO
+  EM_DESDOBRAMENTO
+  EM_PRODUCAO
+  AGUARDANDO_APROVACAO
+  APROVADO_FINAL
+  AGENDADO
+  PUBLICADO
+  CANCELADO
+  REVISAR
+}
+
+enum Objetivo {
+  ALCANCE
+  ENGAJAMENTO
+  AUTORIDADE
+  CONVERSAO
+  TRAFEGO
+  LANCAMENTO
+  RELACIONAMENTO
+  EDUCACAO
+  REPUTACAO
+}
+
+// ─── VERSÃO POR REDE ──────────────────────────────────────────────────────────
+
+model VersaoPorRede {
+  id          String     @id @default(cuid())
+  conteudoId  String
+  rede        Rede
+  formato     Formato?
+  legenda     String?
+  roteiro     String?
+  textosArte  Json?      // slides para carrossel ou cenas para vídeo
+  cta         String?
+  hashtags    String[]
+  score       Int?
+  status      StatusVersao @default(PENDENTE)
+  criadoEm   DateTime   @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  conteudo    Conteudo   @relation(fields: [conteudoId], references: [id])
+  pecas       PecaCriativa[]
+}
+
+enum Rede {
+  INSTAGRAM
+  TIKTOK
+  FACEBOOK
+  LINKEDIN
+  YOUTUBE
+}
+
+enum Formato {
+  IMAGEM_ESTATICA
+  CARROSSEL
+  VIDEO_CURTO
+  VIDEO_LONGO
+  POST_TEXTUAL
+  STORY
+  REELS
+  SHORTS
+  TIKTOK_VIDEO
+}
+
+enum StatusVersao {
+  PENDENTE
+  EM_REVISAO
+  APROVADO
+  REPROVADO
+  ENVIADO_PARA_PRODUCAO
+}
+
+// ─── PEÇA CRIATIVA ────────────────────────────────────────────────────────────
+
+model PecaCriativa {
+  id           String       @id @default(cuid())
+  conteudoId   String
+  versaoRedeId String?
+  rede         Rede
+  arquivoUrl   String?
+  tipo         TipoMidia
+  formato      Formato?
+  dimensao     String?
+  duracao      Int?         // segundos
+  versao       Int          @default(1)
+  responsavel  String?
+  prazo        DateTime?
+  modo         ModoPeça     @default(MANUAL)
+  status       StatusPeca   @default(AGUARDANDO)
+  checklist    Json?
+  scoreAderencia Int?
+  criadoEm    DateTime     @default(now())
+  atualizadoEm DateTime    @updatedAt
+
+  conteudo    Conteudo      @relation(fields: [conteudoId], references: [id])
+  versaoRede  VersaoPorRede? @relation(fields: [versaoRedeId], references: [id])
+}
+
+enum TipoMidia {
+  IMAGEM
+  VIDEO
+  GIF
+  DOCUMENTO
+}
+
+enum ModoPeça {
+  MANUAL
+  AUTOMATICO
+  HIBRIDO
+}
+
+enum StatusPeca {
+  AGUARDANDO
+  EM_PRODUCAO
+  PECA_ENVIADA
+  EM_VALIDACAO
+  APROVADA
+  REPROVADA
+  AJUSTES_SOLICITADOS
+}
+
+// ─── PUBLICAÇÃO ───────────────────────────────────────────────────────────────
+
+model Publicacao {
+  id            String          @id @default(cuid())
+  conteudoId    String
+  rede          Rede
+  dataAgendada  DateTime?
+  dataPublicada DateTime?
+  status        StatusPublicacao @default(RASCUNHO)
+  idExterno     String?         // ID na rede social
+  urlPublicacao String?
+  legendaPublicada String?
+  erro          String?
+  scorePreditivo Int?
+  criadoEm     DateTime        @default(now())
+  atualizadoEm DateTime        @updatedAt
+
+  conteudo  Conteudo   @relation(fields: [conteudoId], references: [id])
+  metricas  Metrica[]
+  comentarios Comentario[]
+}
+
+enum StatusPublicacao {
+  RASCUNHO
+  EM_PRODUCAO
+  AGUARDANDO_APROVACAO
+  APROVADO
+  AGENDADO
+  PUBLICADO
+  ERRO
+  CANCELADO
+  REAGENDAR
+}
+
+// ─── MÉTRICAS ─────────────────────────────────────────────────────────────────
+
+model Metrica {
+  id             String    @id @default(cuid())
+  publicacaoId   String
+  rede           Rede
+  janela         String    // "1h" | "3h" | "6h" | "12h" | "24h" | "48h" | "7d" | "30d"
+  coletadoEm     DateTime  @default(now())
+
+  alcance        Int?
+  impressoes     Int?
+  visualizacoes  Int?
+  curtidas       Int?
+  comentarios    Int?
+  compartilhamentos Int?
+  salvamentos    Int?
+  cliques        Int?
+  retencaoMedia  Decimal?  @db.Decimal(5,2)  // percentual
+  taxaConclusao  Decimal?  @db.Decimal(5,2)
+  ctr            Decimal?  @db.Decimal(5,4)
+  leads          Int?
+  seguidoresGanhos Int?
+  sentimento     Sentimento?
+  raw            Json?     // payload completo da API
+
+  publicacao  Publicacao @relation(fields: [publicacaoId], references: [id])
+}
+
+enum Sentimento {
+  MUITO_POSITIVO
+  POSITIVO
+  NEUTRO
+  NEGATIVO
+  MUITO_NEGATIVO
+}
+
+// ─── COMENTÁRIOS ──────────────────────────────────────────────────────────────
+
+model Comentario {
+  id             String            @id @default(cuid())
+  publicacaoId   String
+  idExterno      String?
+  autor          String?
+  texto          String
+  classificacao  ClassificacaoComentario?
+  sentimento     Sentimento?
+  respostaSugerida String?
+  respondioPorId   String?
+  criadoEm       DateTime          @default(now())
+
+  publicacao  Publicacao @relation(fields: [publicacaoId], references: [id])
+}
+
+enum ClassificacaoComentario {
+  POSITIVO
+  NEGATIVO
+  NEUTRO
+  DUVIDA
+  LEAD
+  CRITICA
+  SUGESTAO
+  MENCAO_CONCORRENTE
+  PEDIDO_CONTATO
+}
+
+// ─── APRENDIZADO ──────────────────────────────────────────────────────────────
+
+model Aprendizado {
+  id         String   @id @default(cuid())
+  clienteId  String
+  rede       Rede?
+  tema       String?
+  formato    Formato?
+  insight    String
+  confianca  Int      @default(50)  // 0–100
+  fonte      String?  // "performance" | "humano" | "tendencia"
+  periodoInicio DateTime?
+  periodoFim    DateTime?
+  aplicavel  Boolean  @default(true)
+  criadoEm   DateTime @default(now())
+
+  cliente  Cliente @relation(fields: [clienteId], references: [id])
+}
+
+// ─── TENDÊNCIAS ───────────────────────────────────────────────────────────────
+
+model Tendencia {
+  id             String         @id @default(cuid())
+  clienteId      String
+  tema           String
+  descricao      String?
+  scoreRelevancia Int           @default(50)
+  urgencia       Urgencia       @default(MEDIA)
+  rede           Rede?
+  formato        Formato?
+  ganchoSugerido String?
+  justificativa  String?
+  decisao        DecisaoTendencia?
+  criadoEm       DateTime       @default(now())
+
+  cliente  Cliente @relation(fields: [clienteId], references: [id])
+}
+
+enum Urgencia {
+  ALTA
+  MEDIA
+  BAIXA
+  EVERGREEN
+}
+
+enum DecisaoTendencia {
+  ADICIONADA_AO_CALENDARIO
+  IGNORADA
+  BRIEFING_GERADO
+}
+
+// ─── INSTRUMENTAÇÃO DE TOKENS (ADM Cockpit) ───────────────────────────────────
+
+model TokenUsage {
+  id                   String   @id @default(cuid())
+  clienteId            String?
+  agente               String   // "briefing" | "desdobramento" | "producao" | ...
+  modelo               String   // "claude-sonnet-4-6" | "claude-opus-4-7" | ...
+  requestId            String?  // para correlação / auditoria
+  inputTokens          Int      @default(0)
+  cacheReadTokens      Int      @default(0)
+  cacheWriteTokens     Int      @default(0)
+  outputTokens         Int      @default(0)
+  custoUsd             Decimal  @db.Decimal(12,8)
+  custoBrl             Decimal  @db.Decimal(12,4)
+  cotacaoUsada         Decimal  @db.Decimal(8,4)
+  latenciaMs           Int?
+  criadoEm             DateTime @default(now())
+
+  cliente  Cliente? @relation(fields: [clienteId], references: [id])
+
+  @@index([clienteId, criadoEm])
+  @@index([agente, criadoEm])
+  @@index([modelo, criadoEm])
+}
+
+model CotacaoUSD {
+  id       String   @id @default(cuid())
+  data     DateTime @default(now())
+  valor    Decimal  @db.Decimal(8,4)
+  fonte    String   @default("BCB_PTAX")
+
+  @@index([data])
+}
