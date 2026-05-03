@@ -58,10 +58,10 @@ export function Sidebar() {
       <div className="relative flex items-center gap-2 px-5 py-4">
         <BrandLine className="absolute top-0 left-0 right-0" />
         <Image
-          src="/logo-tech-now-on-dark.svg"
+          src="/logo-technow.png"
           alt="TechNow"
-          width={124}
-          height={29}
+          width={140}
+          height={30}
           priority
         />
       </div>
