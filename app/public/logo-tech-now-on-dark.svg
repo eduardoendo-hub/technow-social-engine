@@ -1,6 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" role="img" aria-label="Tech Now">
-  
-  <text x="0" y="92" class="tn-tech" font-size="96">Tech</text>
-  <text x="220" y="92" class="tn-now" font-size="96">Now</text>
-  <circle cx="450" cy="36" r="12" class="tn-dot"></circle>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 60" role="img" aria-label="TechNow">
+  <defs>
+    <filter id="dot-glow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <text x="2" y="48"
+    font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+    font-weight="800"
+    font-size="50"
+    fill="#EDF4F4"
+    opacity="0.28">Tech</text>
+  <text x="128" y="48"
+    font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+    font-weight="800"
+    font-size="50"
+    fill="#0ABAB5">Now</text>
+  <circle cx="246" cy="11" r="7" fill="#EC6088" filter="url(#dot-glow)"/>
 </svg>

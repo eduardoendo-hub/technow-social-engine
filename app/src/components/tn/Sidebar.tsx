@@ -60,8 +60,8 @@ export function Sidebar() {
         <Image
           src="/logo-tech-now-on-dark.svg"
           alt="TechNow"
-          width={120}
-          height={24}
+          width={124}
+          height={29}
           priority
         />
       </div>
