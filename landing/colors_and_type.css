@@ -1,0 +1,250 @@
+/* ============================================================
+   TECH NOW — COLORS & TYPE
+   Sophisticated tech brand. Dark teal foundation, Tiffany blue
+   primary, Rose Blush accent. AI / automation business.
+   ============================================================ */
+
+/* ---------- FONTS ----------
+   Brand sheet uses 'Segoe UI'/system-ui as the working stack.
+   For a portable, web-safe equivalent we map to Inter (display
+   weights 700/800/900) on Google Fonts — same humanist-sans
+   character, available everywhere. Mono fallback uses
+   JetBrains Mono for code/captions.
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* ---------- COLOR — CORE PALETTE ---------- */
+
+  /* Foundations (dark, the canonical surface) */
+  --tn-deep-teal:     #080F0F;   /* Background base */
+  --tn-surface:       #0F2020;   /* Cards, surface 1 */
+  --tn-surface-2:     #06100F;   /* Surface deeper / alt panels */
+  --tn-muted:         #1A3535;   /* Borders, low-emphasis text on dark */
+  --tn-muted-2:       #2A4040;   /* Secondary muted */
+  --tn-pearl:         #EDF4F4;   /* Primary text on dark */
+  --tn-pearl-9ABABA:  #9ABABA;   /* Secondary text on light backgrounds */
+
+  /* Brand */
+  --tn-tiffany:       #0ABAB5;   /* Primary brand color */
+  --tn-tiffany-light: #81D8D0;   /* Highlight / "Endo" voice */
+  --tn-tiffany-dark:  #057572;   /* Brand depth */
+  --tn-tiffany-deep:  #04201F;   /* Brand shadow / gradient stop */
+
+  /* Accent */
+  --tn-rose:          #EC6088;   /* "Luna" voice / breaking / accent dot */
+
+  /* Semantic */
+  --tn-gold:          #F7C948;   /* Warning / medium impact */
+  --tn-go-green:      #30D158;   /* Success / live */
+  --tn-error:         #EC6088;   /* Reuses rose for danger */
+
+  /* ---------- COLOR — SEMANTIC TOKENS (DARK = DEFAULT) ---------- */
+  --bg:               var(--tn-deep-teal);
+  --bg-surface:       var(--tn-surface);
+  --bg-surface-2:     var(--tn-surface-2);
+
+  --fg1:              var(--tn-pearl);     /* primary text */
+  --fg2:              var(--tn-muted);     /* secondary, captions */
+  --fg3:              var(--tn-muted-2);   /* tertiary / placeholders */
+  --fg-on-brand:      var(--tn-deep-teal); /* text on tiffany surface */
+
+  --brand:            var(--tn-tiffany);
+  --brand-soft:       var(--tn-tiffany-light);
+  --accent:           var(--tn-rose);
+
+  --border:           var(--tn-surface);   /* default 1px line on dark */
+  --border-strong:    var(--tn-muted);
+
+  /* ---------- GRADIENTS ---------- */
+  --grad-duo:    linear-gradient(90deg, #0ABAB5 0%, #81D8D0 40%, #EC6088 100%);
+  --grad-brand:  linear-gradient(90deg, #04201F 0%, #0ABAB5 50%, #81D8D0 100%);
+  --grad-alert:  linear-gradient(90deg, #F7C948 0%, #EC6088 100%);
+  --grad-line:   linear-gradient(90deg, transparent 0%, #0ABAB5 30%, #81D8D0 50%, #EC6088 70%, transparent 100%);
+
+  /* ---------- GLOWS / SHADOWS ---------- */
+  --glow-tiffany: 0 0 24px rgba(10, 186, 181, 0.30);
+  --glow-rose:    0 0 12px rgba(236, 96, 136, 0.70);
+  --shadow-1:     0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-2:     0 6px 24px rgba(0, 0, 0, 0.40);
+  --shadow-card:  0 2px 0 rgba(0,0,0,0.20), 0 18px 48px -16px rgba(0,0,0,0.55);
+
+  /* Soft radial spotlights used in thumbnails / banners */
+  --spot-tiffany: radial-gradient(circle, rgba(10,186,181,0.14) 0%, transparent 65%);
+  --spot-rose:    radial-gradient(circle, rgba(236,96,136,0.09) 0%, transparent 65%);
+
+  /* ---------- RADII ---------- */
+  --radius-xs:  3px;    /* tag chips */
+  --radius-sm:  6px;    /* small badges */
+  --radius-md:  10px;   /* inputs, small cards */
+  --radius-lg:  14px;   /* cards, thumbnails */
+  --radius-xl:  18px;   /* hero panels */
+  --radius-2xl: 24px;   /* device frames / large cards */
+  --radius-pill: 999px;
+
+  /* ---------- SPACING (4-pt base) ---------- */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-7:  32px;
+  --s-8:  40px;
+  --s-9:  48px;
+  --s-10: 64px;
+  --s-11: 80px;
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Weights — TechNow leans heavy. 900 for headlines, 700 for sub, 600 for tags. */
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+  --fw-heavy:   800;
+  --fw-black:   900;
+
+  /* Type scale (px) — derived from brand sheet specimens */
+  --fs-display: 48px;   /* hero / logo */
+  --fs-h1:      36px;
+  --fs-h2:      28px;
+  --fs-h3:      22px;
+  --fs-h4:      18px;
+  --fs-body:    14px;
+  --fs-small:   12px;
+  --fs-caption: 10px;
+  --fs-eyebrow: 10px;   /* uppercase, letterspaced */
+
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-normal:  1.5;
+  --lh-loose:   1.7;
+
+  --ls-tight:   -0.04em;  /* display / logo */
+  --ls-headline:-0.02em;
+  --ls-normal:    0em;
+  --ls-eyebrow:  0.25em;   /* small uppercase labels */
+  --ls-drops:    0.35em;   /* legacy "Drops" sublabel — kept for reference */
+}
+
+/* ---------- BASE ---------- */
+html, body {
+  background: var(--bg);
+  color: var(--fg1);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- SEMANTIC TYPE STYLES ---------- */
+
+.tn-display, h1.tn-display {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-display);
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-tight);
+  color: var(--fg1);
+}
+
+.tn-h1, h1 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-h1);
+  letter-spacing: var(--ls-headline);
+  line-height: var(--lh-tight);
+}
+
+.tn-h2, h2 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-heavy);
+  font-size: var(--fs-h2);
+  letter-spacing: var(--ls-headline);
+  line-height: var(--lh-snug);
+}
+
+.tn-h3, h3 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-headline);
+  line-height: var(--lh-snug);
+}
+
+.tn-h4, h4 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-h4);
+  line-height: var(--lh-snug);
+}
+
+.tn-sub {
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-h4);
+  color: var(--brand-soft);
+  line-height: var(--lh-snug);
+}
+
+.tn-body, p {
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--fg1);
+}
+
+.tn-body-muted {
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--fg2);
+}
+
+.tn-small {
+  font-size: var(--fs-small);
+  color: var(--fg2);
+}
+
+.tn-caption {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  color: var(--fg2);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+}
+
+.tn-eyebrow {
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.tn-mono, code, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+/* Highlight inside headlines — used in thumbnails, "GPT-5 chegou — e o salto é <em>maior</em>" */
+.tn-h1 em, .tn-h2 em, .tn-display em, .tn-headline em {
+  font-style: normal;
+  color: var(--brand-soft);
+}
+
+/* ---------- LIGHT-CONTEXT OVERRIDES ----------
+   Wrap any region in .tn-on-light to flip semantic tokens. */
+.tn-on-light {
+  --bg:           var(--tn-pearl);
+  --bg-surface:   #FFFFFF;
+  --bg-surface-2: #F5FAFA;
+  --fg1:          var(--tn-deep-teal);
+  --fg2:          var(--tn-pearl-9ABABA);
+  --fg3:          #9ABABA;
+  --border:       #E0EAEA;
+  --border-strong:#C8D8D8;
+  background: var(--bg);
+  color: var(--fg1);
+}

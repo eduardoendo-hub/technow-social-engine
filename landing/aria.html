@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ARIA — A inteligência conversacional da Tech Now</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ARIA-specific theming — extra Tiffany glow */
+    .hero {
+      position: relative;
+      padding: 180px 32px 100px;
+      overflow: hidden;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .hero-left { position: relative; z-index: 2; }
+
+    .product-mark {
+      display: inline-flex; align-items: baseline; gap: 0;
+      font-weight: 900; letter-spacing: -0.06em; line-height: 0.9;
+      font-size: clamp(80px, 13vw, 200px);
+      margin-bottom: 16px;
+    }
+    .product-mark .name {
+      background: linear-gradient(135deg, #EDF4F4 0%, #81D8D0 60%, #0ABAB5 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .product-mark .dot {
+      width: 0.18em; height: 0.18em; border-radius: 50%;
+      background: var(--tn-rose);
+      align-self: flex-end; margin-bottom: 0.05em; margin-left: 0.05em;
+      box-shadow: 0 0 24px var(--tn-rose);
+      animation: dotPulse 2.4s ease-in-out infinite;
+    }
+
+    .hero-tagline {
+      font-size: clamp(28px, 3.4vw, 48px);
+      font-weight: 800; letter-spacing: -0.025em;
+      line-height: 1.1; margin: 24px 0 28px;
+      color: var(--tn-pearl);
+    }
+    .hero-tagline em { font-style: normal; color: var(--tn-tiffany-light); }
+
+    .hero-sub {
+      font-size: 17px; line-height: 1.6;
+      color: var(--tn-pearl-9ABABA); max-width: 520px;
+      margin: 0 0 36px;
+    }
+    .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+    /* ---- Chat preview ---- */
+    .chat-frame {
+      position: relative;
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(10,186,181,0.08);
+      animation: chatFloat 6s ease-in-out infinite;
+    }
+    @keyframes chatFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .chat-frame::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #0ABAB5 30%, #81D8D0 50%, #EC6088 70%, transparent);
+    }
+    .chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--tn-surface);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .chat-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #0ABAB5, #81D8D0);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 13px; color: var(--tn-tiffany-deep);
+      letter-spacing: -0.02em;
+    }
+    .chat-name { font-size: 14px; font-weight: 700; color: var(--tn-pearl); }
+    .chat-status {
+      font-size: 11px; color: var(--tn-go-green);
+      display: flex; align-items: center; gap: 6px;
+      margin-top: 2px;
+    }
+    .chat-status .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--tn-go-green); box-shadow: 0 0 8px var(--tn-go-green);
+      animation: dotPulse 1.6s ease-in-out infinite;
+    }
+    .chat-actions {
+      margin-left: auto; display: flex; gap: 8px;
+      color: var(--tn-muted-2);
+    }
+    .chat-body {
+      padding: 24px 20px;
+      min-height: 380px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .msg {
+      max-width: 78%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13.5px; line-height: 1.5;
+      opacity: 0; transform: translateY(10px);
+      animation: msgIn 0.5s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+    @keyframes msgIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .msg.user {
+      align-self: flex-end;
+      background: var(--tn-surface);
+      color: var(--tn-pearl);
+      border-bottom-right-radius: 4px;
+    }
+    .msg.aria {
+      align-self: flex-start;
+      background: linear-gradient(135deg, rgba(10,186,181,0.16), rgba(129,216,208,0.10));
+      border: 1px solid rgba(10,186,181,0.25);
+      color: var(--tn-pearl);
+      border-bottom-left-radius: 4px;
+    }
+    .msg.system {
+      align-self: center;
+      font-size: 11px; color: var(--tn-muted-2);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      background: none; padding: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .typing {
+      align-self: flex-start;
+      display: flex; gap: 4px;
+      padding: 12px 16px;
+      background: rgba(10,186,181,0.08);
+      border: 1px solid rgba(10,186,181,0.2);
+      border-radius: 14px;
+      border-bottom-left-radius: 4px;
+    }
+    .typing span {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--tn-tiffany);
+      animation: typingBounce 1.4s ease-in-out infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.15s; }
+    .typing span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+    .chat-input {
+      border-top: 1px solid var(--tn-surface);
+      padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px; color: var(--tn-muted-2);
+    }
+    .chat-input .pulse {
+      display: inline-flex; gap: 3px; align-items: center;
+    }
+    .chat-input .bar {
+      width: 3px; background: var(--tn-tiffany);
+      border-radius: 99px;
+      animation: voiceBar 1.2s ease-in-out infinite;
+    }
+    .chat-input .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+    .chat-input .bar:nth-child(2) { height: 14px; animation-delay: 0.15s; }
+    .chat-input .bar:nth-child(3) { height: 20px; animation-delay: 0.3s; }
+    .chat-input .bar:nth-child(4) { height: 12px; animation-delay: 0.45s; }
+    .chat-input .bar:nth-child(5) { height: 16px; animation-delay: 0.6s; }
+    @keyframes voiceBar {
+      0%, 100% { transform: scaleY(0.4); }
+      50% { transform: scaleY(1); }
+    }
+
+    /* ---- Channels marquee ---- */
+    .channels {
+      display: flex; gap: 16px; flex-wrap: wrap; margin-top: 24px;
+    }
+    .channel-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 16px; border-radius: 99px;
+      background: rgba(237,244,244,0.04); border: 1px solid var(--tn-surface);
+      font-size: 12px; font-weight: 600; color: var(--tn-pearl-9ABABA);
+      letter-spacing: 0.02em;
+    }
+    .channel-chip .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--tn-go-green);
+      box-shadow: 0 0 6px var(--tn-go-green);
+    }
+
+    /* ---- Capabilities grid ---- */
+    .caps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 64px;
+    }
+    .cap-card {
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 18px;
+      padding: 32px;
+      position: relative; overflow: hidden;
+      transition: border-color .35s, transform .35s;
+    }
+    .cap-card:hover { border-color: var(--tn-tiffany-dark); transform: translateY(-4px); }
+    .cap-card .row1 {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .cap-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(10,186,181,0.12); border: 1px solid rgba(10,186,181,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--tn-tiffany);
+    }
+    .cap-card h3 {
+      font-size: 22px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--tn-pearl); margin: 0;
+    }
+    .cap-card p {
+      font-size: 14px; color: var(--tn-pearl-9ABABA);
+      line-height: 1.55; margin: 0;
+    }
+
+    /* ---- Demo split ---- */
+    .demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .demo-mock {
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 18px;
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      position: relative; overflow: hidden;
+    }
+    .demo-mock::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--tn-tiffany), transparent);
+    }
+    .demo-mock .lh { color: var(--tn-tiffany); }
+    .demo-mock .lk { color: var(--tn-rose); }
+    .demo-mock .lv { color: var(--tn-pearl); }
+    .demo-mock .lc { color: var(--tn-muted-2); }
+
+    /* ---- Voice waveform ---- */
+    .waveform {
+      display: flex; align-items: center; gap: 3px;
+      height: 60px;
+      margin: 32px 0;
+    }
+    .waveform .bar {
+      flex: 1; background: linear-gradient(180deg, var(--tn-tiffany-light), var(--tn-tiffany));
+      border-radius: 99px;
+      animation: wave 1.6s ease-in-out infinite;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.2); }
+      50% { transform: scaleY(1); }
+    }
+
+    /* ---- Comparison table ---- */
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-top: 1px solid var(--tn-surface);
+    }
+    .compare-row {
+      display: contents;
+    }
+    .compare-row > div {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--tn-surface);
+      border-right: 1px solid var(--tn-surface);
+      font-size: 14px; color: var(--tn-pearl-9ABABA);
+    }
+    .compare-row > div:last-child { border-right: none; }
+    .compare-row.head > div {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--tn-pearl);
+      background: var(--tn-surface-2);
+    }
+    .compare-row.head .ours { color: var(--tn-tiffany); }
+    .check { color: var(--tn-tiffany); font-weight: 800; }
+    .x { color: var(--tn-muted-2); }
+
+    /* ---- Final CTA ---- */
+    .final-cta {
+      position: relative; overflow: hidden;
+      border-radius: 32px;
+      padding: 100px 60px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(10,186,181,0.4), transparent 60%),
+        radial-gradient(ellipse at 50% 100%, rgba(129,216,208,0.20), transparent 65%),
+        var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+    }
+    .final-cta h2 {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 900; letter-spacing: -0.04em; line-height: 0.95;
+      margin: 0 auto 28px; max-width: 800px;
+    }
+    .final-cta h2 em { font-style: normal; color: var(--tn-tiffany); }
+    .final-cta p {
+      font-size: 17px; color: var(--tn-pearl-9ABABA);
+      max-width: 540px; margin: 0 auto 36px; line-height: 1.55;
+    }
+
+    /* Section heading */
+    .section-head {
+      max-width: 760px; margin: 0 auto 80px; text-align: center;
+    }
+    .section-head .eyebrow-chip { margin-bottom: 24px; }
+    .section-head h2 { margin: 0 0 16px; }
+    .section-head p {
+      font-size: 17px; color: var(--tn-pearl-9ABABA);
+      line-height: 1.55; margin: 0;
+    }
+
+    .breadcrumb {
+      position: relative; z-index: 2;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--tn-muted-2);
+      margin-bottom: 24px;
+    }
+    .breadcrumb a { color: var(--tn-pearl-9ABABA); }
+    .breadcrumb a:hover { color: var(--tn-tiffany); }
+
+    /* Sibling product banner */
+    .sibling {
+      display: flex; align-items: center; gap: 24px;
+      padding: 32px;
+      border-radius: 20px;
+      background:
+        radial-gradient(ellipse at 0% 50%, rgba(236,96,136,0.12), transparent 50%),
+        var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      transition: border-color .3s, transform .3s;
+      cursor: pointer;
+    }
+    .sibling:hover { border-color: var(--tn-rose); transform: translateY(-4px); }
+    .sibling .label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--tn-rose);
+      margin-bottom: 6px;
+    }
+    .sibling h4 {
+      font-size: 24px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--tn-pearl); margin: 0 0 4px;
+    }
+    .sibling p {
+      font-size: 13px; color: var(--tn-pearl-9ABABA);
+      margin: 0; line-height: 1.5;
+    }
+    .sibling .arrow-wrap {
+      margin-left: auto;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(236,96,136,0.1);
+      border: 1px solid rgba(236,96,136,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--tn-rose);
+      transition: background .3s, transform .3s;
+    }
+    .sibling:hover .arrow-wrap {
+      background: var(--tn-rose); color: var(--tn-pearl);
+      transform: rotate(-45deg);
+    }
+
+    /* Footer */
+    .tn-footer { border-top: 1px solid var(--tn-surface); padding: 64px 32px 28px; }
+    .footer-bottom-simple {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--tn-muted-2); letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 140px 24px 60px; }
+      .caps-grid { grid-template-columns: 1fr; }
+      .demo { grid-template-columns: 1fr; }
+      .compare { grid-template-columns: 1fr 1fr; }
+      .compare-row > div:nth-child(3) { display: none; }
+      .tn-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background ambience -->
+<div class="bg-grid"></div>
+<div class="bg-spot" data-parallax="0.15" style="top: 5%; right: -10%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(10,186,181,0.22), transparent 65%);"></div>
+<div class="bg-spot" data-parallax="0.3" style="top: 50%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(129,216,208,0.14), transparent 65%);"></div>
+
+<div class="brand-line" style="position: fixed; top: 0; left: 0; right: 0; z-index: 200;"></div>
+
+<!-- Header -->
+<header class="tn-header">
+  <div class="tn-header-inner">
+    <a href="index.html" class="tn-logo">
+      <span class="tn-w">Tech</span><span class="tn-n">Now</span><span class="tn-dot"></span>
+    </a>
+    <nav class="tn-nav">
+      <a href="index.html#produtos">Produtos</a>
+      <a href="aria.html" style="color: var(--tn-pearl);">ARIA</a>
+      <a href="social-engine.html">Social Engine</a>
+      <a href="index.html#processo">Processo</a>
+      <a href="index.html#contato">Contato</a>
+    </nav>
+    <a href="#" class="btn btn-ghost">Entrar</a>
+    <a href="#contato" class="btn btn-primary" data-magnetic>Testar ARIA <span class="arrow">→</span></a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="breadcrumb reveal">
+      <a href="index.html">Tech Now</a> <span>/</span> <span style="color: var(--tn-tiffany);">ARIA</span>
+    </div>
+    <span class="eyebrow-chip reveal" style="margin-bottom: 24px;">
+      <span class="dot"></span>Agente Conversacional
+    </span>
+
+    <h1 class="product-mark reveal">
+      <span class="name">ARIA</span><span class="dot"></span>
+    </h1>
+
+    <p class="hero-tagline reveal">
+      A inteligência conversacional que <em>atende, qualifica e resolve</em>.
+    </p>
+
+    <p class="hero-sub reveal">
+      Conecta no WhatsApp, no site, no Instagram, no CRM. Aprende com seus dados.
+      Resolve 80% dos chamados sem passar pra humanos — e o que passa, passa pronto.
+    </p>
+
+    <div class="hero-ctas reveal">
+      <a href="#contato" class="btn btn-primary" data-magnetic>Conversar com ARIA <span class="arrow">→</span></a>
+      <a href="#capacidades" class="btn btn-ghost">Ver capacidades</a>
+    </div>
+
+    <div class="channels reveal">
+      <span class="channel-chip"><span class="dot"></span>WhatsApp</span>
+      <span class="channel-chip"><span class="dot"></span>Instagram DM</span>
+      <span class="channel-chip"><span class="dot"></span>Webchat</span>
+      <span class="channel-chip"><span class="dot"></span>E-mail</span>
+      <span class="channel-chip"><span class="dot"></span>Voz</span>
+    </div>
+  </div>
+
+  <div class="hero-right reveal" style="position: relative; z-index: 2;">
+    <div class="chat-frame">
+      <div class="chat-header">
+        <div class="chat-avatar">A</div>
+        <div>
+          <div class="chat-name">ARIA</div>
+          <div class="chat-status"><span class="dot"></span>Online · responde em segundos</div>
+        </div>
+        <div class="chat-actions">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <!-- messages injected by JS -->
+      </div>
+      <div class="chat-input">
+        <span class="pulse">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </span>
+        <span style="flex: 1;">Escutando...</span>
+        <span class="mono" style="color: var(--tn-tiffany);">⌘ K</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS BAND -->
+<section style="position: relative; z-index: 1;">
+  <div class="stats-band" style="display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--tn-surface); border-bottom: 1px solid var(--tn-surface);">
+    <div class="stat reveal" style="padding: 48px 24px; border-right: 1px solid var(--tn-surface);">
+      <div style="font-size: clamp(40px, 5vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-tiffany) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><span data-count="80" data-suffix="%">0%</span></div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-pearl-9ABABA); margin-top: 14px;">Resolução autônoma</div>
+    </div>
+    <div class="stat reveal" style="padding: 48px 24px; border-right: 1px solid var(--tn-surface);">
+      <div style="font-size: clamp(40px, 5vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-tiffany) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><span data-count="3" data-suffix="s">0s</span></div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-pearl-9ABABA); margin-top: 14px;">Tempo médio</div>
+    </div>
+    <div class="stat reveal" style="padding: 48px 24px; border-right: 1px solid var(--tn-surface);">
+      <div style="font-size: clamp(40px, 5vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-tiffany) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">24/7</div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-pearl-9ABABA); margin-top: 14px;">Disponibilidade</div>
+    </div>
+    <div class="stat reveal" style="padding: 48px 24px;">
+      <div style="font-size: clamp(40px, 5vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-tiffany) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><span data-count="32" data-suffix="">0</span></div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-pearl-9ABABA); margin-top: 14px;">Idiomas</div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="section" id="capacidades">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow-chip"><span class="dot"></span>Capacidades</span>
+      <h2 class="h-1" style="margin-top: 12px;">Não é um <em>chatbot</em>.<br/>É um <em>colega de trabalho</em>.</h2>
+      <p>ARIA conecta nos seus sistemas, lembra do contexto, executa ações e devolve resposta com fonte.
+        Você descreve o tom da marca; ela aprende.</p>
+    </div>
+
+    <div class="caps-grid reveal-stagger">
+      <div class="cap-card">
+        <div class="row1">
+          <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3>Multi-canal nativo</h3>
+        </div>
+        <p>WhatsApp, Instagram DM, webchat, e-mail e voz. Uma só conversa, qualquer canal — com histórico unificado.</p>
+      </div>
+      <div class="cap-card">
+        <div class="row1">
+          <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <h3>Conhecimento da empresa</h3>
+        </div>
+        <p>Treine ARIA com docs, FAQ, planilhas, sites internos. Cada resposta vem com a fonte do dado.</p>
+      </div>
+      <div class="cap-card">
+        <div class="row1">
+          <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+          <h3>Ações reais</h3>
+        </div>
+        <p>Cria pedido, atualiza CRM, agenda visita, abre chamado. Não fica só conversando — resolve.</p>
+      </div>
+      <div class="cap-card">
+        <div class="row1">
+          <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <h3>Handoff inteligente</h3>
+        </div>
+        <p>Quando precisa de humano, passa o bastão com contexto completo. O atendente recebe o caso pronto.</p>
+      </div>
+      <div class="cap-card">
+        <div class="row1">
+          <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <h3>Observabilidade total</h3>
+        </div>
+        <p>Dashboards de NPS, intenção, fontes consultadas e taxa de resolução. Sem caixa-preta.</p>
+      </div>
+      <div class="cap-card">
+        <div class="row1">
+          <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <h3>Compliance & LGPD</h3>
+        </div>
+        <p>Dados criptografados, residência no Brasil, logs auditáveis. Pronta para setores regulados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICE / DEMO MOCK -->
+<section class="section" style="padding-top: 60px;">
+  <div class="section-inner">
+    <div class="demo">
+      <div class="reveal">
+        <span class="eyebrow-chip"><span class="dot"></span>Voz e Texto</span>
+        <h2 class="h-1" style="margin: 24px 0 20px;">A mesma <em>ARIA</em>,<br/>em qualquer interface.</h2>
+        <p style="font-size: 16px; color: var(--tn-pearl-9ABABA); line-height: 1.6; margin: 0 0 24px;">
+          Texto, áudio, voz em tempo real. ARIA conecta no Twilio, no Whatsapp Business, no Genesys —
+          ou na sua URA. A mesma personalidade, a mesma base de conhecimento.
+        </p>
+        <div class="waveform">
+          <div class="bar" style="animation-delay: 0s;"></div>
+          <div class="bar" style="animation-delay: 0.05s;"></div>
+          <div class="bar" style="animation-delay: 0.1s;"></div>
+          <div class="bar" style="animation-delay: 0.15s;"></div>
+          <div class="bar" style="animation-delay: 0.2s;"></div>
+          <div class="bar" style="animation-delay: 0.25s;"></div>
+          <div class="bar" style="animation-delay: 0.3s;"></div>
+          <div class="bar" style="animation-delay: 0.35s;"></div>
+          <div class="bar" style="animation-delay: 0.4s;"></div>
+          <div class="bar" style="animation-delay: 0.45s;"></div>
+          <div class="bar" style="animation-delay: 0.5s;"></div>
+          <div class="bar" style="animation-delay: 0.55s;"></div>
+          <div class="bar" style="animation-delay: 0.6s;"></div>
+          <div class="bar" style="animation-delay: 0.65s;"></div>
+          <div class="bar" style="animation-delay: 0.7s;"></div>
+          <div class="bar" style="animation-delay: 0.75s;"></div>
+          <div class="bar" style="animation-delay: 0.8s;"></div>
+          <div class="bar" style="animation-delay: 0.85s;"></div>
+          <div class="bar" style="animation-delay: 0.9s;"></div>
+          <div class="bar" style="animation-delay: 0.95s;"></div>
+          <div class="bar" style="animation-delay: 1s;"></div>
+          <div class="bar" style="animation-delay: 1.05s;"></div>
+          <div class="bar" style="animation-delay: 1.1s;"></div>
+          <div class="bar" style="animation-delay: 1.15s;"></div>
+        </div>
+        <a href="#contato" class="btn btn-ghost">Ouvir um caso real <span class="arrow">→</span></a>
+      </div>
+      <div class="demo-mock reveal">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--tn-surface);">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--tn-go-green); box-shadow: 0 0 8px var(--tn-go-green);"></span>
+          <span style="color: var(--tn-pearl); font-weight: 700; font-size: 12px;">aria.run("agendar_consulta")</span>
+          <span style="margin-left: auto; color: var(--tn-muted-2); font-size: 11px;">200 OK · 412ms</span>
+        </div>
+<pre style="margin: 0; font-family: inherit; font-size: 12px; line-height: 1.7; color: var(--tn-pearl);"><span class="lc">// Conversa em tempo real</span>
+{
+  <span class="lk">"intent"</span>: <span class="lv">"agendar_consulta"</span>,
+  <span class="lk">"confidence"</span>: <span class="lh">0.94</span>,
+  <span class="lk">"context"</span>: {
+    <span class="lk">"customer_id"</span>: <span class="lv">"c_882a"</span>,
+    <span class="lk">"channel"</span>: <span class="lv">"whatsapp"</span>,
+    <span class="lk">"language"</span>: <span class="lv">"pt-BR"</span>
+  },
+  <span class="lk">"actions"</span>: [
+    <span class="lc">// → CRM atualizado</span>
+    { <span class="lk">"tool"</span>: <span class="lv">"crm.update"</span>, <span class="lk">"ok"</span>: <span class="lh">true</span> },
+    <span class="lc">// → Calendar slot reservado</span>
+    { <span class="lk">"tool"</span>: <span class="lv">"calendar.book"</span>, <span class="lk">"ok"</span>: <span class="lh">true</span> },
+    <span class="lc">// → Confirmação enviada</span>
+    { <span class="lk">"tool"</span>: <span class="lv">"sms.send"</span>, <span class="lk">"ok"</span>: <span class="lh">true</span> }
+  ],
+  <span class="lk">"resolved"</span>: <span class="lh">true</span>,
+  <span class="lk">"handoff_needed"</span>: <span class="lh">false</span>
+}</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow-chip"><span class="dot"></span>Por que ARIA</span>
+      <h2 class="h-1" style="margin-top: 12px;">Não é só mais <em>um chatbot</em>.</h2>
+    </div>
+
+    <div class="reveal" style="border: 1px solid var(--tn-surface); border-radius: 18px; overflow: hidden;">
+      <div class="compare">
+        <div class="compare-row head">
+          <div></div>
+          <div class="ours">ARIA</div>
+          <div>Chatbot tradicional</div>
+        </div>
+        <div class="compare-row">
+          <div>Entende contexto da conversa</div>
+          <div><span class="check">✓</span> Memória ilimitada</div>
+          <div><span class="x">✗</span> Reset a cada turno</div>
+        </div>
+        <div class="compare-row">
+          <div>Executa ações nos seus sistemas</div>
+          <div><span class="check">✓</span> 60+ integrações</div>
+          <div><span class="x">✗</span> Só responde texto</div>
+        </div>
+        <div class="compare-row">
+          <div>Resposta com fonte rastreável</div>
+          <div><span class="check">✓</span> Cita o documento</div>
+          <div><span class="x">✗</span> Caixa-preta</div>
+        </div>
+        <div class="compare-row">
+          <div>Voz em tempo real</div>
+          <div><span class="check">✓</span> Latência &lt; 300ms</div>
+          <div><span class="x">✗</span> Apenas texto</div>
+        </div>
+        <div class="compare-row">
+          <div>Handoff com contexto</div>
+          <div><span class="check">✓</span> Briefing automático</div>
+          <div><span class="x">✗</span> Cliente repete tudo</div>
+        </div>
+        <div class="compare-row" style="border-bottom: none;">
+          <div style="border-bottom: none;">Time-to-value</div>
+          <div style="border-bottom: none;"><span class="check">✓</span> 7 dias</div>
+          <div style="border-bottom: none;"><span class="x">✗</span> 3 a 6 meses</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIBLING PRODUCT -->
+<section class="section" style="padding-top: 40px;">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow-chip"><span class="dot"></span>Conheça também</span>
+    </div>
+    <a href="social-engine.html" class="sibling reveal">
+      <div>
+        <div class="label">Tech Now · Produto</div>
+        <h4>Social Engine<span class="rose">.</span></h4>
+        <p>Motor de IA que cria, agenda e analisa o conteúdo das suas redes sociais.</p>
+      </div>
+      <div class="arrow-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section" id="contato">
+  <div class="section-inner">
+    <div class="final-cta reveal">
+      <span class="eyebrow-chip" style="margin-bottom: 28px;"><span class="dot"></span>Próximo passo</span>
+      <h2>Coloque a <em>ARIA</em><br/>pra trabalhar.</h2>
+      <p>Em 30 minutos a gente mapeia um caso real do seu atendimento e mostra o ARIA respondendo de verdade.</p>
+      <div class="ctas" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="#" class="btn btn-primary" data-magnetic>Agendar demo <span class="arrow">→</span></a>
+        <a href="index.html" class="btn btn-ghost">Voltar pra Tech Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="tn-footer">
+  <div class="footer-bottom-simple">
+    <a href="index.html" class="tn-logo" style="font-size: 18px;">
+      <span class="tn-w">Tech</span><span class="tn-n">Now</span><span class="tn-dot"></span>
+    </a>
+    <span>© 2026 · ARIA é um produto Tech Now</span>
+  </div>
+</footer>
+
+<script src="scripts.js"></script>
+<script>
+// ---------- Animated chat ----------
+(function () {
+  const body = document.getElementById('chatBody');
+  if (!body) return;
+
+  const script = [
+    { t: 'system', text: 'Conversa iniciada · WhatsApp', delay: 200 },
+    { t: 'user',  text: 'Oi! Queria remarcar minha consulta de amanhã 😅', delay: 700 },
+    { t: 'typing', delay: 1000 },
+    { t: 'aria',  text: 'Claro, Júlia! Achei sua consulta de quinta às 14h com a Dra. Marta. Quer que eu remarque pra qual dia?', delay: 2000 },
+    { t: 'user',  text: 'Pode ser sexta de manhã?', delay: 900 },
+    { t: 'typing', delay: 800 },
+    { t: 'aria',  text: 'Tenho 9h ou 10h30 com a Dra. Marta nesta sexta. Qual prefere?', delay: 1800 },
+    { t: 'user',  text: '10h30 perfeito 🙌', delay: 800 },
+    { t: 'typing', delay: 700 },
+    { t: 'aria',  text: 'Pronto! Confirmei sexta às 10h30. Já enviei o lembrete pro seu calendário e por SMS.', delay: 1900 },
+    { t: 'system', text: '✓ CRM atualizado · Slot reservado · Confirmação enviada', delay: 600 }
+  ];
+
+  function loop() {
+    body.innerHTML = '';
+    let acc = 0;
+    let typingEl = null;
+    script.forEach((step, i) => {
+      acc += step.delay;
+      setTimeout(() => {
+        // remove existing typing if any
+        if (typingEl) { typingEl.remove(); typingEl = null; }
+        if (step.t === 'typing') {
+          typingEl = document.createElement('div');
+          typingEl.className = 'typing';
+          typingEl.innerHTML = '<span></span><span></span><span></span>';
+          body.appendChild(typingEl);
+        } else {
+          const m = document.createElement('div');
+          m.className = 'msg ' + step.t;
+          m.textContent = step.text;
+          body.appendChild(m);
+        }
+        body.scrollTop = body.scrollHeight;
+      }, acc);
+    });
+    // Restart
+    setTimeout(loop, acc + 4500);
+  }
+  loop();
+})();
+</script>
+</body>
+</html>

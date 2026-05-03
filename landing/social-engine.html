@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Social Engine — O motor de conteúdo da Tech Now</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Social Engine theming — Rose-forward accents */
+    .hero {
+      position: relative;
+      padding: 180px 32px 100px;
+      overflow: hidden;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .hero-left { position: relative; z-index: 2; }
+
+    .product-mark {
+      display: inline-flex; align-items: baseline; gap: 0;
+      font-weight: 900; letter-spacing: -0.05em; line-height: 0.92;
+      font-size: clamp(56px, 9vw, 132px);
+      margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .product-mark .name {
+      background: linear-gradient(135deg, #EDF4F4 0%, #EC6088 50%, #0ABAB5 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .product-mark .dot {
+      width: 0.16em; height: 0.16em; border-radius: 50%;
+      background: var(--tn-rose);
+      align-self: flex-end; margin-bottom: 0.05em; margin-left: 0.05em;
+      box-shadow: 0 0 24px var(--tn-rose);
+      animation: dotPulse 2.4s ease-in-out infinite;
+    }
+
+    .hero-tagline {
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 800; letter-spacing: -0.025em;
+      line-height: 1.1; margin: 24px 0 28px;
+      color: var(--tn-pearl); max-width: 580px;
+    }
+    .hero-tagline em { font-style: normal; color: var(--tn-rose); }
+
+    .hero-sub {
+      font-size: 17px; line-height: 1.6;
+      color: var(--tn-pearl-9ABABA); max-width: 520px;
+      margin: 0 0 36px;
+    }
+
+    /* Phone-style social mock */
+    .post-deck {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; gap: 16px;
+      perspective: 1400px;
+    }
+    .post-card {
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 18px;
+      padding: 18px;
+      transition: transform .5s cubic-bezier(.2,.8,.2,1);
+      position: relative; overflow: hidden;
+    }
+    .post-card:nth-child(1) { transform: rotate(-1.5deg) translateX(-8px); animation: postFloatA 7s ease-in-out infinite; }
+    .post-card:nth-child(2) { transform: rotate(0.8deg) translateX(12px); animation: postFloatB 7s ease-in-out infinite 0.5s; }
+    .post-card:nth-child(3) { transform: rotate(-0.5deg) translateX(-4px); animation: postFloatC 7s ease-in-out infinite 1s; }
+    @keyframes postFloatA {
+      0%, 100% { transform: rotate(-1.5deg) translate(-8px, 0); }
+      50% { transform: rotate(-1.5deg) translate(-8px, -10px); }
+    }
+    @keyframes postFloatB {
+      0%, 100% { transform: rotate(0.8deg) translate(12px, 0); }
+      50% { transform: rotate(0.8deg) translate(12px, -10px); }
+    }
+    @keyframes postFloatC {
+      0%, 100% { transform: rotate(-0.5deg) translate(-4px, 0); }
+      50% { transform: rotate(-0.5deg) translate(-4px, -10px); }
+    }
+    .post-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--tn-rose), var(--tn-tiffany), transparent);
+    }
+    .post-head {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+    }
+    .post-platform {
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--tn-pearl);
+    }
+    .post-platform.ig { background: linear-gradient(135deg, #EC6088, #F7C948); }
+    .post-platform.li { background: #0A66C2; }
+    .post-platform.tt { background: #000; border: 1px solid var(--tn-muted); }
+    .post-meta { font-size: 11px; color: var(--tn-pearl-9ABABA); }
+    .post-meta strong { color: var(--tn-pearl); display: block; font-size: 13px; }
+    .post-status {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.15em;
+      padding: 4px 8px; border-radius: 99px;
+      background: rgba(48,209,88,0.1);
+      color: var(--tn-go-green);
+      border: 1px solid rgba(48,209,88,0.3);
+    }
+    .post-status.scheduled {
+      background: rgba(10,186,181,0.1);
+      color: var(--tn-tiffany);
+      border-color: rgba(10,186,181,0.3);
+    }
+    .post-body {
+      font-size: 13.5px; line-height: 1.5; color: var(--tn-pearl);
+      margin-bottom: 12px;
+    }
+    .post-body .tag { color: var(--tn-tiffany); }
+    .post-img {
+      height: 140px;
+      border-radius: 10px;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(236,96,136,0.5), transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(10,186,181,0.5), transparent 60%),
+        linear-gradient(135deg, #1A0810 0%, #04201F 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .post-img::after {
+      content: 'AI · gerado'; position: absolute; bottom: 10px; right: 10px;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 4px 8px; border-radius: 99px;
+      background: rgba(8,15,15,0.7); border: 1px solid rgba(237,244,244,0.2);
+      color: var(--tn-pearl);
+    }
+    .post-foot {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--tn-surface);
+      font-size: 12px; color: var(--tn-pearl-9ABABA);
+    }
+    .post-stats { display: flex; gap: 16px; }
+
+    /* Platform marquee */
+    .platform-row {
+      display: flex; gap: 16px; flex-wrap: wrap; margin-top: 28px;
+    }
+    .platform-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 99px;
+      background: rgba(237,244,244,0.04); border: 1px solid var(--tn-surface);
+      font-size: 12px; font-weight: 600; color: var(--tn-pearl-9ABABA);
+    }
+    .platform-chip .icon {
+      width: 16px; height: 16px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--tn-pearl);
+    }
+    .platform-chip .icon.ig { background: linear-gradient(135deg, #EC6088, #F7C948); }
+    .platform-chip .icon.li { background: #0A66C2; }
+    .platform-chip .icon.tt { background: #000; }
+    .platform-chip .icon.x { background: #000; }
+    .platform-chip .icon.fb { background: #1877F2; }
+    .platform-chip .icon.yt { background: #FF0000; }
+
+    /* Pipeline visual */
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 64px;
+      position: relative;
+    }
+    .pipeline::before {
+      content: ''; position: absolute; top: 50%; left: 5%; right: 5%; height: 1px;
+      background: linear-gradient(90deg, var(--tn-rose), var(--tn-tiffany));
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+    .stage {
+      position: relative; z-index: 1;
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 16px;
+      padding: 28px 24px;
+      transition: border-color .3s, transform .3s;
+    }
+    .stage:hover { border-color: var(--tn-rose); transform: translateY(-4px); }
+    .stage .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--tn-rose);
+      letter-spacing: 0.2em; margin-bottom: 12px;
+    }
+    .stage h4 {
+      font-size: 18px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--tn-pearl); margin: 0 0 8px;
+    }
+    .stage p {
+      font-size: 13px; line-height: 1.5; color: var(--tn-pearl-9ABABA);
+      margin: 0;
+    }
+    .stage-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(236,96,136,0.1); border: 1px solid rgba(236,96,136,0.25);
+      color: var(--tn-rose);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    /* Calendar mock */
+    .calendar-mock {
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 18px;
+      padding: 24px;
+      position: relative; overflow: hidden;
+    }
+    .calendar-mock::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--tn-rose), var(--tn-tiffany));
+    }
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .cal-cell {
+      aspect-ratio: 1;
+      background: var(--tn-deep-teal);
+      border-radius: 6px;
+      padding: 6px;
+      font-size: 10px; color: var(--tn-muted-2);
+      position: relative;
+      transition: background .3s;
+    }
+    .cal-cell.has-post { background: rgba(236,96,136,0.06); border: 1px solid rgba(236,96,136,0.2); color: var(--tn-pearl); }
+    .cal-cell.has-post.aria-style { background: rgba(10,186,181,0.06); border-color: rgba(10,186,181,0.2); }
+    .cal-cell.today { background: var(--tn-tiffany); color: var(--tn-tiffany-deep); font-weight: 800; }
+    .cal-cell .pdot {
+      position: absolute; bottom: 4px; left: 4px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--tn-rose);
+    }
+    .cal-cell .pdot.t { background: var(--tn-tiffany); }
+    .cal-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px;
+    }
+    .cal-head h4 { font-size: 14px; font-weight: 700; color: var(--tn-pearl); margin: 0; }
+    .cal-head .month { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--tn-pearl-9ABABA); letter-spacing: 0.15em; }
+
+    /* Capabilities (similar to ARIA but Rose-forward) */
+    .caps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+    .cap-card {
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 18px;
+      padding: 28px;
+      position: relative; overflow: hidden;
+      transition: border-color .35s, transform .35s;
+    }
+    .cap-card:hover { border-color: var(--tn-rose); transform: translateY(-4px); }
+    .cap-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(236,96,136,0.12); border: 1px solid rgba(236,96,136,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--tn-rose); margin-bottom: 18px;
+    }
+    .cap-card h3 {
+      font-size: 20px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--tn-pearl); margin: 0 0 10px;
+    }
+    .cap-card p {
+      font-size: 13.5px; color: var(--tn-pearl-9ABABA);
+      line-height: 1.55; margin: 0;
+    }
+
+    /* Plan & Publish split */
+    .plan-publish {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    /* Insights / dashboard */
+    .insights {
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 18px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .insights .kpi { padding: 20px 0; border-bottom: 1px solid var(--tn-surface); }
+    .insights .kpi:last-child { border-bottom: none; }
+    .insights .kpi .label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--tn-pearl-9ABABA);
+      margin-bottom: 8px;
+    }
+    .insights .kpi .v {
+      display: flex; align-items: baseline; gap: 10px;
+      font-size: 28px; font-weight: 900; letter-spacing: -0.02em;
+      color: var(--tn-pearl);
+    }
+    .insights .kpi .delta {
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      padding: 2px 8px; border-radius: 99px;
+      background: rgba(48,209,88,0.1); color: var(--tn-go-green);
+      letter-spacing: 0;
+    }
+    .insights .kpi .delta.down {
+      background: rgba(236,96,136,0.1); color: var(--tn-rose);
+    }
+    .chart-bars { display: flex; align-items: end; gap: 6px; height: 120px; padding: 12px 0; }
+    .chart-bars .b {
+      flex: 1; background: linear-gradient(180deg, var(--tn-rose), var(--tn-tiffany));
+      border-radius: 4px 4px 0 0;
+      animation: barGrow 1.6s cubic-bezier(.2,.8,.2,1) forwards;
+      transform-origin: bottom;
+      transform: scaleY(0);
+    }
+    @keyframes barGrow {
+      to { transform: scaleY(1); }
+    }
+
+    /* Final CTA */
+    .final-cta {
+      position: relative; overflow: hidden;
+      border-radius: 32px;
+      padding: 100px 60px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(236,96,136,0.4), transparent 60%),
+        radial-gradient(ellipse at 50% 100%, rgba(10,186,181,0.20), transparent 65%),
+        var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+    }
+    .final-cta h2 {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 900; letter-spacing: -0.04em; line-height: 0.95;
+      margin: 0 auto 28px; max-width: 800px;
+    }
+    .final-cta h2 em { font-style: normal; color: var(--tn-rose); }
+    .final-cta p {
+      font-size: 17px; color: var(--tn-pearl-9ABABA);
+      max-width: 540px; margin: 0 auto 36px; line-height: 1.55;
+    }
+
+    .section-head {
+      max-width: 760px; margin: 0 auto 64px; text-align: center;
+    }
+    .section-head .eyebrow-chip { margin-bottom: 24px; background: rgba(236,96,136,0.1); border-color: rgba(236,96,136,0.3); color: var(--tn-rose); }
+    .section-head .eyebrow-chip .dot { background: var(--tn-tiffany); }
+    .section-head h2 { margin: 0 0 16px; }
+    .section-head p {
+      font-size: 17px; color: var(--tn-pearl-9ABABA);
+      line-height: 1.55; margin: 0;
+    }
+
+    .breadcrumb {
+      position: relative; z-index: 2;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--tn-muted-2);
+      margin-bottom: 24px;
+    }
+    .breadcrumb a { color: var(--tn-pearl-9ABABA); }
+    .breadcrumb a:hover { color: var(--tn-rose); }
+
+    .sibling {
+      display: flex; align-items: center; gap: 24px;
+      padding: 32px;
+      border-radius: 20px;
+      background:
+        radial-gradient(ellipse at 0% 50%, rgba(10,186,181,0.14), transparent 50%),
+        var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      transition: border-color .3s, transform .3s;
+      cursor: pointer;
+    }
+    .sibling:hover { border-color: var(--tn-tiffany); transform: translateY(-4px); }
+    .sibling .label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--tn-tiffany);
+      margin-bottom: 6px;
+    }
+    .sibling h4 {
+      font-size: 24px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--tn-pearl); margin: 0 0 4px;
+    }
+    .sibling p {
+      font-size: 13px; color: var(--tn-pearl-9ABABA);
+      margin: 0; line-height: 1.5;
+    }
+    .sibling .arrow-wrap {
+      margin-left: auto;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(10,186,181,0.1);
+      border: 1px solid rgba(10,186,181,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--tn-tiffany);
+      transition: background .3s, transform .3s;
+    }
+    .sibling:hover .arrow-wrap { background: var(--tn-tiffany); color: var(--tn-tiffany-deep); transform: rotate(-45deg); }
+
+    .tn-footer { border-top: 1px solid var(--tn-surface); padding: 64px 32px 28px; }
+    .footer-bottom-simple {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--tn-muted-2); letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 1000px) {
+      .pipeline { grid-template-columns: 1fr 1fr; }
+      .pipeline::before { display: none; }
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 140px 24px 60px; }
+      .caps-grid { grid-template-columns: 1fr; }
+      .plan-publish { grid-template-columns: 1fr; }
+      .insights { grid-template-columns: 1fr; }
+      .pipeline { grid-template-columns: 1fr; }
+      .tn-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-spot" data-parallax="0.15" style="top: 5%; left: -10%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(236,96,136,0.20), transparent 65%);"></div>
+<div class="bg-spot" data-parallax="0.3" style="top: 50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(10,186,181,0.14), transparent 65%);"></div>
+
+<div class="brand-line" style="position: fixed; top: 0; left: 0; right: 0; z-index: 200;"></div>
+
+<header class="tn-header">
+  <div class="tn-header-inner">
+    <a href="index.html" class="tn-logo">
+      <span class="tn-w">Tech</span><span class="tn-n">Now</span><span class="tn-dot"></span>
+    </a>
+    <nav class="tn-nav">
+      <a href="index.html#produtos">Produtos</a>
+      <a href="aria.html">ARIA</a>
+      <a href="social-engine.html" style="color: var(--tn-pearl);">Social Engine</a>
+      <a href="index.html#processo">Processo</a>
+      <a href="index.html#contato">Contato</a>
+    </nav>
+    <a href="https://socialengine.technowhub.ai" class="btn btn-ghost">Entrar</a>
+    <a href="#contato" class="btn btn-primary" data-magnetic>Testar grátis <span class="arrow">→</span></a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="breadcrumb reveal">
+      <a href="index.html">Tech Now</a> <span>/</span> <span style="color: var(--tn-rose);">Social Engine</span>
+    </div>
+    <span class="eyebrow-chip reveal" style="margin-bottom: 24px; background: rgba(236,96,136,0.1); border-color: rgba(236,96,136,0.3); color: var(--tn-rose);">
+      <span class="dot" style="background: var(--tn-tiffany);"></span>Motor de Conteúdo
+    </span>
+
+    <h1 class="product-mark reveal">
+      <span class="name">Social Engine</span><span class="dot"></span>
+    </h1>
+
+    <p class="hero-tagline reveal">
+      A IA que <em>cria, agenda</em> e <em>analisa</em> o conteúdo das suas redes.
+    </p>
+
+    <p class="hero-sub reveal">
+      Você briefa, ela publica. Da ideia ao post, do post ao relatório —
+      sem você precisar abrir o Canva ou rodar planilha.
+    </p>
+
+    <div class="hero-ctas reveal" style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+      <a href="#contato" class="btn btn-primary" data-magnetic style="background: var(--tn-rose); color: var(--tn-pearl);">Começar grátis <span class="arrow">→</span></a>
+      <a href="#pipeline" class="btn btn-ghost">Ver como funciona</a>
+    </div>
+
+    <div class="platform-row reveal">
+      <span class="platform-chip"><span class="icon ig">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="white"/></svg>
+      </span>Instagram</span>
+      <span class="platform-chip"><span class="icon li">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+      </span>LinkedIn</span>
+      <span class="platform-chip"><span class="icon tt"></span>TikTok</span>
+      <span class="platform-chip"><span class="icon x"></span>X / Twitter</span>
+      <span class="platform-chip"><span class="icon fb"></span>Facebook</span>
+      <span class="platform-chip"><span class="icon yt"></span>YouTube Shorts</span>
+    </div>
+  </div>
+
+  <!-- 3 floating posts -->
+  <div class="post-deck reveal">
+    <div class="post-card">
+      <div class="post-head">
+        <div class="post-platform ig">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="white"/></svg>
+        </div>
+        <div class="post-meta">
+          <strong>@suamarca</strong>
+          Carrossel · 5 cards
+        </div>
+        <div class="post-status">PUBLICADO</div>
+      </div>
+      <div class="post-body">3 erros de copy que estão derrubando seu CTR <span class="tag">#copywriting</span> <span class="tag">#growth</span></div>
+      <div class="post-img"></div>
+      <div class="post-foot">
+        <div class="post-stats">
+          <span>♥ 2.4k</span><span>💬 84</span><span>↗ 312</span>
+        </div>
+        <span style="color: var(--tn-go-green);">↑ 38% vs média</span>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-head">
+        <div class="post-platform li">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+        </div>
+        <div class="post-meta">
+          <strong>Sua Marca</strong>
+          Artigo curto · 280 palavras
+        </div>
+        <div class="post-status scheduled">AGENDADO · 14:00</div>
+      </div>
+      <div class="post-body">A IA não vai roubar seu emprego. Quem usa IA, vai. Aqui está o que mudou na nossa equipe em 90 dias →</div>
+      <div class="post-foot">
+        <div class="post-stats"><span>📊 Tom: editorial</span><span>🎯 ICP: B2B SaaS</span></div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-head">
+        <div class="post-platform tt"><svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z"/></svg></div>
+        <div class="post-meta">
+          <strong>@suamarca</strong>
+          Reels · 22s
+        </div>
+        <div class="post-status scheduled">EM EDIÇÃO</div>
+      </div>
+      <div class="post-body">POV: você descobriu que a IA escreve seu roteiro em 12 segundos 🔥</div>
+      <div class="post-img" style="background: radial-gradient(ellipse at 60% 40%, rgba(10,186,181,0.5), transparent 60%), radial-gradient(ellipse at 30% 70%, rgba(236,96,136,0.5), transparent 60%), #04201F;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS BAND -->
+<section style="position: relative; z-index: 1;">
+  <div class="stats-band" style="display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--tn-surface); border-bottom: 1px solid var(--tn-surface);">
+    <div class="reveal" style="padding: 48px 24px; border-right: 1px solid var(--tn-surface);">
+      <div style="font-size: clamp(40px, 5vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-rose) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><span data-count="10" data-suffix="x">0x</span></div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-pearl-9ABABA); margin-top: 14px;">Mais publicações</div>
+    </div>
+    <div class="reveal" style="padding: 48px 24px; border-right: 1px solid var(--tn-surface);">
+      <div style="font-size: clamp(40px, 5vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-rose) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><span data-count="6" data-suffix="">0</span></div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-pearl-9ABABA); margin-top: 14px;">Plataformas</div>
+    </div>
+    <div class="reveal" style="padding: 48px 24px; border-right: 1px solid var(--tn-surface);">
+      <div style="font-size: clamp(40px, 5vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-rose) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><span data-count="92" data-suffix="%">0%</span></div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-pearl-9ABABA); margin-top: 14px;">Tempo economizado</div>
+    </div>
+    <div class="reveal" style="padding: 48px 24px;">
+      <div style="font-size: clamp(40px, 5vw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 1; background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-rose) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><span data-count="12" data-suffix="s">0s</span></div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-pearl-9ABABA); margin-top: 14px;">Por post</div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="section" id="pipeline">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow-chip"><span class="dot"></span>Como funciona</span>
+      <h2 class="h-1" style="margin-top: 12px;">Da <em style="color: var(--tn-rose);">ideia</em> ao <em style="color: var(--tn-rose);">relatório</em>,<br/>sem você abrir uma planilha.</h2>
+      <p>Quatro estágios automatizados. Você só aprova quando quiser tomar a decisão.</p>
+    </div>
+
+    <div class="pipeline reveal-stagger">
+      <div class="stage">
+        <div class="stage-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="num">01 · BRIEFING</div>
+        <h4>Captura de contexto</h4>
+        <p>Tom da marca, ICP, calendário sazonal, brand book. Tudo numa só fonte.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+        <div class="num">02 · CRIAÇÃO</div>
+        <h4>Geração com IA</h4>
+        <p>Copy, imagem, vídeo, hashtags — geradas no tom da marca, em segundos.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <div class="num">03 · AGENDA</div>
+        <h4>Publicação multicanal</h4>
+        <p>Calendário inteligente que escolhe melhor horário por canal e audiência.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="num">04 · LEARN</div>
+        <h4>Aprende com o resultado</h4>
+        <p>Cada métrica vira aprendizado. O próximo post nasce mais afiado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN & PUBLISH -->
+<section class="section" style="padding-top: 40px;">
+  <div class="section-inner">
+    <div class="plan-publish">
+      <div class="reveal">
+        <span class="eyebrow-chip" style="background: rgba(236,96,136,0.1); border-color: rgba(236,96,136,0.3); color: var(--tn-rose);"><span class="dot" style="background: var(--tn-tiffany);"></span>Calendário</span>
+        <h2 class="h-1" style="margin: 20px 0 16px;">Um mês de conteúdo,<br/>em uma <em style="color: var(--tn-rose);">manhã</em>.</h2>
+        <p style="font-size: 16px; color: var(--tn-pearl-9ABABA); line-height: 1.6; margin: 0 0 24px;">
+          A IA gera 30 dias de posts em uma sessão de briefing. Você revisa, ajusta o tom,
+          aprova lote. Cada post sai no horário ideal por canal — automaticamente.
+        </p>
+        <a href="#contato" class="btn btn-ghost">Ver demo do calendário <span class="arrow">→</span></a>
+      </div>
+
+      <div class="calendar-mock reveal">
+        <div class="cal-head">
+          <h4>Calendário de Maio</h4>
+          <span class="month">2026 · 28 POSTS</span>
+        </div>
+        <div class="cal-grid" id="calGrid">
+          <!-- generated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow-chip"><span class="dot"></span>Capacidades</span>
+      <h2 class="h-1" style="margin-top: 12px;">Tudo que sua agência<br/>faz hoje, num só <em style="color: var(--tn-rose);">motor</em>.</h2>
+    </div>
+
+    <div class="caps-grid reveal-stagger">
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <h3>Copy no tom da marca</h3>
+        <p>Treine a voz da marca uma vez. Toda copy nasce com seu jeito de falar.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <h3>Imagens & vídeo gerados</h3>
+        <p>Imagens em estilos consistentes com sua identidade visual. Reels editados automaticamente.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>Tendências em tempo real</h3>
+        <p>Detecta trending topics relevantes e sugere posts oportunistas antes da concorrência.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3>Aprovação com 1 clique</h3>
+        <p>Revisão em lote, comentários inline, aprovação por WhatsApp. Sem mais e-mail vai-e-vem.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+        <h3>Publicação automática</h3>
+        <p>Conexão direta com APIs oficiais. Nada de "lembre de postar manual no IG."</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
+        <h3>Relatório que aprende</h3>
+        <p>Não é dashboard de vaidade. É insight: o que postar mais, o que cortar, próximos 7 dias.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="section" style="padding-top: 40px;">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="insights">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--tn-go-green); box-shadow: 0 0 6px var(--tn-go-green);"></span>
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tn-go-green);">Live · Últimos 30 dias</span>
+          </div>
+          <h3 style="font-size: 28px; font-weight: 900; letter-spacing: -0.02em; color: var(--tn-pearl); margin: 0 0 24px;">Performance da semana</h3>
+          <div class="kpi">
+            <div class="label">Alcance total</div>
+            <div class="v">847k <span class="delta">+24%</span></div>
+          </div>
+          <div class="kpi">
+            <div class="label">Engajamento médio</div>
+            <div class="v">6.8% <span class="delta">+1.2pp</span></div>
+          </div>
+          <div class="kpi">
+            <div class="label">Crescimento de seguidores</div>
+            <div class="v">+3.4k <span class="delta">+18%</span></div>
+          </div>
+          <div class="kpi">
+            <div class="label">CPM</div>
+            <div class="v">R$ 8.20 <span class="delta down">-12%</span></div>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size: 14px; font-weight: 700; letter-spacing: 0.05em; color: var(--tn-pearl); margin: 0 0 6px;">Engajamento por post · 14 dias</h3>
+          <p style="font-size: 12px; color: var(--tn-pearl-9ABABA); margin: 0 0 18px;">Cada barra é um post. As mais altas são as recomendadas pela IA.</p>
+          <div class="chart-bars" id="chartBars">
+            <!-- generated by JS -->
+          </div>
+          <div style="margin-top: 24px; padding: 16px; background: rgba(236,96,136,0.05); border: 1px solid rgba(236,96,136,0.2); border-radius: 12px;">
+            <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--tn-rose); margin-bottom: 8px;">📌 Insight da IA</div>
+            <p style="font-size: 13px; color: var(--tn-pearl); margin: 0; line-height: 1.5;">
+              Carrosséis sobre "case studies" tiveram <strong>3.4×</strong> mais engajamento que reels nas últimas 2 semanas. Sugiro 4 posts deste formato pra próxima semana.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIBLING -->
+<section class="section" style="padding-top: 40px;">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow-chip"><span class="dot"></span>Conheça também</span>
+    </div>
+    <a href="aria.html" class="sibling reveal">
+      <div>
+        <div class="label">Tech Now · Produto</div>
+        <h4>ARIA<span class="tiffany">.</span></h4>
+        <p>A inteligência conversacional que atende, qualifica e resolve em qualquer canal.</p>
+      </div>
+      <div class="arrow-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section" id="contato">
+  <div class="section-inner">
+    <div class="final-cta reveal">
+      <span class="eyebrow-chip" style="margin-bottom: 28px; background: rgba(236,96,136,0.1); border-color: rgba(236,96,136,0.3); color: var(--tn-rose);"><span class="dot" style="background: var(--tn-tiffany);"></span>Próximo passo</span>
+      <h2>Coloque o <em>Social Engine</em><br/>pra rodar.</h2>
+      <p>Em 7 dias seu calendário está montado, seu tom de marca treinado e sua próxima campanha no ar.</p>
+      <div class="ctas" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="https://socialengine.technowhub.ai" class="btn btn-primary" data-magnetic style="background: var(--tn-rose); color: var(--tn-pearl);">Começar grátis <span class="arrow">→</span></a>
+        <a href="index.html" class="btn btn-ghost">Voltar pra Tech Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="tn-footer">
+  <div class="footer-bottom-simple">
+    <a href="index.html" class="tn-logo" style="font-size: 18px;">
+      <span class="tn-w">Tech</span><span class="tn-n">Now</span><span class="tn-dot"></span>
+    </a>
+    <span>© 2026 · SOCIAL ENGINE É UM PRODUTO TECH NOW</span>
+  </div>
+</footer>
+
+<script src="scripts.js"></script>
+<script>
+// Calendar
+(function () {
+  const grid = document.getElementById('calGrid');
+  if (!grid) return;
+  const days = 35;
+  const today = 14;
+  // posts schedule: rose vs tiffany (style)
+  const postDays = { 2: 't', 4: 'p', 5: 't', 7: 'p', 9: 't', 11: 'p', 12: 'p', 14: 't', 16: 'p', 18: 't', 19: 'p', 21: 't', 23: 'p', 25: 'p', 26: 't', 28: 'p', 30: 't' };
+  for (let i = 0; i < days; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell';
+    const day = i - 3;
+    if (day > 0 && day <= 31) cell.textContent = day;
+    if (postDays[day]) {
+      cell.classList.add('has-post');
+      if (postDays[day] === 't') cell.classList.add('aria-style');
+      const dot = document.createElement('span');
+      dot.className = 'pdot' + (postDays[day] === 't' ? ' t' : '');
+      cell.appendChild(dot);
+    }
+    if (day === today) cell.classList.add('today');
+    grid.appendChild(cell);
+  }
+})();
+
+// Chart bars
+(function () {
+  const bars = document.getElementById('chartBars');
+  if (!bars) return;
+  const heights = [40, 65, 35, 80, 55, 92, 48, 70, 30, 88, 60, 45, 95, 72];
+  heights.forEach((h, i) => {
+    const b = document.createElement('div');
+    b.className = 'b';
+    b.style.height = h + '%';
+    b.style.animationDelay = (i * 0.08) + 's';
+    if (h > 80) b.style.background = 'linear-gradient(180deg, var(--tn-rose), var(--tn-rose))';
+    bars.appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>

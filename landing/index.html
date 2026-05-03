@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tech Now — Automação e IA aplicada ao seu negócio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ---- Page-specific ---- */
+    .hero {
+      position: relative;
+      padding: 200px 32px 140px;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex; align-items: center;
+    }
+    .hero-inner { max-width: 1280px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+
+    .hero-eyebrow { margin-bottom: 36px; }
+
+    .hero-display {
+      font-weight: 900; letter-spacing: -0.05em; line-height: 0.92;
+      font-size: clamp(56px, 11vw, 168px);
+      margin: 0;
+      color: var(--tn-pearl);
+    }
+    .hero-display em { font-style: normal; color: var(--tn-tiffany); position: relative; }
+    .hero-display em::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0.04em;
+      height: 0.08em;
+      background: linear-gradient(90deg, transparent, var(--tn-rose), transparent);
+      opacity: 0.7;
+      animation: underlineSweep 3.2s ease-in-out infinite;
+    }
+    @keyframes underlineSweep {
+      0%, 100% { transform: scaleX(0); transform-origin: left; }
+      40% { transform: scaleX(1); transform-origin: left; }
+      60% { transform: scaleX(1); transform-origin: right; }
+      100% { transform: scaleX(0); transform-origin: right; }
+    }
+
+    .hero-sub {
+      max-width: 620px;
+      font-size: clamp(16px, 1.4vw, 20px);
+      line-height: 1.55;
+      color: var(--tn-pearl-9ABABA);
+      margin: 32px 0 44px;
+    }
+
+    .hero-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+    .hero-meta {
+      position: absolute; bottom: 60px; left: 32px; right: 32px;
+      max-width: 1280px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: end;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--tn-muted-2);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      pointer-events: none;
+    }
+    .hero-meta .live {
+      display: inline-flex; align-items: center; gap: 8px; color: var(--tn-pearl-9ABABA);
+    }
+    .hero-meta .live .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--tn-go-green);
+      box-shadow: 0 0 8px var(--tn-go-green);
+      animation: dotPulse 1.6s ease-in-out infinite;
+    }
+
+    /* ---- Animated neural mesh BG ---- */
+    .neural-bg {
+      position: absolute; inset: 0; z-index: 1;
+      mask-image: radial-gradient(circle at 70% 50%, #000 0%, transparent 70%);
+      -webkit-mask-image: radial-gradient(circle at 70% 50%, #000 0%, transparent 70%);
+      opacity: 0.55;
+    }
+
+    /* ---- Section: pillars ---- */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .pillar {
+      background: var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+      border-radius: 18px;
+      padding: 32px 28px;
+      position: relative; overflow: hidden;
+      transition: border-color .35s, transform .35s;
+      cursor: pointer;
+    }
+    .pillar::before {
+      content: ''; position: absolute; inset: -1px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, transparent 40%, rgba(10,186,181,0.4) 60%, transparent 80%);
+      opacity: 0; transition: opacity .35s;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .pillar:hover::before { opacity: 1; }
+    .pillar > * { position: relative; z-index: 1; }
+    .pillar:hover { transform: translateY(-6px); border-color: var(--tn-tiffany-dark); }
+    .pillar-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: rgba(10,186,181,0.1); border: 1px solid rgba(10,186,181,0.25);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+      color: var(--tn-tiffany);
+    }
+    .pillar h3 {
+      font-size: 22px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--tn-pearl); margin: 0 0 12px; line-height: 1.2;
+    }
+    .pillar p { font-size: 14px; color: var(--tn-pearl-9ABABA); line-height: 1.55; margin: 0; }
+
+    /* ---- Section: products (ARIA + Social Engine cards) ---- */
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 64px;
+    }
+    .product-card {
+      position: relative; overflow: hidden;
+      border-radius: 28px;
+      padding: 48px 40px;
+      min-height: 480px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      cursor: pointer;
+      transition: transform .5s cubic-bezier(.2,.8,.2,1);
+      border: 1px solid var(--tn-surface);
+    }
+    .product-card:hover { transform: translateY(-8px); }
+    .product-card.aria {
+      background:
+        radial-gradient(ellipse at 80% 20%, rgba(10,186,181,0.25), transparent 60%),
+        radial-gradient(ellipse at 20% 100%, rgba(129,216,208,0.18), transparent 65%),
+        linear-gradient(135deg, #04201F 0%, #06100F 100%);
+    }
+    .product-card.engine {
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(236,96,136,0.22), transparent 60%),
+        radial-gradient(ellipse at 90% 90%, rgba(10,186,181,0.16), transparent 65%),
+        linear-gradient(135deg, #1A0810 0%, #06100F 100%);
+    }
+    .product-card .visual {
+      position: absolute; inset: 0; pointer-events: none;
+      opacity: 0.7;
+    }
+    .product-card-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--tn-tiffany-light);
+    }
+    .product-card.engine .product-card-tag { color: var(--tn-rose); }
+    .product-card-tag .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    .product-card h3 {
+      font-size: clamp(36px, 4.2vw, 64px); font-weight: 900;
+      letter-spacing: -0.04em; line-height: 0.95;
+      color: var(--tn-pearl); margin: 14px 0 16px;
+      position: relative; z-index: 2;
+    }
+    .product-card .desc {
+      font-size: 15px; line-height: 1.55;
+      color: var(--tn-pearl-9ABABA); max-width: 360px;
+      position: relative; z-index: 2;
+    }
+    .product-card .footer-row {
+      display: flex; justify-content: space-between; align-items: end;
+      position: relative; z-index: 2;
+      margin-top: 32px;
+    }
+    .product-card .stats {
+      display: flex; gap: 28px;
+    }
+    .product-card .stat .v {
+      font-size: 24px; font-weight: 900; letter-spacing: -0.02em;
+      color: var(--tn-pearl); line-height: 1;
+    }
+    .product-card .stat .l {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--tn-pearl-9ABABA);
+      margin-top: 6px;
+    }
+    .product-card .open-arrow {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(237,244,244,0.06);
+      border: 1px solid rgba(237,244,244,0.15);
+      display: flex; align-items: center; justify-content: center;
+      transition: background .3s, transform .3s;
+    }
+    .product-card:hover .open-arrow {
+      background: var(--tn-tiffany);
+      border-color: var(--tn-tiffany);
+      transform: rotate(-45deg);
+    }
+    .product-card.engine:hover .open-arrow {
+      background: var(--tn-rose);
+      border-color: var(--tn-rose);
+    }
+    .product-card .open-arrow svg { transition: stroke .3s; }
+    .product-card:hover .open-arrow svg { stroke: var(--tn-tiffany-deep); }
+
+    /* ---- Stats band ---- */
+    .stats-band {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--tn-surface);
+      border-bottom: 1px solid var(--tn-surface);
+    }
+    .stats-band .stat {
+      padding: 48px 24px;
+      border-right: 1px solid var(--tn-surface);
+      text-align: left;
+    }
+    .stats-band .stat:last-child { border-right: none; }
+    .stats-band .stat .v {
+      font-size: clamp(40px, 5.5vw, 80px); font-weight: 900;
+      letter-spacing: -0.04em; line-height: 1;
+      color: var(--tn-pearl);
+      background: linear-gradient(180deg, var(--tn-pearl) 0%, var(--tn-tiffany) 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stats-band .stat .l {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--tn-pearl-9ABABA);
+      margin-top: 14px;
+    }
+
+    /* ---- Process timeline ---- */
+    .process {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .process-steps {
+      display: flex; flex-direction: column;
+      gap: 0;
+    }
+    .pstep {
+      padding: 24px 28px 24px 64px;
+      border-left: 1px solid var(--tn-surface);
+      position: relative;
+      transition: border-color .3s, background .3s;
+      cursor: pointer;
+    }
+    .pstep::before {
+      content: ''; position: absolute; left: -7px; top: 30px;
+      width: 13px; height: 13px; border-radius: 50%;
+      background: var(--tn-deep-teal);
+      border: 1px solid var(--tn-muted);
+      transition: background .3s, border-color .3s, transform .3s;
+    }
+    .pstep:hover, .pstep.active {
+      border-left-color: var(--tn-tiffany);
+      background: linear-gradient(90deg, rgba(10,186,181,0.04), transparent);
+    }
+    .pstep:hover::before, .pstep.active::before {
+      background: var(--tn-tiffany); border-color: var(--tn-tiffany-light);
+      transform: scale(1.2);
+      box-shadow: 0 0 16px rgba(10,186,181,0.6);
+    }
+    .pstep .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--tn-tiffany);
+      letter-spacing: 0.2em; margin-bottom: 8px;
+    }
+    .pstep h4 {
+      font-size: 20px; font-weight: 800; letter-spacing: -0.01em;
+      color: var(--tn-pearl); margin: 0 0 8px;
+    }
+    .pstep p {
+      font-size: 13px; color: var(--tn-pearl-9ABABA);
+      margin: 0; line-height: 1.55;
+    }
+
+    /* ---- Final CTA ---- */
+    .final-cta {
+      position: relative; overflow: hidden;
+      border-radius: 32px;
+      padding: 100px 60px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(10,186,181,0.35), transparent 60%),
+        radial-gradient(ellipse at 50% 100%, rgba(236,96,136,0.20), transparent 65%),
+        var(--tn-surface-2);
+      border: 1px solid var(--tn-surface);
+    }
+    .final-cta h2 {
+      font-size: clamp(40px, 6vw, 88px);
+      font-weight: 900; letter-spacing: -0.04em; line-height: 0.95;
+      margin: 0 auto 28px; max-width: 900px;
+    }
+    .final-cta h2 em { font-style: normal; color: var(--tn-tiffany); }
+    .final-cta p {
+      font-size: 17px; color: var(--tn-pearl-9ABABA);
+      max-width: 540px; margin: 0 auto 36px; line-height: 1.55;
+    }
+    .final-cta .ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ---- Footer ---- */
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+    .footer-grid h4 {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--tn-tiffany);
+      margin: 0 0 18px;
+    }
+    .footer-grid ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .footer-grid li { font-size: 13px; color: var(--tn-pearl-9ABABA); cursor: pointer; transition: color .2s; }
+    .footer-grid li:hover { color: var(--tn-pearl); }
+    .footer-bottom {
+      max-width: 1280px; margin: 64px auto 0;
+      padding-top: 32px;
+      border-top: 1px solid var(--tn-surface);
+      display: flex; justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--tn-muted-2); letter-spacing: 0.1em;
+    }
+
+    /* ---- Section heading ---- */
+    .section-head {
+      max-width: 760px; margin: 0 auto 80px; text-align: center;
+    }
+    .section-head .eyebrow-chip { margin-bottom: 24px; }
+    .section-head h2 { margin: 0 0 16px; }
+    .section-head p {
+      font-size: 17px; color: var(--tn-pearl-9ABABA);
+      line-height: 1.55; margin: 0;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute; left: 50%; bottom: 30px;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--tn-muted-2);
+      pointer-events: none;
+    }
+    .scroll-indicator .line {
+      width: 1px; height: 32px;
+      background: linear-gradient(180deg, var(--tn-tiffany), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .pillars { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .process { grid-template-columns: 1fr; gap: 32px; }
+      .stats-band { grid-template-columns: 1fr 1fr; }
+      .stats-band .stat:nth-child(2) { border-right: none; }
+      .stats-band .stat:nth-child(1), .stats-band .stat:nth-child(2) { border-bottom: 1px solid var(--tn-surface); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .tn-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background ambience -->
+<div class="bg-grid"></div>
+<div class="bg-spot" data-parallax="0.15" style="top: 10%; left: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(10,186,181,0.20), transparent 65%);"></div>
+<div class="bg-spot" data-parallax="0.25" style="top: 30%; right: -15%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(236,96,136,0.12), transparent 65%);"></div>
+<div class="bg-spot" data-parallax="0.35" style="top: 80%; left: 20%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(129,216,208,0.10), transparent 65%);"></div>
+
+<!-- Brand line top -->
+<div class="brand-line" style="position: fixed; top: 0; left: 0; right: 0; z-index: 200;"></div>
+
+<!-- Header -->
+<header class="tn-header">
+  <div class="tn-header-inner">
+    <a href="index.html" class="tn-logo">
+      <span class="tn-w">Tech</span><span class="tn-n">Now</span><span class="tn-dot"></span>
+    </a>
+    <nav class="tn-nav">
+      <a href="#produtos">Produtos</a>
+      <a href="aria.html">ARIA</a>
+      <a href="social-engine.html">Social Engine</a>
+      <a href="#processo">Processo</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a href="#contato" class="btn btn-ghost">Entrar</a>
+    <a href="#contato" class="btn btn-primary" data-magnetic>Falar com a gente <span class="arrow">→</span></a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Animated neural mesh background -->
+  <svg class="neural-bg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="nodeGlow">
+        <stop offset="0%" stop-color="#0ABAB5" stop-opacity="1"/>
+        <stop offset="100%" stop-color="#0ABAB5" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#0ABAB5" stop-opacity="0"/>
+        <stop offset="50%" stop-color="#81D8D0" stop-opacity="0.6"/>
+        <stop offset="100%" stop-color="#0ABAB5" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <g id="neural-net" stroke="url(#lineGrad)" stroke-width="0.6" fill="none"></g>
+    <g id="neural-nodes"></g>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow reveal">
+      <span class="eyebrow-chip">
+        <span class="dot"></span>
+        IA · Automação · 2026
+      </span>
+    </div>
+
+    <h1 class="hero-display" data-split>
+      Automação,<br/>
+      <em>agora</em>.
+    </h1>
+
+    <p class="hero-sub reveal">
+      A Tech Now usa IA para automatizar as tarefas que travam o seu negócio —
+      do atendimento à criação de conteúdo, em <strong style="color: var(--tn-pearl);">dias, não meses</strong>.
+    </p>
+
+    <div class="hero-ctas reveal">
+      <a href="#produtos" class="btn btn-primary" data-magnetic>
+        Conheça nossos produtos <span class="arrow">→</span>
+      </a>
+      <a href="#contato" class="btn btn-ghost">
+        Agendar demonstração
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-meta">
+    <span class="live"><span class="dot"></span>SISTEMAS · ONLINE</span>
+    <span>v.2026 · TECHNOW.AI</span>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <span class="line"></span>
+  </div>
+</section>
+
+<!-- TRUSTED MARQUEE -->
+<section style="position: relative; z-index: 1;">
+  <div class="marquee">
+    <div class="marquee-track">
+      <span class="marquee-item">+200 EMPRESAS <span class="sep"></span></span>
+      <span class="marquee-item">ATENDIMENTO 24/7 <span class="sep"></span></span>
+      <span class="marquee-item">FINTECHS <span class="sep"></span></span>
+      <span class="marquee-item">E-COMMERCE <span class="sep"></span></span>
+      <span class="marquee-item">SAAS B2B <span class="sep"></span></span>
+      <span class="marquee-item">MARKETING DIGITAL <span class="sep"></span></span>
+      <span class="marquee-item">EDUCAÇÃO <span class="sep"></span></span>
+      <span class="marquee-item">SAÚDE <span class="sep"></span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee-item">+200 EMPRESAS <span class="sep"></span></span>
+      <span class="marquee-item">ATENDIMENTO 24/7 <span class="sep"></span></span>
+      <span class="marquee-item">FINTECHS <span class="sep"></span></span>
+      <span class="marquee-item">E-COMMERCE <span class="sep"></span></span>
+      <span class="marquee-item">SAAS B2B <span class="sep"></span></span>
+      <span class="marquee-item">MARKETING DIGITAL <span class="sep"></span></span>
+      <span class="marquee-item">EDUCAÇÃO <span class="sep"></span></span>
+      <span class="marquee-item">SAÚDE <span class="sep"></span></span>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS / O que fazemos -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow-chip"><span class="dot"></span>O que fazemos</span>
+      <h2 class="h-1" style="margin-top: 12px;">Soluções de <em>IA aplicada</em>,<br/>não de slide.</h2>
+      <p>Tech Now é a empresa que tira o seu negócio do piloto manual.
+        A gente desenha, conecta e roda automações que entregam resultado real — não promessa.</p>
+    </div>
+
+    <div class="pillars reveal-stagger">
+      <div class="pillar" data-tilt>
+        <div class="pillar-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Agentes que resolvem,<br/>não respondem.</h3>
+        <p>Bots conversacionais conectados aos seus sistemas resolvem 80% dos chamados sem passar pra humanos.</p>
+      </div>
+      <div class="pillar" data-tilt>
+        <div class="pillar-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <h3>Workflows que<br/>rodam sozinhos.</h3>
+        <p>Do lead ao pós-venda — cada etapa orquestrada com regras claras, observabilidade e SLA desde o dia 1.</p>
+      </div>
+      <div class="pillar" data-tilt>
+        <div class="pillar-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Conteúdo no piloto<br/>automático.</h3>
+        <p>Geração, agendamento e análise de redes sociais com IA. Você briefa, a gente publica.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section" id="produtos" style="padding-top: 60px;">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow-chip"><span class="dot go"></span>Produtos · Live</span>
+      <h2 class="h-1" style="margin-top: 12px;">Dois motores.<br/><em>Um só time</em>.</h2>
+      <p>Cada produto resolve um problema específico. Juntos, eles automatizam o seu negócio de ponta a ponta.</p>
+    </div>
+
+    <div class="products-grid">
+      <!-- ARIA -->
+      <a href="aria.html" class="product-card aria reveal" data-tilt>
+        <!-- Animated visual -->
+        <svg class="visual" viewBox="0 0 600 480" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="ariaGlow" cx="80%" cy="20%">
+              <stop offset="0%" stop-color="#81D8D0" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#0ABAB5" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- pulsing concentric rings -->
+          <g transform="translate(450, 100)" fill="none" stroke="#0ABAB5" stroke-width="1">
+            <circle r="40" opacity="0.5">
+              <animate attributeName="r" values="40;120;40" dur="4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.6;0;0.6" dur="4s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="60" opacity="0.4" stroke="#81D8D0">
+              <animate attributeName="r" values="60;140;60" dur="4s" begin="0.7s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.5;0;0.5" dur="4s" begin="0.7s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="80" opacity="0.3">
+              <animate attributeName="r" values="80;160;80" dur="4s" begin="1.4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.4;0;0.4" dur="4s" begin="1.4s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="20" fill="#0ABAB5" opacity="0.9">
+              <animate attributeName="r" values="20;28;20" dur="2s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+          <rect width="600" height="480" fill="url(#ariaGlow)" opacity="0.6"/>
+        </svg>
+
+        <div>
+          <span class="product-card-tag"><span class="dot"></span>Agente Conversacional</span>
+          <h3>ARIA<span class="rose">.</span></h3>
+          <p class="desc">A inteligência conversacional que atende, qualifica e resolve — em qualquer canal, 24/7. Conecta no WhatsApp, no site, no CRM e fala como gente.</p>
+        </div>
+
+        <div class="footer-row">
+          <div class="stats">
+            <div class="stat"><div class="v"><span data-count="80" data-suffix="%">0%</span></div><div class="l">Resolução autônoma</div></div>
+            <div class="stat"><div class="v"><span data-count="3" data-suffix="s">0s</span></div><div class="l">Resposta média</div></div>
+          </div>
+          <div class="open-arrow">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EDF4F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- SOCIAL ENGINE -->
+      <a href="social-engine.html" class="product-card engine reveal" data-tilt>
+        <svg class="visual" viewBox="0 0 600 480" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="seGlow" cx="20%" cy="20%">
+              <stop offset="0%" stop-color="#EC6088" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#EC6088" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Orbiting platform dots -->
+          <g transform="translate(150, 120)">
+            <circle r="60" fill="none" stroke="#EC6088" stroke-width="1" stroke-dasharray="2 4" opacity="0.4">
+              <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="90" fill="none" stroke="#0ABAB5" stroke-width="1" stroke-dasharray="2 6" opacity="0.3">
+              <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="28s" repeatCount="indefinite"/>
+            </circle>
+            <g>
+              <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
+              <circle cx="60" cy="0" r="6" fill="#EC6088"/>
+              <circle cx="-60" cy="0" r="4" fill="#81D8D0"/>
+            </g>
+            <g>
+              <animateTransform attributeName="transform" type="rotate" from="180" to="540" dur="28s" repeatCount="indefinite"/>
+              <circle cx="0" cy="90" r="5" fill="#0ABAB5"/>
+              <circle cx="0" cy="-90" r="3" fill="#EC6088"/>
+            </g>
+            <circle r="14" fill="#EC6088" opacity="0.9">
+              <animate attributeName="r" values="14;20;14" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+          <rect width="600" height="480" fill="url(#seGlow)" opacity="0.6"/>
+        </svg>
+
+        <div>
+          <span class="product-card-tag"><span class="dot"></span>Motor de Conteúdo</span>
+          <h3>Social<br/>Engine<span class="rose">.</span></h3>
+          <p class="desc">A IA que cria, agenda e analisa o conteúdo das suas redes sociais. De briefing a relatório, sem você precisar abrir o Canva.</p>
+        </div>
+
+        <div class="footer-row">
+          <div class="stats">
+            <div class="stat"><div class="v"><span data-count="10" data-prefix="" data-suffix="x">0x</span></div><div class="l">Mais publicações</div></div>
+            <div class="stat"><div class="v"><span data-count="6" data-suffix="">0</span></div><div class="l">Plataformas integradas</div></div>
+          </div>
+          <div class="open-arrow">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EDF4F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<section style="position: relative; z-index: 1;">
+  <div class="stats-band">
+    <div class="stat reveal">
+      <div class="v"><span data-count="200" data-suffix="+">0+</span></div>
+      <div class="l">Empresas</div>
+    </div>
+    <div class="stat reveal">
+      <div class="v"><span data-count="2.4" data-suffix="M">0M</span></div>
+      <div class="l">Conversas/mês</div>
+    </div>
+    <div class="stat reveal">
+      <div class="v"><span data-count="98" data-suffix="%">0%</span></div>
+      <div class="l">Uptime SLA</div>
+    </div>
+    <div class="stat reveal">
+      <div class="v"><span data-count="7" data-suffix=" dias">0 dias</span></div>
+      <div class="l">Para ir ao ar</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" id="processo">
+  <div class="section-inner">
+    <div class="process">
+      <div class="reveal">
+        <span class="eyebrow-chip"><span class="dot"></span>Como funciona</span>
+        <h2 class="h-1" style="margin-top: 24px;">De ideia<br/>para <em>produção</em>,<br/>em uma semana.</h2>
+        <p style="font-size: 16px; color: var(--tn-pearl-9ABABA); line-height: 1.55; margin: 28px 0 32px; max-width: 320px;">
+          Você descreve o processo. A gente desenha, conecta os sistemas e põe pra rodar — com SLA desde o dia 1.
+        </p>
+        <a href="#contato" class="btn btn-primary" data-magnetic>Começar agora <span class="arrow">→</span></a>
+      </div>
+
+      <div class="process-steps">
+        <div class="pstep reveal">
+          <div class="num">01 · DIAGNÓSTICO</div>
+          <h4>A gente escuta primeiro.</h4>
+          <p>Em 90 minutos mapeamos o gargalo, o impacto e onde a IA vale a pena. Sem reunião pra marcar reunião.</p>
+        </div>
+        <div class="pstep reveal">
+          <div class="num">02 · DESIGN</div>
+          <h4>Workflow desenhado e aprovado.</h4>
+          <p>Você vê o fluxo antes de existir. Cada etapa, cada integração, cada caso de borda — documentado.</p>
+        </div>
+        <div class="pstep reveal">
+          <div class="num">03 · BUILD</div>
+          <h4>Implementação em sprint curto.</h4>
+          <p>Conexão com seus sistemas, treinamento dos modelos e testes em ambiente espelho. Sem surpresa.</p>
+        </div>
+        <div class="pstep reveal">
+          <div class="num">04 · LIVE</div>
+          <h4>Vai pro ar com observabilidade.</h4>
+          <p>Dashboards, alertas e SLA. Se algo falha, você sabe antes do cliente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section" id="contato">
+  <div class="section-inner">
+    <div class="final-cta reveal">
+      <span class="eyebrow-chip" style="margin-bottom: 28px;">
+        <span class="dot"></span>Pronto pra automatizar?
+      </span>
+      <h2>Conheça a Tech Now em<br/>uma <em>conversa</em> de 30 minutos.</h2>
+      <p>Sem deck, sem promessa. A gente mapeia um workflow real do seu negócio e mostra o caminho.</p>
+      <div class="ctas">
+        <a href="#" class="btn btn-primary" data-magnetic>Agendar conversa <span class="arrow">→</span></a>
+        <a href="#" class="btn btn-ghost">Ver casos</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="tn-footer">
+  <div class="footer-grid" style="max-width: 1280px; margin: 0 auto;">
+    <div>
+      <a href="index.html" class="tn-logo" style="font-size: 26px;">
+        <span class="tn-w">Tech</span><span class="tn-n">Now</span><span class="tn-dot"></span>
+      </a>
+      <p style="font-size: 13px; color: var(--tn-pearl-9ABABA); max-width: 280px; margin: 18px 0 0; line-height: 1.55;">
+        Soluções de IA pra otimizar o seu negócio. Real, hoje.
+      </p>
+      <div style="display: flex; gap: 12px; margin-top: 24px;">
+        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--tn-surface); display: flex; align-items: center; justify-content: center; color: var(--tn-pearl-9ABABA);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+        </a>
+        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--tn-surface); display: flex; align-items: center; justify-content: center; color: var(--tn-pearl-9ABABA);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--tn-surface); display: flex; align-items: center; justify-content: center; color: var(--tn-pearl-9ABABA);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h4>Produtos</h4>
+      <ul>
+        <li><a href="aria.html">ARIA</a></li>
+        <li><a href="social-engine.html">Social Engine</a></li>
+        <li>Workflows</li>
+        <li>API</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Empresa</h4>
+      <ul>
+        <li>Sobre</li>
+        <li>Casos</li>
+        <li>Carreiras</li>
+        <li>Contato</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Recursos</h4>
+      <ul>
+        <li>Docs</li>
+        <li>Blog</li>
+        <li>Status</li>
+        <li>Suporte</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TECH NOW</span>
+    <span>SP · BRASIL · MADE WITH CARE</span>
+  </div>
+</footer>
+
+<script src="scripts.js"></script>
+<script>
+// ---------- Generate animated neural network ----------
+(function () {
+  const net = document.getElementById('neural-net');
+  const nodesG = document.getElementById('neural-nodes');
+  if (!net || !nodesG) return;
+
+  const layers = [3, 5, 5, 4];
+  const W = 1200, H = 800;
+  const startX = 700, endX = 1180;
+  const colW = (endX - startX) / (layers.length - 1);
+  const nodes = [];
+
+  layers.forEach((count, li) => {
+    const colX = startX + li * colW;
+    const colSpacing = 420 / Math.max(count - 1, 1);
+    const colTopY = (H - 420) / 2 + 100;
+    for (let ni = 0; ni < count; ni++) {
+      const y = count === 1 ? H / 2 : colTopY + ni * colSpacing;
+      nodes.push({ x: colX, y, layer: li });
+    }
+  });
+
+  // Connect each layer to next
+  let lineCount = 0;
+  for (let li = 0; li < layers.length - 1; li++) {
+    const a = nodes.filter(n => n.layer === li);
+    const b = nodes.filter(n => n.layer === li + 1);
+    a.forEach(na => {
+      b.forEach(nb => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', na.x);
+        line.setAttribute('y1', na.y);
+        line.setAttribute('x2', nb.x);
+        line.setAttribute('y2', nb.y);
+        line.setAttribute('stroke', '#0ABAB5');
+        line.setAttribute('stroke-opacity', '0.12');
+        line.setAttribute('stroke-width', '0.6');
+        net.appendChild(line);
+
+        // pulse animation on a subset
+        if (Math.random() > 0.5) {
+          const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+          anim.setAttribute('attributeName', 'stroke-opacity');
+          anim.setAttribute('values', '0;0.7;0');
+          anim.setAttribute('dur', (2 + Math.random() * 3).toFixed(1) + 's');
+          anim.setAttribute('begin', (Math.random() * 4).toFixed(1) + 's');
+          anim.setAttribute('repeatCount', 'indefinite');
+          line.appendChild(anim);
+        }
+        lineCount++;
+      });
+    });
+  }
+
+  nodes.forEach((n, i) => {
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', n.x);
+    c.setAttribute('cy', n.y);
+    c.setAttribute('r', '3');
+    c.setAttribute('fill', '#0ABAB5');
+    nodesG.appendChild(c);
+
+    const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    halo.setAttribute('cx', n.x);
+    halo.setAttribute('cy', n.y);
+    halo.setAttribute('r', '8');
+    halo.setAttribute('fill', '#0ABAB5');
+    halo.setAttribute('opacity', '0.3');
+    const animR = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+    animR.setAttribute('attributeName', 'r');
+    animR.setAttribute('values', '6;14;6');
+    animR.setAttribute('dur', (2 + Math.random() * 2).toFixed(1) + 's');
+    animR.setAttribute('begin', (Math.random() * 3).toFixed(1) + 's');
+    animR.setAttribute('repeatCount', 'indefinite');
+    const animO = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+    animO.setAttribute('attributeName', 'opacity');
+    animO.setAttribute('values', '0.3;0;0.3');
+    animO.setAttribute('dur', (2 + Math.random() * 2).toFixed(1) + 's');
+    animO.setAttribute('begin', (Math.random() * 3).toFixed(1) + 's');
+    animO.setAttribute('repeatCount', 'indefinite');
+    halo.appendChild(animR);
+    halo.appendChild(animO);
+    nodesG.appendChild(halo);
+  });
+})();
+</script>
+</body>
+</html>
