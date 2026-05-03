@@ -1,0 +1,42 @@
+/* Shared base for all design-system preview cards. 700×~variable. */
+@import url('../colors_and_type.css');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--tn-deep-teal);
+  color: var(--tn-pearl);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.card {
+  width: 700px;
+  padding: 24px;
+  background: var(--tn-deep-teal);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card.light {
+  background: var(--tn-pearl);
+  color: var(--tn-deep-teal);
+}
+
+.row { display: flex; gap: 8px; align-items: stretch; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+
+.label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--tn-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0;
+}
