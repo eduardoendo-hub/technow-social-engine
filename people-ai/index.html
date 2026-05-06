@@ -193,16 +193,15 @@ document.addEventListener('DOMContentLoaded', async function() {
 (function() {
   var params = new URLSearchParams(window.location.search);
   var utms = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
-  var hasUtm = utms.some(function(k){ return params.get(k); });
-  if (!hasUtm) return;
-
-  var checkoutBase = 'https://impacta.site.engaged.com.br/p/checkout/55c8k1x4bw';
   var extra = new URLSearchParams();
   utms.forEach(function(k){ var v = params.get(k); if(v) extra.set(k, v); });
-  var newUrl = checkoutBase + '?' + extra.toString();
+  if (!extra.toString()) return;
 
-  document.querySelectorAll('a[href*="impacta.site.engaged.com.br/p/checkout"]').forEach(function(a){
-    a.href = newUrl;
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href*="impacta.site.engaged.com.br/p/checkout"]');
+    if (!a) return;
+    e.preventDefault();
+    window.open(a.href.split('?')[0] + '?' + extra.toString(), a.target || '_self');
   });
 })();
 </script></body>
