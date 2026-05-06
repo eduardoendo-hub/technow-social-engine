@@ -197,11 +197,24 @@ document.addEventListener('DOMContentLoaded', async function() {
   utms.forEach(function(k){ var v = params.get(k); if(v) extra.set(k, v); });
   if (!extra.toString()) return;
 
+  function updateLinks() {
+    document.querySelectorAll('a[href*="impacta.site.engaged.com.br/p/checkout"]').forEach(function(a){
+      a.href = a.href.split('?')[0] + '?' + extra.toString();
+    });
+  }
+
+  updateLinks();
+  [300, 800, 1500, 3000].forEach(function(t){ setTimeout(updateLinks, t); });
+
+  new MutationObserver(updateLinks).observe(document.documentElement, { childList: true, subtree: true });
+
   document.addEventListener('click', function(e) {
     var a = e.target.closest('a[href*="impacta.site.engaged.com.br/p/checkout"]');
     if (!a) return;
-    e.preventDefault();
-    window.open(a.href.split('?')[0] + '?' + extra.toString(), a.target || '_self');
+    if (a.href.indexOf('utm_source') === -1) {
+      e.preventDefault();
+      window.location.href = a.href.split('?')[0] + '?' + extra.toString();
+    }
   });
 })();
 </script></body>
