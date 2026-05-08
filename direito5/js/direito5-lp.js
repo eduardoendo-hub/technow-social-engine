@@ -2,18 +2,6 @@
 (function(){
   'use strict';
 
-  // === Sympla CTA click tracking (GTM dataLayer) ===
-  window.dataLayer = window.dataLayer || [];
-  document.addEventListener('click', function(ev){
-    const link = ev.target.closest('a.js-cta-sympla');
-    if (!link) return;
-    window.dataLayer.push({
-      event: 'click_inscricao_sympla',
-      cta_position: link.dataset.ctaPosition || 'unknown',
-      cta_url: link.href
-    });
-  }, true);
-
   // === Topbar shadow on scroll ===
   const bar = document.getElementById('bar');
   if (bar) {
@@ -120,4 +108,14 @@
     resize();
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) tick();
   }
+
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[data-cta-position]');
+    if (!a) return;
+    (window.dataLayer = window.dataLayer || []).push({
+      event: 'click_inscricao_sympla',
+      cta_position: a.dataset.ctaPosition,
+      cta_url: a.href
+    });
+  }, true);
 })();
