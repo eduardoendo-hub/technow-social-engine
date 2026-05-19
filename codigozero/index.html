@@ -1,0 +1,2013 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Código Zero · Início 29/06/2026 · Python, IA e Automação para Não Programadores · Impacta × Olhar Digital</title>
+<meta name="description" content="Nova turma inícia em 29/06/2026. Saia do 'não sei programar' em 40h. Aprenda Python, IA e automação ao vivo — uma jornada prática para quem não é de TI. Lote pioneiro a partir de R$ 897.">
+
+<!-- ===================== Código Zero · CONFIG DE TRACKING ===================== -->
+<script>
+window.CZ = {
+  PRODUCT_SLUG:      'codigozero',
+  CAMPAIGN_SLUG:     'codigozero-junho-2026',
+  META_PIXEL_ID:     '__META_PIXEL_ID__',          /* preencher: Pixel dedicado do Código Zero (Events Manager) */
+  GTM_ID:            'GTM-5WMWXB8C',
+  IRIS_EVENTS_URL:   'https://iris.technowhub.ai/api/events',
+  INTEGRACAO_RD_URL: 'https://rd.technowhub.ai',
+  CHECKOUT_URL:      'https://impacta.site.engaged.com.br/p/checkout/codigo-zero',
+  TICKET_VALUE:      897.00,
+  CURRENCY:          'BRL'
+};
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',window.CZ.GTM_ID);</script>
+<!-- End Google Tag Manager -->
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+(function(){var id=(window.CZ&&window.CZ.META_PIXEL_ID)||'';if(/^[0-9]{6,}$/.test(id)){fbq('init',id);fbq('track','PageView');}else{console.warn('[CZ] META_PIXEL_ID ainda não configurado — Pixel inativo.');}})();
+</script>
+<!-- End Meta Pixel -->
+<!-- ============================================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+
+<style>
+:root{
+  /* Impacta DS */
+  --tech:#030200; --white:#FFFFFF; --blue:#0A88F4; --blue-2:#2398ff; --blue-3:#005ec0;
+  --deep:#00011E; --lime:#C3EB1E; --orange:#FF7A00;
+  --graphite:#272727; --offwhite:#F3F3F3; --gray:#808080;
+  --s1:#0a0a0a; --s2:#141414; --s3:#1d1d1d;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.16);
+  --t1:#FFFFFF; --t2:#C8C8C8; --t3:#808080; --t4:rgba(255,255,255,.4);
+  --ok:#3ECC8F; --warn:#FFB020; --err:#FF4D4D;
+  --font:'Ubuntu','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --max:1320px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--tech);color:var(--t1);font-family:var(--font);scroll-behavior:smooth}
+body{-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;
+  background:
+    radial-gradient(ellipse 90% 50% at 80% 0%,rgba(10,136,244,.16) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 40% at 0% 35%,rgba(10,136,244,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 80% 50% at 100% 65%,rgba(10,136,244,.10) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 0% 100%,rgba(10,136,244,.06) 0%,transparent 60%),
+    linear-gradient(180deg,#030200 0%,#04060d 40%,#030200 100%);
+  background-attachment:fixed;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+::selection{background:var(--blue);color:#fff}
+
+/* ============================ AMBIENT BG (animated, page-wide) ============================ */
+.amb{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.amb__grid{
+  position:absolute;inset:-2px;
+  background-image:
+    linear-gradient(to right,rgba(10,136,244,.05) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(10,136,244,.05) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 90% 80% at 50% 40%,#000 20%,transparent 95%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 40%,#000 20%,transparent 95%);
+  animation:gridDrift 60s linear infinite;
+}
+@keyframes gridDrift{from{transform:translate(0,0)}to{transform:translate(80px,80px)}}
+.amb__orb{position:absolute;border-radius:50%;filter:blur(90px);mix-blend-mode:screen;opacity:.6;will-change:transform}
+.amb__orb--a{width:560px;height:560px;background:#0A88F4;top:-120px;right:-180px;animation:orbA 30s ease-in-out infinite}
+.amb__orb--b{width:680px;height:680px;background:#005ec0;left:-220px;top:55%;animation:orbB 36s ease-in-out infinite}
+.amb__orb--c{width:440px;height:440px;background:#5BF7FF;bottom:-160px;left:30%;opacity:.16;animation:orbC 32s ease-in-out infinite}
+@keyframes orbA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-160px,140px) scale(1.15)}}
+@keyframes orbB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(140px,-100px) scale(1.1)}}
+@keyframes orbC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,-120px) scale(1.2)}}
+.amb__beam{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(91,247,255,.4),transparent);opacity:.5}
+.amb__beam--1{left:18%;animation:beam 14s linear infinite}
+.amb__beam--2{left:62%;animation:beam 18s 4s linear infinite}
+.amb__beam--3{left:88%;animation:beam 22s 8s linear infinite}
+@keyframes beam{0%{transform:translateY(-30%);opacity:0}10%{opacity:.6}90%{opacity:.6}100%{transform:translateY(30%);opacity:0}}
+.amb__noise{position:absolute;inset:0;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
+@media (prefers-reduced-motion:reduce){.amb__orb,.amb__beam,.amb__grid{animation:none!important}}
+
+/* ============================ TOP BAR ============================ */
+.bar{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 40px;background:linear-gradient(180deg,rgba(3,2,0,.95),rgba(3,2,0,.55));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .25s,background .25s;}
+.bar.is-stuck{border-bottom-color:var(--line);background:rgba(3,2,0,.96)}
+.lockup{display:inline-flex;align-items:center;gap:14px}
+.lockup--combo img{display:block;height:38px;width:auto;filter:drop-shadow(0 2px 12px rgba(0,0,0,.6))}
+.lockup img{display:block;height:28px;width:auto}
+.bar__nav{display:flex;align-items:center;gap:30px}
+.bar__nav a{font-size:13px;color:var(--t2);transition:color .15s}
+.bar__nav a:hover{color:#fff}
+.bar__cta{display:inline-flex;align-items:center;gap:10px;padding:11px 18px;background:var(--white);color:var(--tech);font-size:13px;font-weight:500;letter-spacing:.04em;border:none;cursor:pointer;transition:all .15s}
+.bar__cta:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+@media (max-width:980px){.bar{padding:14px 20px}.bar__nav{display:none}}
+
+/* ============================ HERO ============================ */
+.hero{position:relative;min-height:100vh;padding:140px 40px 80px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero__bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero__bg::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(3,2,0,.4) 0%,rgba(3,2,0,.15) 30%,rgba(3,2,0,.55) 75%,#030200 100%),
+    linear-gradient(90deg,rgba(3,2,0,.78) 0%,rgba(3,2,0,.3) 45%,rgba(3,2,0,.05) 70%,rgba(3,2,0,.35) 100%);
+}
+
+/* —— Animated code rain · right-side hero scene —— */
+.codescene{position:absolute;right:-2%;top:50%;transform:translateY(-50%);width:60vw;max-width:1000px;height:120vh;max-height:1100px;pointer-events:none;z-index:1;mix-blend-mode:screen;opacity:.92}
+.codescene__col{position:absolute;top:-20%;font-family:var(--mono);font-size:13px;line-height:1.6;color:rgba(10,136,244,.7);white-space:pre;animation:codefall 28s linear infinite;text-shadow:0 0 8px rgba(10,136,244,.5)}
+.codescene__col span{display:block;opacity:.85}
+.codescene__col span.b{color:rgba(195,235,30,.9);text-shadow:0 0 8px rgba(195,235,30,.5)}
+.codescene__col span.o{color:rgba(255,122,0,.95);text-shadow:0 0 8px rgba(255,122,0,.5)}
+.codescene__col span.w{color:rgba(255,255,255,.9)}
+.codescene__col span.d{opacity:.35;color:rgba(255,255,255,.4)}
+@keyframes codefall{0%{transform:translateY(-30%)}100%{transform:translateY(50%)}}
+
+/* —— Central orbiting Python ring —— */
+.pyring{position:absolute;right:8%;top:50%;width:520px;height:520px;transform:translateY(-50%);pointer-events:none;z-index:2}
+.pyring__aura{position:absolute;inset:6%;border-radius:50%;
+  background:radial-gradient(circle,rgba(10,136,244,.9) 0%,rgba(10,136,244,.5) 25%,rgba(10,136,244,.15) 55%,transparent 80%);
+  filter:blur(8px);animation:auraPulse 5s ease-in-out infinite;mix-blend-mode:screen}
+.pyring__aura--in{inset:22%;background:radial-gradient(circle,rgba(195,235,30,.7) 0%,rgba(10,136,244,.5) 40%,transparent 75%);filter:blur(14px);animation:auraPulse 3.5s ease-in-out infinite reverse}
+@keyframes auraPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.95;transform:scale(1.1)}}
+.pyring__orbit{position:absolute;inset:0;animation:spin 60s linear infinite}
+.pyring__orbit--alt{animation:spin 38s linear infinite reverse}
+.pyring__orbit--in{animation:spin 22s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pyring__orbit svg{width:100%;height:100%;overflow:visible}
+.pyring__orbit circle.path{fill:none;stroke-width:1}
+.pyring__orbit .sat{filter:drop-shadow(0 0 12px currentColor) drop-shadow(0 0 4px #fff)}
+.pyring__core{position:absolute;left:50%;top:50%;width:160px;height:160px;margin-left:-80px;margin-top:-80px;display:flex;align-items:center;justify-content:center;animation:coreBreath 4s ease-in-out infinite}
+@keyframes coreBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.pyring__core svg{width:100%;height:100%;filter:drop-shadow(0 0 40px rgba(10,136,244,.8)) drop-shadow(0 0 12px rgba(255,255,255,.6))}
+.pyring__sweep{position:absolute;left:50%;top:50%;width:88%;height:88%;margin-left:-44%;margin-top:-44%;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0deg,rgba(10,136,244,.9) 25deg,rgba(91,247,255,.6) 45deg,transparent 70deg,transparent 360deg);
+  mask:radial-gradient(circle,transparent 36%,#000 38%,#000 52%,transparent 54%);
+  -webkit-mask:radial-gradient(circle,transparent 36%,#000 38%,#000 52%,transparent 54%);
+  animation:spin 7s linear infinite;mix-blend-mode:screen}
+@media (max-width:1100px){.pyring{right:-20%;width:420px;height:420px;opacity:.5}.codescene{opacity:.45;right:-30%}}
+@media (max-width:760px){.pyring{display:none}.codescene{display:none}}
+@media (prefers-reduced-motion:reduce){.pyring__orbit,.pyring__core,.pyring__sweep,.pyring__aura,.codescene__col{animation:none}}
+
+.hero__veil{position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse 95% 75% at 50% 50%,transparent 0%,rgba(3,2,0,.3) 70%,#030200 100%),
+             linear-gradient(180deg,rgba(3,2,0,.3) 0%,transparent 25%,transparent 60%,#030200 100%)}
+.hero__inner{position:relative;z-index:4;max-width:var(--max);width:100%;margin:0 auto}
+.hero__copy{min-width:0;max-width:980px;position:relative}
+.hero__copy::before{content:"";position:absolute;left:-8%;top:-8%;width:78%;height:118%;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 70% 65% at 30% 50%,rgba(0,0,0,.92) 0%,rgba(3,2,0,.7) 38%,rgba(3,2,0,.35) 65%,transparent 88%);filter:blur(24px)}
+
+.hero__pill{display:inline-flex;align-items:center;gap:12px;padding:11px 20px;background:rgba(10,136,244,.14);border:1px solid rgba(10,136,244,.55);
+  font-size:13.5px;letter-spacing:.18em;text-transform:uppercase;color:#fff;border-radius:999px;margin-bottom:32px;
+  font-family:var(--mono);font-weight:500;box-shadow:0 0 0 1px rgba(10,136,244,.12),0 8px 30px -12px rgba(10,136,244,.5)}
+.hero__pill b{color:var(--blue);font-weight:700;letter-spacing:.16em}
+.hero__pill .dot{width:8px;height:8px;background:var(--blue);border-radius:50%;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 10px var(--blue)}
+
+.hero__course-tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--blue);padding:5px 12px;border:1px solid rgba(10,136,244,.4);background:rgba(10,136,244,.06);margin-bottom:24px;text-transform:uppercase;animation:fadeUp .6s .15s both}
+
+.hero__title{font-size:clamp(50px,7.2vw,116px);font-weight:700;line-height:.92;letter-spacing:-.04em;margin:0 0 24px;text-wrap:balance}
+.hero__title .row{display:block;overflow:hidden}
+.hero__title .row span{display:inline-block;animation:slideUp 1s cubic-bezier(.2,.8,.2,1) both}
+.hero__title .row:nth-child(1) span{animation-delay:.18s}
+.hero__title .row:nth-child(2) span{animation-delay:.30s}
+.hero__title .row:nth-child(3) span{animation-delay:.42s}
+.hero__title em{font-style:italic;font-family:var(--serif);font-weight:500;color:var(--blue);letter-spacing:-.02em}
+.hero__title b{font-weight:700;color:var(--blue);font-style:normal}
+
+/* — Hero brand: CÓDIGO over a massive ZERO — */
+.hero__brand-top{
+  display:inline-block;
+  font-family:var(--mono);font-weight:500;
+  font-size:clamp(20px,2.2vw,34px);letter-spacing:.42em;
+  color:var(--blue);
+  padding:8px 16px 8px 18px;
+  border:1px solid rgba(10,136,244,.45);
+  background:rgba(10,136,244,.08);
+  margin-bottom:18px;
+  text-transform:uppercase;
+  box-shadow:0 0 0 1px rgba(10,136,244,.12),0 8px 30px -12px rgba(10,136,244,.5);
+}
+.hero__brand-big{
+  position:relative;display:inline-block;
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:clamp(120px,18vw,280px);
+  line-height:.85;letter-spacing:-.04em;
+  color:#fff;
+  background:linear-gradient(180deg,#fff 0%,#fff 55%,var(--blue) 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 0 80px rgba(10,136,244,.35);
+  padding-right:24px;
+}
+.hero__brand-big::before{
+  content:"";position:absolute;left:-6%;top:50%;transform:translateY(-50%);
+  width:115%;height:115%;
+  background:radial-gradient(ellipse 55% 55% at 50% 50%,rgba(10,136,244,.45) 0%,rgba(10,136,244,.12) 35%,transparent 70%);
+  filter:blur(20px);z-index:-1;pointer-events:none;
+  animation:zeroBreath 5s ease-in-out infinite;
+}
+@keyframes zeroBreath{0%,100%{opacity:.9;transform:translateY(-50%) scale(1)}50%{opacity:1;transform:translateY(-50%) scale(1.05)}}
+.hero__brand-big .dot{
+  display:inline-block;width:.18em;height:.18em;
+  background:var(--blue);border-radius:50%;
+  margin-left:.05em;vertical-align:baseline;transform:translateY(-.1em);
+  box-shadow:0 0 24px var(--blue),0 0 8px var(--blue);
+  animation:pulse 2s ease-in-out infinite;
+}
+.hero__tagline{margin-top:8px}
+.hero__tagline span{
+  font-family:var(--font);font-weight:500;font-style:normal;
+  font-size:clamp(24px,3.4vw,52px);line-height:1.05;letter-spacing:-.02em;color:#fff;
+}
+.hero__chamada{font-size:clamp(18px,1.7vw,24px);font-weight:400;line-height:1.3;color:var(--t2);margin:0 0 28px;letter-spacing:-.005em;max-width:50ch;animation:fadeUp .8s .55s both}
+.hero__chamada em{font-style:italic;font-family:var(--serif);color:var(--blue);font-weight:500;font-size:1.05em}
+.hero__lede{font-size:clamp(17px,1.6vw,21px);line-height:1.55;color:var(--t2);max-width:62ch;margin:0 0 40px;animation:fadeUp .8s .8s both}
+.hero__lede strong{color:#fff;font-weight:500}
+.hero__actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:64px;animation:fadeUp .8s 1s both}
+
+.btn{display:inline-flex;align-items:center;gap:12px;padding:18px 26px;font-size:14.5px;font-weight:500;letter-spacing:.03em;border:1px solid transparent;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn--primary{background:var(--blue);color:#fff}
+.btn--primary:hover{background:var(--blue-2);transform:translateY(-2px);box-shadow:0 16px 40px -16px rgba(10,136,244,.7)}
+.btn--ghost{background:transparent;color:#fff;border-color:var(--line-2)}
+.btn--ghost:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.04)}
+.btn--white{background:var(--white);color:var(--tech)}
+.btn--white:hover{background:var(--blue);color:#fff;transform:translateY(-2px)}
+.btn--lime{background:var(--lime);color:var(--tech)}
+.btn--lime:hover{background:#d4f53a;transform:translateY(-2px);box-shadow:0 16px 40px -16px rgba(195,235,30,.5)}
+.btn .arrow{transition:transform .2s}
+.btn:hover .arrow{transform:translateX(4px)}
+
+.hero__meta{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);padding-top:32px;animation:fadeUp .8s 1.2s both}
+.hero__meta > div{padding-right:24px;border-right:1px solid var(--line)}
+.hero__meta > div:last-child{border-right:none}
+.meta-k{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--t4);margin-bottom:8px}
+.meta-v{font-size:24px;font-weight:500;letter-spacing:-.01em;color:#fff}
+.meta-v em{color:var(--blue);font-style:normal}
+.meta-sub{font-size:12px;color:var(--t4);margin-top:4px}
+.meta-v .lockup-mini{display:inline-flex;align-items:center;gap:8px}
+.meta-v .lockup-mini img{height:30px;width:auto}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes slideUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
+
+@media (max-width:880px){.hero{padding:120px 20px 60px}.hero__meta{grid-template-columns:repeat(2,1fr);gap:24px;border-top:none;padding-top:0}.hero__meta > div{border-right:none;padding-right:0;border-top:1px solid var(--line);padding-top:18px}}
+
+/* ============================ TICKER ============================ */
+.ticker{position:relative;padding:18px 0;background:var(--lime);color:var(--tech);overflow:hidden;border-top:1px solid var(--lime);border-bottom:1px solid var(--lime)}
+.ticker__track{display:flex;gap:48px;animation:scroll 60s linear infinite;white-space:nowrap}
+.ticker__item{display:inline-flex;align-items:center;gap:14px;font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+.ticker__star{color:var(--tech);font-size:18px;flex-shrink:0;opacity:.45}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================ SECTION SHELL ============================ */
+.section{padding:120px 40px;position:relative;max-width:var(--max);margin:0 auto}
+.section--full{max-width:none;padding-left:0;padding-right:0}
+.section--full > .inner{max-width:var(--max);margin:0 auto;padding:0 40px}
+.section::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
+.section:nth-of-type(odd)::before{background:
+  radial-gradient(ellipse 60% 50% at 10% 80%,rgba(10,136,244,.10) 0%,transparent 65%),
+  radial-gradient(ellipse 40% 40% at 90% 10%,rgba(10,136,244,.06) 0%,transparent 60%)}
+.section:nth-of-type(even)::before{background:
+  radial-gradient(ellipse 55% 50% at 90% 70%,rgba(10,136,244,.10) 0%,transparent 65%),
+  radial-gradient(ellipse 45% 45% at 5% 20%,rgba(10,136,244,.06) 0%,transparent 60%)}
+.section + .section{background-image:linear-gradient(to right,transparent 0%,rgba(10,136,244,.18) 50%,transparent 100%);background-repeat:no-repeat;background-size:100% 1px;background-position:top center}
+
+.kicker{display:inline-flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);font-weight:500;margin-bottom:24px}
+.kicker__rule{width:32px;height:1px;background:var(--blue)}
+.kicker__num{color:var(--blue);opacity:.7}
+.h2{font-size:clamp(38px,5.4vw,72px);font-weight:700;line-height:1;letter-spacing:-.03em;margin:0 0 24px;text-wrap:balance}
+.h2 em{font-style:italic;font-family:var(--serif);font-weight:500;color:var(--blue)}
+.lede{font-size:18px;line-height:1.6;color:var(--t2);max-width:62ch;margin:0}
+.lede strong{color:#fff;font-weight:500}
+
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease}
+.reveal.is-in{opacity:1;transform:none}
+.reveal-stagger > *{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal-stagger.is-in > *{opacity:1;transform:none}
+.reveal-stagger.is-in > *:nth-child(1){transition-delay:.05s}
+.reveal-stagger.is-in > *:nth-child(2){transition-delay:.12s}
+.reveal-stagger.is-in > *:nth-child(3){transition-delay:.19s}
+.reveal-stagger.is-in > *:nth-child(4){transition-delay:.26s}
+.reveal-stagger.is-in > *:nth-child(5){transition-delay:.33s}
+.reveal-stagger.is-in > *:nth-child(6){transition-delay:.40s}
+.reveal-stagger.is-in > *:nth-child(7){transition-delay:.47s}
+.reveal-stagger.is-in > *:nth-child(8){transition-delay:.54s}
+
+/* ============================ POR QUE AGORA ============================ */
+.why{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;margin-top:60px;align-items:center}
+.why__stat{position:relative;padding:48px 36px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(10,136,244,.08),transparent);overflow:hidden;min-height:340px;display:flex;flex-direction:column;justify-content:center}
+.why__stat::before{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(to right,rgba(10,136,244,.06) 1px,transparent 1px),
+                   linear-gradient(to bottom,rgba(10,136,244,.06) 1px,transparent 1px);
+  background-size:32px 32px;opacity:.6;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 30%,transparent 80%);}
+.why__stat .b{font-size:clamp(72px,11vw,160px);font-weight:700;line-height:.9;color:#fff;letter-spacing:-.04em;font-variant-numeric:tabular-nums;position:relative}
+.why__stat .b em{color:var(--blue);font-style:normal}
+.why__stat .s{font-size:16px;color:var(--t2);margin-top:18px;line-height:1.5;max-width:36ch;position:relative}
+.why__chips{position:absolute;inset:0;pointer-events:none}
+.why__chip{position:absolute;font-family:var(--mono);font-size:12px;padding:8px 14px;background:rgba(3,2,0,.85);border:1px solid var(--line-2);color:var(--blue);letter-spacing:.12em;text-transform:uppercase}
+.why__chip--1{top:12%;right:8%;animation:floatY 6s ease-in-out infinite}
+.why__chip--2{top:38%;right:0;animation:floatY 7s 1s ease-in-out infinite reverse}
+.why__chip--3{bottom:18%;right:12%;animation:floatY 6s .5s ease-in-out infinite reverse}
+.why__chip--4{bottom:6%;right:0;animation:floatY 8s 1.5s ease-in-out infinite}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:48px}
+.pillar{background:rgba(3,2,0,.7);padding:32px 26px;display:flex;flex-direction:column;gap:14px;transition:background .25s}
+.pillar:hover{background:rgba(10,136,244,.05)}
+.pillar__icn{width:42px;height:42px;border:1px solid var(--blue);color:var(--blue);display:flex;align-items:center;justify-content:center}
+.pillar__icn svg{width:20px;height:20px}
+.pillar h4{margin:0;font-size:20px;font-weight:500;letter-spacing:-.005em;color:#fff}
+.pillar p{margin:0;font-size:13.5px;color:var(--t2);line-height:1.55}
+@media (max-width:1100px){.why{grid-template-columns:1fr;gap:32px}.pillars{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.pillars{grid-template-columns:1fr}}
+
+/* ============================ AUDIÊNCIA ============================ */
+.audience{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:48px}
+.aud{background:rgba(3,2,0,.7);padding:36px 26px;transition:background .25s;display:flex;flex-direction:column;gap:14px}
+.aud:hover{background:rgba(10,136,244,.05)}
+.aud__name{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--t4)}
+.aud__name i{width:8px;height:8px;background:var(--blue);font-style:normal;border-radius:50%}
+.aud__role{font-size:11px;color:var(--t4);letter-spacing:.05em;text-transform:uppercase;font-family:var(--mono)}
+.aud h3{margin:0;font-size:22px;font-weight:500;letter-spacing:-.01em;line-height:1.15}
+.aud h3 em{font-style:italic;font-family:var(--serif);font-weight:500;color:var(--blue)}
+.aud > p{margin:0;color:var(--t2);font-size:14px;line-height:1.55;flex:1}
+.aud__pain{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+.aud__pain li{font-size:13px;color:var(--t2);position:relative;padding-left:18px;line-height:1.45}
+.aud__pain li::before{content:"";position:absolute;left:0;top:8px;width:10px;height:1px;background:var(--blue);opacity:.7}
+.aud__quote{margin:0;padding:14px 16px;border-left:2px solid var(--blue);background:rgba(10,136,244,.05);color:#fff;font-family:var(--serif);font-style:italic;font-size:15px;line-height:1.4}
+@media (max-width:1100px){.audience{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.audience{grid-template-columns:1fr}}
+
+/* ============================ JORNADA / MÓDULOS ============================ */
+.journey{position:relative}
+.journey__rail{position:absolute;left:80px;top:0;bottom:0;width:1px;background:var(--line);z-index:0}
+.journey__rail::before{content:"";position:absolute;left:-1px;top:0;width:3px;height:var(--rail,0%);background:var(--blue);box-shadow:0 0 12px var(--blue);transition:height .2s}
+.module{position:relative;display:grid;grid-template-columns:160px 1fr 1fr;gap:48px;padding:60px 0;border-bottom:1px solid var(--line);z-index:1}
+.module:last-of-type{border-bottom:none}
+.module__num{position:relative;font-family:var(--mono);font-size:13px;letter-spacing:.18em;color:var(--blue);padding-top:8px}
+.module__num::before{content:"";position:absolute;left:74px;top:14px;width:14px;height:14px;border:2px solid var(--blue);background:var(--tech);border-radius:50%;box-shadow:0 0 0 4px var(--tech),0 0 0 5px var(--line)}
+.module__num em{display:block;font-style:normal;font-size:54px;font-weight:700;color:#fff;letter-spacing:-.03em;margin-top:14px;font-family:var(--font);line-height:1}
+.module__tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--t4);margin-bottom:14px;font-weight:500}
+.module__tag i{width:8px;height:8px;border-radius:50%;font-style:normal;background:var(--blue);box-shadow:0 0 8px var(--blue)}
+.module__tag.proj i{background:var(--lime);box-shadow:0 0 8px var(--lime)}
+.module h3{font-size:32px;font-weight:500;letter-spacing:-.02em;margin:0 0 8px;line-height:1.1}
+.module h3 em{font-style:italic;font-family:var(--serif);font-weight:500;color:var(--blue)}
+.module__sub{color:var(--t2);font-size:15px;margin:0 0 24px;max-width:48ch}
+.module__meta{display:flex;flex-wrap:wrap;gap:8px}
+.module__meta span{font-family:var(--mono);font-size:11px;padding:5px 11px;border:1px solid var(--line-2);color:var(--t2);letter-spacing:.04em}
+.module__meta span.b{background:rgba(10,136,244,.1);border-color:rgba(10,136,244,.5);color:var(--blue)}
+.module__topics{list-style:none;padding:0;margin:0 0 20px;display:grid;grid-template-columns:1fr;gap:8px}
+.module__topics li{position:relative;padding-left:22px;font-size:14px;color:var(--t2);line-height:1.55}
+.module__topics li::before{content:"";position:absolute;left:0;top:9px;width:10px;height:1px;background:var(--blue)}
+.module__deliverable{margin-top:20px;padding:16px 18px;background:rgba(10,136,244,.06);border-left:2px solid var(--blue);font-size:13.5px;color:var(--t2);line-height:1.55}
+.module__deliverable b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:6px;font-weight:500}
+
+/* Python coberto — chips com sintaxe/conceitos do módulo */
+.module__python{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line-2)}
+.module__python-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);margin-bottom:12px;font-weight:500}
+.module__python-label::before{content:"";width:8px;height:8px;background:var(--lime);box-shadow:0 0 8px var(--lime);border-radius:50%}
+.module__python-chips{display:flex;flex-wrap:wrap;gap:6px}
+.module__python-chips code{font-family:var(--mono);font-size:12px;padding:5px 9px;background:rgba(195,235,30,.06);border:1px solid rgba(195,235,30,.28);color:var(--lime);letter-spacing:0;line-height:1;border-radius:2px}
+.module__python-chips code.k{color:#fff;background:rgba(255,255,255,.04);border-color:var(--line-2)}
+.module__python-chips code.b{color:var(--blue);background:rgba(10,136,244,.06);border-color:rgba(10,136,244,.32)}
+.module--proj .module__deliverable{background:rgba(195,235,30,.06);border-left-color:var(--lime)}
+.module--proj .module__deliverable b{color:var(--lime)}
+.module--proj h3 em{color:var(--lime)}
+.module--proj .module__num::before{border-color:var(--lime);box-shadow:0 0 0 4px var(--tech),0 0 0 5px var(--lime),0 0 18px rgba(195,235,30,.6)}
+.module--proj .module__num{color:var(--lime)}
+@media (max-width:1100px){.journey__rail{display:none}.module{grid-template-columns:1fr;gap:20px;padding:40px 0}.module__num::before{display:none}.module__num em{font-size:42px}}
+
+/* ============================ PROJETO FINAL CALLOUT ============================ */
+.projfinal{padding:80px 48px;margin-top:64px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(195,235,30,.06) 0%,rgba(10,136,244,.04) 60%,transparent 100%);position:relative;overflow:hidden}
+.projfinal::before{content:"";position:absolute;inset:0;background-image:
+  linear-gradient(to right,rgba(195,235,30,.04) 1px,transparent 1px),
+  linear-gradient(to bottom,rgba(195,235,30,.04) 1px,transparent 1px);
+  background-size:48px 48px;opacity:.6;pointer-events:none;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 90%)}
+.projfinal__head{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;margin-bottom:40px;position:relative}
+.projfinal h3{font-size:clamp(32px,4vw,52px);font-weight:600;line-height:1.05;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.projfinal h3 em{font-style:italic;font-family:var(--serif);font-weight:500;color:var(--lime)}
+.projfinal__tag{font-family:var(--mono);font-size:11px;padding:8px 14px;border:1px solid var(--lime);color:var(--lime);background:rgba(195,235,30,.06);letter-spacing:.2em;text-transform:uppercase;align-self:start}
+.projfinal__lede{color:var(--t2);max-width:64ch;font-size:17px;line-height:1.6;margin:0 0 32px;position:relative}
+.projfinal__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative}
+.projfinal__ex{padding:18px 20px;background:rgba(3,2,0,.7);border:1px solid var(--line);font-size:14px;color:var(--t2);line-height:1.4;display:flex;align-items:flex-start;gap:12px}
+.projfinal__ex i{color:var(--lime);font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.1em;width:22px;flex-shrink:0}
+@media (max-width:880px){.projfinal__grid{grid-template-columns:1fr}.projfinal__head{grid-template-columns:1fr}}
+
+/* ============================ STACK ============================ */
+.stack{padding:80px 40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(3,2,0,.7);backdrop-filter:blur(8px)}
+.stack__inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:center}
+.stack h3{font-size:34px;font-weight:500;letter-spacing:-.02em;margin:0 0 12px;line-height:1.15}
+.stack h3 em{font-style:italic;font-family:var(--serif);font-weight:500;color:var(--blue)}
+.stack p{color:var(--t2);font-size:15px;margin:0;line-height:1.6}
+.stack__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tool{display:flex;flex-direction:column;align-items:center;gap:14px;padding:28px 16px;background:rgba(247,241,232,.02);border:1px solid var(--line);transition:all .2s;text-align:center}
+.tool:hover{border-color:var(--blue);background:rgba(10,136,244,.05);transform:translateY(-3px)}
+.tool__logo{width:42px;height:42px;display:flex;align-items:center;justify-content:center;color:#fff}
+.tool__logo svg{width:100%;height:100%}
+.tool__logo.is-py{color:#FFD43B}
+.tool__logo.is-blue{color:var(--blue)}
+.tool__logo.is-lime{color:var(--lime)}
+.tool__logo.is-orange{color:var(--orange)}
+.tool span{font-size:14px;font-weight:500;letter-spacing:.02em}
+.tool em{font-style:normal;font-size:10px;color:var(--t4);letter-spacing:.1em;text-transform:uppercase;font-family:var(--mono)}
+@media (max-width:880px){.stack__inner{grid-template-columns:1fr;gap:32px}.stack__grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ============================ ENTREGÁVEIS ============================ */
+.deliverables{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:48px}
+.deli{background:rgba(3,2,0,.7);padding:28px 24px;transition:background .25s;display:flex;flex-direction:column;gap:12px;min-height:200px}
+.deli:hover{background:rgba(10,136,244,.04)}
+.deli__num{font-family:var(--mono);font-size:11px;color:var(--blue);letter-spacing:.18em}
+.deli h4{margin:0;font-size:15.5px;font-weight:500;color:#fff;line-height:1.3}
+.deli p{margin:0;font-size:13px;color:var(--t2);line-height:1.55}
+.deli__svg{margin-top:auto;color:var(--blue);opacity:.7}
+.deli__svg svg{width:28px;height:28px}
+.deli--star{background:linear-gradient(180deg,rgba(195,235,30,.06),transparent);border:1px solid rgba(195,235,30,.4)}
+.deli--star .deli__num{color:var(--lime)}
+.deli--star .deli__svg{color:var(--lime);opacity:1}
+@media (max-width:1100px){.deliverables{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.deliverables{grid-template-columns:1fr}}
+
+/* ============================ FORMATO ============================ */
+.format{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:start;margin-top:48px}
+.format__list{display:flex;flex-direction:column;gap:0;background:var(--line);border:1px solid var(--line)}
+.fmt{display:grid;grid-template-columns:48px 1fr;gap:20px;padding:24px;background:rgba(3,2,0,.7);align-items:flex-start}
+.fmt__icn{width:40px;height:40px;border:1px solid var(--blue);color:var(--blue);display:flex;align-items:center;justify-content:center}
+.fmt__icn svg{width:18px;height:18px}
+.fmt h4{margin:0 0 4px;font-size:16px;font-weight:500}
+.fmt p{margin:0;font-size:13.5px;color:var(--t2);line-height:1.55}
+.format__card{position:sticky;top:120px;padding:36px;background:linear-gradient(180deg,rgba(10,136,244,.08),transparent);border:1px solid var(--line-2)}
+.format__card .num{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--blue);margin-bottom:24px}
+.format__card h3{margin:0 0 20px;font-size:54px;font-weight:700;letter-spacing:-.025em;line-height:1}
+.format__card h3 em{font-style:normal;color:var(--blue)}
+.format__card ul{list-style:none;padding:0;margin:0 0 28px}
+.format__card li{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:13px;color:var(--t2)}
+.format__card li:last-child{border-bottom:none}
+.format__card li b{color:#fff;font-weight:500}
+@media (max-width:880px){.format{grid-template-columns:1fr;gap:32px}.format__card{position:static}}
+
+/* ============================ PARCERIA ============================ */
+.partner{position:relative;padding:120px 40px;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(10,136,244,.10),transparent 70%)}
+.partner__inner{max-width:920px;margin:0 auto}
+.partner__lockup{display:flex;align-items:center;justify-content:center;gap:32px;margin:40px 0;flex-wrap:wrap}
+.partner__lockup img{height:120px;width:auto;filter:drop-shadow(0 8px 40px rgba(10,136,244,.18))}
+.partner__nums{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;text-align:left}
+.partner__num{padding:24px 0;border-top:1px solid var(--line)}
+.partner__num b{display:block;font-size:48px;font-weight:700;color:var(--blue);letter-spacing:-.03em;line-height:1}
+.partner__num span{font-size:13px;color:var(--t2);margin-top:8px;display:block;line-height:1.4}
+@media (max-width:720px){.partner__lockup img{height:72px}}
+@media (max-width:880px){.partner__nums{grid-template-columns:repeat(2,1fr)}}
+
+/* ============================ PRICING / LOTES ============================ */
+.pricing__head{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:end;margin-bottom:48px}
+.pricing__deadline{display:inline-flex;align-items:center;gap:14px;padding:18px 24px;border:1px solid rgba(10,136,244,.55);background:rgba(10,136,244,.1);font-size:15px;letter-spacing:.04em;color:#fff;font-family:var(--mono);font-weight:500;box-shadow:0 0 0 1px rgba(10,136,244,.12),0 12px 40px -16px rgba(10,136,244,.5)}
+.pricing__deadline b{color:var(--blue);font-weight:700;font-size:17px;letter-spacing:.02em}
+.pricing__deadline .pulse{width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px var(--lime);animation:pulse 1.8s ease-in-out infinite}
+
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.lot{position:relative;background:rgba(3,2,0,.55);backdrop-filter:blur(6px);padding:40px 32px 36px;display:flex;flex-direction:column;gap:14px;transition:background .25s,transform .25s}
+.lot--past{opacity:.42}
+.lot--past::after{content:"ENCERRADO";position:absolute;top:18px;right:18px;font-size:9px;letter-spacing:.22em;padding:4px 8px;border:1px solid var(--line-2);color:var(--t3)}
+.lot--active{background:linear-gradient(180deg,rgba(10,136,244,.12),rgba(10,136,244,.04));border:1px solid var(--blue);box-shadow:0 0 0 1px var(--blue),0 24px 60px -20px rgba(10,136,244,.5);z-index:2;transform:scale(1.015)}
+.lot--active::after{content:"LOTE ATUAL";position:absolute;top:-1px;right:-1px;font-size:9px;letter-spacing:.22em;padding:7px 12px;background:var(--blue);color:#fff;font-weight:600}
+.lot--future{opacity:.7}
+.lot__head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:6px}
+.lot__name{font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--t2)}
+.lot--active .lot__name{color:var(--blue)}
+.lot__num{font-family:var(--mono);font-size:11px;color:var(--t3);letter-spacing:.15em}
+.lot__strike{display:flex;align-items:baseline;gap:8px;font-size:13px;color:var(--t3);margin-top:4px}
+.lot__strike s{text-decoration:line-through;text-decoration-color:rgba(255,255,255,.4);color:var(--t2);font-variant-numeric:tabular-nums}
+.lot__strike em{font-style:normal;color:var(--t3);letter-spacing:.04em}
+.lot__price{display:flex;align-items:flex-end;gap:6px;margin-top:6px}
+.lot__price .cur{font-size:18px;color:var(--t2);font-weight:400;padding-bottom:10px}
+.lot__price .val{font-size:54px;font-weight:700;line-height:1;letter-spacing:-.025em;color:#fff;font-variant-numeric:tabular-nums}
+.lot--past .lot__price .val{text-decoration:line-through;text-decoration-color:rgba(255,255,255,.35);text-decoration-thickness:2px}
+.lot__cents{font-size:18px;color:var(--t2);font-weight:400;padding-bottom:10px}
+.lot__install{font-size:13px;color:var(--t2);margin:0}
+.lot__install b{color:#fff;font-weight:500}
+.lot__deadline{font-size:12px;letter-spacing:.04em;color:var(--t3);margin:6px 0 18px;display:flex;align-items:center;gap:8px}
+.lot__deadline i{width:5px;height:5px;border-radius:50%;background:var(--t3);font-style:normal}
+.lot--active .lot__deadline i{background:var(--lime);box-shadow:0 0 8px var(--lime)}
+.lot__perks{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:8px}
+.lot__perks li{font-size:13px;color:var(--t2);position:relative;padding-left:20px;line-height:1.45}
+.lot__perks li::before{content:"";position:absolute;left:0;top:8px;width:10px;height:1px;background:var(--blue)}
+.lot__cta{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 20px;font-size:14px;font-weight:500;letter-spacing:.03em;border:1px solid var(--line-2);color:#fff;background:transparent;transition:all .2s;text-decoration:none}
+.lot__cta:hover{border-color:var(--blue);color:var(--blue)}
+.lot--active .lot__cta{background:var(--blue);border-color:var(--blue);color:#fff}
+.lot--active .lot__cta:hover{background:var(--blue-2);transform:translateY(-2px);box-shadow:0 12px 30px -10px rgba(10,136,244,.6)}
+.lot--past .lot__cta{pointer-events:none;opacity:.4}
+
+.pricing__foot{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;padding-top:32px;border-top:1px solid var(--line)}
+.pricing__foot > div{display:flex;align-items:flex-start;gap:12px}
+.pricing__foot svg{width:18px;height:18px;color:var(--blue);flex-shrink:0;margin-top:2px}
+.pricing__foot h5{margin:0 0 4px;font-size:13px;font-weight:500;color:#fff}
+.pricing__foot p{margin:0;font-size:12px;color:var(--t3);line-height:1.5}
+
+.pricing__b2b{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-top:48px;padding:28px 32px;background:linear-gradient(135deg,rgba(255,122,0,.08),transparent 60%);border:1px solid rgba(255,122,0,.3);flex-wrap:wrap}
+.pricing__b2b h4{margin:0 0 6px;font-size:18px;font-weight:500;color:#fff}
+.pricing__b2b p{margin:0;font-size:14px;color:var(--t2);line-height:1.5}
+.pricing__b2b p b{color:var(--orange);font-weight:500}
+.pricing__b2b__cta{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;background:var(--orange);color:var(--tech);font-size:14px;font-weight:500;letter-spacing:.03em;transition:all .15s}
+.pricing__b2b__cta:hover{background:#ff8e22;transform:translateY(-2px);box-shadow:0 12px 30px -10px rgba(255,122,0,.5)}
+
+@media (max-width:1100px){.pricing{grid-template-columns:1fr}.lot--active{transform:none}.pricing__foot{grid-template-columns:1fr}.pricing__head{grid-template-columns:1fr}}
+
+/* ============================ FAQ ============================ */
+.faq{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
+.faq__list{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.qa{border-bottom:1px solid var(--line)}
+.qa summary{list-style:none;cursor:pointer;padding:24px 0;display:flex;justify-content:space-between;align-items:center;gap:24px;font-size:18px;font-weight:500;color:#fff}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .plus{flex-shrink:0;width:32px;height:32px;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;color:var(--blue);transition:all .25s;font-size:18px}
+.qa[open] summary .plus{background:var(--blue);color:#fff;transform:rotate(45deg);border-color:var(--blue)}
+.qa__body{padding:0 0 24px;color:var(--t2);font-size:15px;line-height:1.65;max-width:62ch}
+@media (max-width:880px){.faq{grid-template-columns:1fr;gap:32px}}
+
+/* ============================ CTA FINAL ============================ */
+.cta-end{position:relative;padding:140px 40px;overflow:hidden;background:linear-gradient(135deg,#030200 0%,#001a33 60%,var(--blue) 240%);border-top:1px solid var(--line)}
+.cta-end__pattern{position:absolute;inset:0;opacity:.4;background-image:linear-gradient(to right,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(180deg,#000 30%,transparent 100%)}
+.cta-end__inner{position:relative;max-width:var(--max);margin:0 auto;text-align:center;z-index:2}
+.cta-end h2{font-size:clamp(48px,8vw,120px);font-weight:700;line-height:.92;letter-spacing:-.04em;margin:0 0 28px;color:#fff;text-wrap:balance}
+.cta-end h2 em{font-style:italic;font-family:var(--serif);font-weight:500;color:var(--blue)}
+.cta-end p{font-size:19px;color:var(--t2);max-width:62ch;margin:0 auto 40px;line-height:1.55}
+.cta-end__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+
+/* ============================ FOOTER ============================ */
+.foot{padding:64px 40px 40px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);color:var(--t2);border-top:1px solid var(--line);position:relative;z-index:1}
+.foot__inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px}
+.foot__brand p{font-size:13px;margin:18px 0 0;max-width:36ch;color:var(--t3);line-height:1.55}
+.foot__brand .lockup{display:flex;align-items:center;gap:16px}
+.foot__brand .lockup--combo img{height:38px;width:auto}
+.foot h5{margin:0 0 16px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);font-weight:500}
+.foot a{display:block;padding:5px 0;font-size:14px;color:var(--t2)}
+.foot a:hover{color:#fff}
+.foot__copy{max-width:var(--max);margin:48px auto 0;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--t3)}
+@media (max-width:880px){.foot__inner{grid-template-columns:1fr 1fr;gap:32px}.foot__brand{grid-column:span 2}}
+
+/* ============================ FLOATING WHATSAPP ============================ */
+.float-actions{position:fixed;right:24px;bottom:24px;z-index:90;display:flex;flex-direction:column;gap:14px;align-items:flex-end}
+@media (max-width:560px){.float-actions{right:16px;bottom:16px}}
+.fab{display:inline-flex;align-items:center;gap:10px;padding:14px 18px;border-radius:999px;font-size:14px;font-weight:500;letter-spacing:.02em;box-shadow:0 14px 40px -10px rgba(0,0,0,.7);cursor:pointer;border:none;transition:transform .2s,box-shadow .2s}
+.fab:hover{transform:translateY(-2px);box-shadow:0 20px 50px -10px rgba(0,0,0,.8)}
+.fab--wa{background:#25D366;color:#073a1a}
+.fab svg{width:20px;height:20px}
+.fab__label{display:inline-block}
+@media (max-width:560px){.fab__label{display:none}.fab{padding:14px}}
+
+/* ============================ LEAD MODAL ============================ */
+.modal-bg{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.is-open{display:flex;animation:modalIn .25s ease}
+@keyframes modalIn{from{opacity:0}to{opacity:1}}
+.modal{position:relative;max-width:520px;width:100%;background:#030200;border:1px solid var(--line-2);padding:40px 36px;animation:modalUp .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes modalUp{from{opacity:0;transform:translateY(40px) scale(.98)}to{opacity:1;transform:none}}
+.modal__close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--t3);font-size:24px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;transition:color .15s}
+.modal__close:hover{color:#fff}
+.modal__kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--blue);margin-bottom:14px;text-transform:uppercase}
+.modal h3{margin:0 0 10px;font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+.modal h3 em{font-style:italic;font-family:var(--serif);font-weight:500;color:var(--blue)}
+.modal p{margin:0 0 28px;color:var(--t2);font-size:14px;line-height:1.55}
+.modal form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--t4)}
+.field input,.field select{background:rgba(255,255,255,.04);border:1px solid var(--line-2);padding:12px 14px;color:#fff;font-family:var(--font);font-size:14.5px;transition:border-color .15s,background .15s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--blue);background:rgba(10,136,244,.05)}
+.field input::placeholder{color:var(--t4)}
+.modal__submit{margin-top:8px;width:100%;justify-content:center;padding:16px 20px}
+.modal__success{display:none;text-align:center;padding:20px 0}
+.modal__success.is-on{display:block}
+.modal__success svg{width:64px;height:64px;color:var(--blue);margin:0 auto 20px}
+.modal__success h4{margin:0 0 10px;font-size:24px;font-weight:600}
+.modal__success p{margin:0;color:var(--t2)}
+.modal.is-success form{display:none}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5WMWXB8C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- ============================ AMBIENT BG ============================ -->
+<div class="amb" aria-hidden="true">
+  <div class="amb__orb amb__orb--a"></div>
+  <div class="amb__orb amb__orb--b"></div>
+  <div class="amb__orb amb__orb--c"></div>
+  <div class="amb__grid"></div>
+  <div class="amb__beam amb__beam--1"></div>
+  <div class="amb__beam amb__beam--2"></div>
+  <div class="amb__beam amb__beam--3"></div>
+  <div class="amb__noise"></div>
+</div>
+
+<!-- ============================ TOP BAR ============================ -->
+<header class="bar" id="bar">
+  <a href="#" class="lockup lockup--combo" aria-label="Impacta + Olhar Digital">
+    <img src="assets/impacta-olhar-lockup.webp" alt="Impacta + Olhar Digital">
+  </a>
+  <nav class="bar__nav" aria-label="Seções">
+    <a href="#porque">Por que agora</a>
+    <a href="#publico">Para quem</a>
+    <a href="#jornada">Jornada</a>
+    <a href="#stack">Stack</a>
+    <a href="#formato">Formato</a>
+    <a href="#investimento">Investimento</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <a class="bar__cta" href="#investimento">
+    Garantir vaga
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
+</header>
+
+<!-- ============================ INLINE SVG DEFS (Impacta wordmark) ============================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="impacta-wordmark" viewBox="0 0 360 50">
+      <text x="0" y="38" font-family="Ubuntu, sans-serif" font-size="42" font-weight="700" letter-spacing="-1" fill="currentColor">IMPACTA</text>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true">
+    <!-- Animated code rain -->
+    <div class="codescene">
+      <div class="codescene__col" style="left:8%;animation-duration:32s;animation-delay:-2s">
+        <span class="b"># automação · python</span>
+        <span><span class="o">def</span> <span class="w">automatizar</span>(<span class="d">tarefa</span>):</span>
+        <span>    <span class="b">if</span> tarefa.<span class="w">repetitiva</span>:</span>
+        <span>        <span class="b">return</span> <span class="w">script</span>()</span>
+        <span class="d">    # IA como copiloto</span>
+        <span><span class="o">def</span> <span class="w">ler_csv</span>(<span class="d">arq</span>):</span>
+        <span>    <span class="b">with open</span>(arq) <span class="b">as</span> f:</span>
+        <span>        dados = <span class="w">csv</span>.reader(f)</span>
+        <span>        <span class="b">return</span> dados</span>
+        <span class="d"># --- relatorio.py ---</span>
+        <span>relat = <span class="w">gerar_relatorio</span>()</span>
+        <span><span class="w">print</span>(<span class="o">"feito"</span>)</span>
+        <span class="d">✓ executado em 0.3s</span>
+        <span class="b">→ saída: relatorio.csv</span>
+        <span><span class="o">def</span> <span class="w">main</span>():</span>
+        <span>    <span class="w">automatizar</span>(tarefa)</span>
+      </div>
+      <div class="codescene__col" style="left:38%;animation-duration:36s;animation-delay:-8s">
+        <span class="d"># prompt design</span>
+        <span><span class="o">ai</span>.<span class="w">prompt</span> = <span class="o">"""</span></span>
+        <span class="o">  Papel: analista</span>
+        <span class="o">  Tarefa: revisar</span>
+        <span class="o">  Formato: lista</span>
+        <span class="o">"""</span></span>
+        <span class="b">→ pensando...</span>
+        <span class="d">  ↳ 3 sugestões</span>
+        <span class="w">resposta</span> = ai.<span class="b">run</span>()</span>
+        <span class="d"># lógica de negócio</span>
+        <span><span class="b">for</span> linha <span class="b">in</span> dados:</span>
+        <span>    <span class="b">if</span> linha[<span class="o">"valor"</span>] &gt; 100:</span>
+        <span>        <span class="w">aprovar</span>(linha)</span>
+        <span>    <span class="b">else</span>:</span>
+        <span>        <span class="w">revisar</span>(linha)</span>
+        <span class="b">✓ 127 aprovados</span>
+        <span class="o">✗ 12 para revisar</span>
+        <span class="d"># automacao_diaria.py</span>
+        <span><span class="o">@schedule</span>(<span class="o">"08:00"</span>)</span>
+      </div>
+      <div class="codescene__col" style="left:68%;animation-duration:30s;animation-delay:-14s">
+        <span class="d"># IA copiloto</span>
+        <span><span class="o">import</span> <span class="w">pandas</span> <span class="o">as</span> pd</span>
+        <span><span class="o">import</span> <span class="w">openai</span></span>
+        <span class="d">━━━━━━━━━━━━━━━━</span>
+        <span class="b">$ python relatorio.py</span>
+        <span class="d">  carregando dados...</span>
+        <span class="d">  127 linhas lidas</span>
+        <span class="b">  ✓ exportado xlsx</span>
+        <span class="o">  → enviado por email</span>
+        <span class="d">━━━━━━━━━━━━━━━━</span>
+        <span><span class="o">def</span> <span class="w">classificar</span>(item):</span>
+        <span>    <span class="b">return</span> ai.<span class="w">analisar</span>(item)</span>
+        <span class="d"># debug com IA</span>
+        <span><span class="b">try</span>:</span>
+        <span>    <span class="w">processar</span>(dados)</span>
+        <span><span class="b">except</span> <span class="w">Erro</span> <span class="b">as</span> e:</span>
+        <span>    ai.<span class="w">explicar</span>(e)</span>
+      </div>
+    </div>
+
+    <!-- Python-ring (orbits + core) -->
+    <div class="pyring" aria-hidden="true">
+      <div class="pyring__aura"></div>
+      <div class="pyring__aura pyring__aura--in"></div>
+
+      <div class="pyring__orbit pyring__orbit--alt">
+        <svg viewBox="-250 -250 500 500">
+          <circle class="path" cx="0" cy="0" r="240" stroke="rgba(10,136,244,.4)"/>
+          <circle class="sat" cx="240" cy="0" r="4" fill="#5BF7FF" color="#5BF7FF"/>
+          <circle class="sat" cx="-170" cy="-170" r="3" fill="#0A88F4" color="#0A88F4"/>
+        </svg>
+      </div>
+      <div class="pyring__orbit">
+        <svg viewBox="-250 -250 500 500">
+          <circle class="path" cx="0" cy="0" r="180" stroke="rgba(10,136,244,.55)" stroke-dasharray="4 6"/>
+          <circle class="sat" cx="-180" cy="0" r="5" fill="#C3EB1E" color="#C3EB1E"/>
+          <circle class="sat" cx="120" cy="-130" r="3" fill="#fff" color="#fff"/>
+        </svg>
+      </div>
+      <div class="pyring__orbit pyring__orbit--in">
+        <svg viewBox="-250 -250 500 500">
+          <circle class="path" cx="0" cy="0" r="120" stroke="rgba(10,136,244,.75)" stroke-width="1.5"/>
+          <circle class="sat" cx="120" cy="0" r="6" fill="#5BF7FF" color="#5BF7FF"/>
+          <circle class="sat" cx="0" cy="-120" r="3" fill="#0A88F4" color="#0A88F4"/>
+        </svg>
+      </div>
+
+      <!-- Sweep highlight -->
+      <div class="pyring__sweep"></div>
+
+      <!-- Core: Python snake monogram -->
+      <div class="pyring__core">
+        <svg viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="pyG1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0A88F4"/><stop offset="100%" stop-color="#005ec0"/>
+            </linearGradient>
+            <linearGradient id="pyG2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FFD43B"/><stop offset="100%" stop-color="#FFB020"/>
+            </linearGradient>
+          </defs>
+          <!-- Stylized Python "two snakes" -->
+          <path d="M50 14 C32 14 30 24 30 32 V44 H56 V48 H22 C14 48 10 52 10 62 V72 C10 80 14 84 22 84 H32 V72 C32 64 36 60 44 60 H60 C68 60 72 56 72 48 V32 C72 22 68 14 50 14 Z M40 24 A3 3 0 1 1 40 30 A3 3 0 0 1 40 24 Z" fill="url(#pyG1)"/>
+          <path d="M50 86 C68 86 70 76 70 68 V56 H44 V52 H78 C86 52 90 48 90 38 V28 C90 20 86 16 78 16 H68 V28 C68 36 64 40 56 40 H40 C32 40 28 44 28 52 V68 C28 78 32 86 50 86 Z M60 70 A3 3 0 1 1 60 76 A3 3 0 0 1 60 70 Z" fill="url(#pyG2)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__veil" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <div class="hero__pill"><span class="dot"></span>NOVA TURMA · INÍCIO <b>29/06/2026</b> · INSCRIÇÕES ABERTAS</div>
+      <span class="hero__course-tag">Curso ao vivo · 40h · Zero absoluto · Projeto final</span>
+      <h1 class="hero__title">
+        <span class="row"><span class="hero__brand-top">CÓDIGO</span></span>
+        <span class="row"><span class="hero__brand-big">Zero<i class="dot" aria-hidden="true"></i></span></span>
+        <span class="row hero__tagline"><span>Python, IA e <b>Automação</b> para <em>Não Programadores</em>.</span></span>
+      </h1>
+      <p class="hero__chamada">
+        Programação não é só para programadores. Agora é uma <em>habilidade de produtividade</em>.
+      </p>
+      <p class="hero__lede">
+        Em 40 horas online ao vivo, você sai do <strong>“não sei programar”</strong> e constrói sua primeira automação com Python e IA. Lógica, dados, prompt design, automação de tarefas, projeto final e certificado <strong>Impacta × Olhar Digital</strong> — pensado para profissionais que não são de TI.
+      </p>
+      <div class="hero__actions">
+        <a href="#investimento" class="btn btn--primary" data-track="cta-buy-hero">
+          Quero me matricular · R$ 897
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <button type="button" class="btn btn--ghost" data-open-form data-track="cta-form-hero">
+          Falar com um consultor
+        </button>
+      </div>
+      <div class="hero__meta">
+        <div>
+          <div class="meta-k">Início da turma</div>
+          <div class="meta-v"><em>29</em>/06</div>
+          <div class="meta-sub">2026 · vagas limitadas</div>
+        </div>
+        <div>
+          <div class="meta-k">Formato</div>
+          <div class="meta-v"><em>40</em>h</div>
+          <div class="meta-sub">Online ao vivo · com gravações</div>
+        </div>
+        <div>
+          <div class="meta-k">Nível</div>
+          <div class="meta-v"><em>Zero</em> absoluto</div>
+          <div class="meta-sub">Não exige conhecimento prévio</div>
+        </div>
+        <div>
+          <div class="meta-k">Certificado</div>
+          <div class="meta-v">
+            <span class="lockup-mini">
+              <img src="assets/impacta-olhar-lockup.webp" alt="Impacta + Olhar Digital">
+            </span>
+          </div>
+          <div class="meta-sub">Selo oficial · 40h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TICKER ============================ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track" id="ticker">
+    <span class="ticker__item">LÓGICA DE PROGRAMAÇÃO <span class="ticker__star">✦</span></span>
+    <span class="ticker__item">PYTHON DO ZERO <span class="ticker__star">✦</span></span>
+    <span class="ticker__item">IA GENERATIVA <span class="ticker__star">✦</span></span>
+    <span class="ticker__item">PROMPT DESIGN <span class="ticker__star">✦</span></span>
+    <span class="ticker__item">AUTOMAÇÃO DE TAREFAS <span class="ticker__star">✦</span></span>
+    <span class="ticker__item">DADOS E PLANILHAS <span class="ticker__star">✦</span></span>
+    <span class="ticker__item">DEBUG COM IA <span class="ticker__star">✦</span></span>
+    <span class="ticker__item">PROJETO FINAL <span class="ticker__star">✦</span></span>
+    <span class="ticker__item">PORTFÓLIO INICIAL <span class="ticker__star">✦</span></span>
+  </div>
+</div>
+
+<!-- ============================ POR QUE AGORA ============================ -->
+<section class="section" id="porque">
+  <div class="reveal" style="max-width:64ch">
+    <div class="kicker"><span class="kicker__rule"></span><span class="kicker__num">01</span>POR QUE AGORA</div>
+    <h2 class="h2">Quem não entende lógica vai usar IA <em>pela metade</em>.</h2>
+    <p class="lede">A IA já entrou no trabalho — escreve, resume, organiza e analisa. Mas existe diferença enorme entre <strong>pedir coisas no ChatGPT</strong> e <strong>desenhar a solução</strong>: transformar uma necessidade real em script, automação ou processo mais inteligente. O profissional que entende lógica, Python e IA deixa de ser usuário de ferramentas — e começa a criar soluções.</p>
+  </div>
+
+  <div class="why">
+    <div class="why__stat reveal">
+      <div class="b"><em>+30%</em></div>
+      <p class="s">de oportunidades em IA, automação e dados — e a maior barreira ainda é a falta de profissionais com lógica e Python aplicados.</p>
+      <div class="why__chips" aria-hidden="true">
+        <span class="why__chip why__chip--1">def</span>
+        <span class="why__chip why__chip--2">if · else</span>
+        <span class="why__chip why__chip--3">for x in</span>
+        <span class="why__chip why__chip--4">return</span>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="kicker" style="margin-bottom:14px"><span class="kicker__rule"></span>MENSAGEM-CHAVE</div>
+      <h3 style="font-size:34px;font-weight:500;line-height:1.15;letter-spacing:-.02em;margin:0 0 18px;color:#fff">
+        De <em style="font-style:italic;font-family:var(--serif);color:var(--blue);font-weight:500">usuário</em> de ferramentas a <em style="font-style:italic;font-family:var(--serif);color:var(--blue);font-weight:500">criador</em> de soluções simples.
+      </h3>
+      <p style="color:var(--t2);font-size:16px;line-height:1.65;margin:0">Você não precisa virar desenvolvedor em 40 horas. Mas precisa entender como a tecnologia funciona para trabalhar melhor com ela — e <strong style="color:#fff">deixar de ser zero</strong>.</p>
+    </div>
+  </div>
+
+  <div class="pillars reveal-stagger">
+    <div class="pillar">
+      <div class="pillar__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg></div>
+      <h4>Programação</h4>
+      <p>Entender lógica, algoritmos e como transformar problemas em passos claros.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg></div>
+      <h4>Python</h4>
+      <p>Linguagem simples, poderosa e muito aplicada em automação, dados e IA.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
+      <h4>IA</h4>
+      <p>Usar ferramentas generativas para estudar, criar, revisar e acelerar código.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 17l5-5-5-5M12 19h8"/></svg></div>
+      <h4>Automação</h4>
+      <p>Criar soluções simples para tarefas repetitivas, planilhas, arquivos e rotinas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PARA QUEM ============================ -->
+<section class="section" id="publico">
+  <div class="reveal" style="max-width:64ch">
+    <div class="kicker"><span class="kicker__rule"></span><span class="kicker__num">02</span>PARA QUEM É</div>
+    <h2 class="h2">Para quem não é de TI, mas quer deixar de <em>depender da TI</em> para tudo.</h2>
+    <p class="lede">Pensado para pessoas que ainda não programam — mas já perceberam que tecnologia, IA, dados e automação estão virando parte do trabalho em praticamente todas as áreas.</p>
+  </div>
+
+  <div class="audience reveal-stagger">
+    <div class="aud">
+      <div class="aud__name"><i></i>Camila</div>
+      <span class="aud__role">Profissionais não-tech</span>
+      <h3>Não sou de TI. Mas sei <em>automatizar</em>.</h3>
+      <p>Administrativo, financeiro, RH, marketing, comercial, operações, comunicação e gestão. Já usa IA — mas para textos. Quer transformar planilha em automação.</p>
+      <ul class="aud__pain">
+        <li>Perde tempo com tarefas repetitivas</li>
+        <li>Depende de planilhas manuais</li>
+        <li>Usa IA só para escrever</li>
+        <li>Não sabe virar ideia em automação</li>
+      </ul>
+      <p class="aud__quote">"Aprendi Python e cortei 3 horas por dia de tarefa manual."</p>
+    </div>
+
+    <div class="aud">
+      <div class="aud__name"><i></i>Pedro</div>
+      <span class="aud__role">Estudantes & universitários</span>
+      <h3>Quero destravar <em>lógica</em> antes de copiar código.</h3>
+      <p>Alunos de faculdade, técnico, ADS, engenharia, ciência da computação e quem começa por conta própria. Travou em lógica e quer voltar com base sólida.</p>
+      <ul class="aud__pain">
+        <li>Trava em lógica de programação</li>
+        <li>Copia código sem saber explicar</li>
+        <li>Acha que programar é coisa de gênio</li>
+        <li>Tem dificuldade em disciplinas técnicas</li>
+      </ul>
+      <p class="aud__quote">"Saio entendendo o que eu escrevo — e por que funciona."</p>
+    </div>
+
+    <div class="aud">
+      <div class="aud__name"><i></i>Renata</div>
+      <span class="aud__role">Transição de carreira</span>
+      <h3>Quero <em>testar afinidade</em> antes da formação longa.</h3>
+      <p>Profissionais que querem entrar em tecnologia, dados ou IA. Precisam de base segura, exemplos práticos e um teste real antes de investir em uma trilha extensa.</p>
+      <ul class="aud__pain">
+        <li>Não sabe por onde começar</li>
+        <li>Medo de investir em formação longa</li>
+        <li>Quer testar afinidade real</li>
+        <li>Precisa ganhar confiança técnica</li>
+      </ul>
+      <p class="aud__quote">"Em 40h descobri que dá conta — e agora sei qual trilha seguir."</p>
+    </div>
+
+    <div class="aud">
+      <div class="aud__name"><i></i>Tiago</div>
+      <span class="aud__role">Empreendedores & autônomos</span>
+      <h3>Quero criar pequenas soluções e <em>conversar com devs</em>.</h3>
+      <p>Pessoas que querem automatizar processos do próprio negócio, prototipar soluções e dialogar com fornecedores e times técnicos sem dependência absoluta.</p>
+      <ul class="aud__pain">
+        <li>Tem ideia, não sabe traduzir</li>
+        <li>Executa processos manuais</li>
+        <li>Quer IA + automação para escalar</li>
+        <li>Quer falar a mesma língua dos devs</li>
+      </ul>
+      <p class="aud__quote">"Prototipei o sistema sozinho antes de contratar a equipe."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ JORNADA / 10 MÓDULOS ============================ -->
+<section class="section section--full" id="jornada">
+  <div class="inner">
+    <div class="reveal" style="max-width:64ch;margin-bottom:64px">
+      <div class="kicker"><span class="kicker__rule"></span><span class="kicker__num">03</span>JORNADA</div>
+      <h2 class="h2">Da <em>lógica</em> ao primeiro <em>projeto funcionando</em>.</h2>
+      <p class="lede">10 módulos com objetivo claro, prática em aula e <strong>um entregável por módulo</strong>. Cada passo aumenta a dificuldade sem quebrar a confiança — até o projeto final aplicado.</p>
+    </div>
+
+    <div class="journey" id="journey">
+      <div class="journey__rail" id="rail"></div>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>01</em></div>
+        <div>
+          <div class="module__tag"><i></i>FUNDAMENTOS</div>
+          <h3>Mente de <em>Programador</em> para Não Programadores</h3>
+          <p class="module__sub">Entender o que é programação, lógica e automação sem jargão técnico. O primeiro script roda já neste módulo.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>Lógica</span><span>Algoritmo</span><span>1º script</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li>O que <b>realmente</b> significa programar — sem mistura com “usar IA”</li>
+            <li>Diferença entre lógica, linguagem e ferramenta</li>
+            <li>Modelo mental — <b>entrada</b> → <b>processamento</b> → <b>saída</b></li>
+            <li>Setup zero-fricção no Google Colab — você já sai escrevendo</li>
+            <li>Primeiro script em Python rodando ao vivo</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Python coberto neste módulo</div>
+            <div class="module__python-chips">
+              <code class="b">print()</code><code class="b">input()</code><code class="k">#&nbsp;comentários</code><code>indentação</code><code>strings</code><code>números</code><code class="k">Hello, World!</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Mapa do Primeiro Algoritmo — você sai com o seu primeiro algoritmo no papel e em código.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>02</em></div>
+        <div>
+          <div class="module__tag"><i></i>FUNDAMENTOS</div>
+          <h3>Variáveis, Tipos &amp; <em>Operadores</em></h3>
+          <p class="module__sub">A base para pensar como programador sem decorar comandos. Você aprende a guardar, transformar e comparar informação.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>Pseudocódigo</span><span>Tipos</span><span>Operadores</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li>Algoritmos, fluxogramas e <b>pseudocódigo</b> antes de escrever código</li>
+            <li>Variáveis em Python — atribuição, nomenclatura e reatribuição</li>
+            <li>Tipos primitivos: <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code> — quando e por quê</li>
+            <li>Operadores matemáticos (<code>+ - * /  // %  **</code>) e lógicos (<code>and · or · not</code>)</li>
+            <li>Conversão de tipos — <code>int()</code>, <code>float()</code>, <code>str()</code></li>
+            <li>Formatação de saída com <b>f-strings</b></li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Python coberto neste módulo</div>
+            <div class="module__python-chips">
+              <code>int</code><code>float</code><code>str</code><code>bool</code><code class="b">+ - * /</code><code class="b">//&nbsp;%&nbsp;**</code><code class="b">and · or · not</code><code class="b">f"...{}"</code><code>type()</code><code>len()</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Calculadora de Decisão — script que recebe dados, aplica regra e devolve uma resposta útil.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>03</em></div>
+        <div>
+          <div class="module__tag"><i></i>DECISÕES</div>
+          <h3>Condicionais &amp; <em>Regras de Negócio</em></h3>
+          <p class="module__sub">Programas que tomam decisão. Você cria os primeiros classificadores e validadores com regras reais.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>if · elif · else</span><span>Validação</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li><code>if</code>, <code>elif</code> e <code>else</code> — quando usar cada um</li>
+            <li>Operadores de comparação (<code>== != &gt; &lt; &gt;= &lt;=</code>) e <code>in</code></li>
+            <li>Combinação de critérios e <b>booleanos compostos</b></li>
+            <li>Condições aninhadas — quando aninhar e quando refatorar</li>
+            <li>Operador ternário — <code>x if cond else y</code></li>
+            <li>Validação de entrada e tratamento básico de erros</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Python coberto neste módulo</div>
+            <div class="module__python-chips">
+              <code class="b">if</code><code class="b">elif</code><code class="b">else</code><code>==</code><code>!=</code><code>&gt;&nbsp;&lt;</code><code>&gt;=&nbsp;&lt;=</code><code class="b">in</code><code class="b">not&nbsp;in</code><code>True · False</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Classificador de Regras — programa que recebe lista de itens e classifica conforme critério.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>04</em></div>
+        <div>
+          <div class="module__tag"><i></i>REPETIÇÃO</div>
+          <h3>Loops para <em>Automatizar Tarefas</em></h3>
+          <p class="module__sub">A repetição é o coração da automação. Você aprende a percorrer dados em volume sem trabalho manual.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>for · while</span><span>Listas</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li><code>for</code> percorrendo coleções — listas, strings, dicionários</li>
+            <li><code>while</code> com <b>condições de parada</b> e contadores</li>
+            <li><code>range()</code> e <code>enumerate()</code> — índices sob controle</li>
+            <li>Acumuladores: somatório, média, máximo, mínimo</li>
+            <li>Quando usar <code>break</code>, <code>continue</code> e por que evitar abuso</li>
+            <li>Padrões que aparecem em <b>todo script</b> de automação</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Python coberto neste módulo</div>
+            <div class="module__python-chips">
+              <code class="b">for ... in</code><code class="b">while</code><code>range()</code><code>enumerate()</code><code class="b">break</code><code class="b">continue</code><code>sum()</code><code>min()&nbsp;max()</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Automação de Lista — processa 100, 1.000 ou 10.000 linhas no mesmo tempo.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>05</em></div>
+        <div>
+          <div class="module__tag"><i></i>DADOS</div>
+          <h3>Listas, Dicionários &amp; <em>Tabelas</em></h3>
+          <p class="module__sub">Organizar informação real em estruturas que o código manipula. A ponte entre Excel e Python.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>Listas</span><span>Dicionários</span><span>Tabelas</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li><b>Listas</b> — criação, fatiamento, métodos (<code>.append .pop .sort</code>)</li>
+            <li><b>Dicionários</b> — chave/valor e por que isso muda tudo</li>
+            <li>Tuplas e <code>set</code> — quando usar imutável ou único</li>
+            <li>Iteração sobre dicionários com <code>.items() · .keys() · .values()</code></li>
+            <li><b>List comprehensions</b> — o salto do iniciante para o intermediário</li>
+            <li>Busca, filtro e ordenação de dados reais</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Python coberto neste módulo</div>
+            <div class="module__python-chips">
+              <code class="b">list&nbsp;[]</code><code class="b">dict&nbsp;{}</code><code>tuple&nbsp;()</code><code>set()</code><code>.append()</code><code>.pop()</code><code>.sort()</code><code>.items()</code><code class="k">[x for x in ...]</code><code>sorted()</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Mini Base de Dados — guarda, busca e filtra informação como um sistema enxuto.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>06</em></div>
+        <div>
+          <div class="module__tag"><i></i>TRABALHO REAL</div>
+          <h3>Arquivos, Planilhas &amp; <em>CSV</em></h3>
+          <p class="module__sub">Python encontra o trabalho real. Você lê, trata e devolve dados em arquivos do dia a dia — sem abrir Excel.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>.txt · .csv</span><span>pandas (intro)</span><span>Relatórios</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li>Leitura e escrita de arquivos com <code>open()</code> e gerenciador <code>with</code></li>
+            <li>Módulo <code>csv</code> — ler, gerar, manipular planilhas no Python puro</li>
+            <li>Introdução a <b>pandas</b> — <code>DataFrame</code>, <code>read_csv</code>, <code>head()</code></li>
+            <li>Limpeza simples — nulos, duplicidade, tipos errados e datas</li>
+            <li>Filtros, agrupamentos e ordenação em <code>pandas</code></li>
+            <li>Exportação final para <code>.csv</code> ou <code>.xlsx</code> pronta para enviar</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Python coberto neste módulo</div>
+            <div class="module__python-chips">
+              <code class="b">open()</code><code class="b">with</code><code>csv.reader</code><code>csv.writer</code><code>import&nbsp;pandas</code><code>pd.read_csv</code><code>DataFrame</code><code>.head()</code><code>.to_csv()</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Relatório Automatizado — pega planilha bruta e devolve um relatório limpo, pronto para enviar.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>07</em></div>
+        <div>
+          <div class="module__tag"><i></i>IA COPILOTO</div>
+          <h3>IA como <em>Copiloto</em> — Prompt, Código &amp; Validação</h3>
+          <p class="module__sub">Usar IA para programar melhor, estudar melhor e errar menos — com pensamento crítico, não cópia cega.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>Prompt design</span><span>Debug com IA</span><span>Validação crítica</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li>Anatomia de um bom prompt para <b>código</b>: papel, contexto, formato, restrições</li>
+            <li>Pedir <b>explicação linha a linha</b> para acelerar o aprendizado</li>
+            <li>Geração e revisão de funções com IA — quando aceitar, quando questionar</li>
+            <li>Debug com IA — colando a <b>mensagem de erro</b> e validando hipóteses</li>
+            <li>Refatoração assistida e documentação (<b>docstrings</b>) com IA</li>
+            <li>Limites da IA: <b>aluciação</b>, bibliotecas inventadas e como detectar</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Técnicas cobertas neste módulo</div>
+            <div class="module__python-chips">
+              <code>prompt&nbsp;design</code><code>explicação&nbsp;linha&nbsp;a&nbsp;linha</code><code class="b">docstrings</code><code class="b">Traceback</code><code>refatoração</code><code class="k">“por que esse código não funciona?”</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Biblioteca de Prompts para Programação — prompts reutilizáveis para estudo, geração e debug.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>08</em></div>
+        <div>
+          <div class="module__tag"><i></i>AUTOMAÇÃO</div>
+          <h3>Da <em>Tarefa Manual</em> ao Script — Automação na Prática</h3>
+          <p class="module__sub">Identificar tarefa automatizável e transformar rotina em fluxo lógico — com Python puro, do gatilho à saída.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>Fluxo de automação</span><span>Python + IA</span><span>APIs e agendamento</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li>O modelo <b>gatilho</b> → <b>processamento</b> → <b>saída</b> → <b>validação</b></li>
+            <li>Agendamento de scripts — noções de <code>schedule</code> e cron</li>
+            <li>Manipulação de pastas e arquivos com <code>os</code> e <code>pathlib</code></li>
+            <li>Trabalhar com <code>datetime</code> — datas, prazos, intervalos</li>
+            <li>Consumir APIs simples com <code>requests</code> e ler <code>JSON</code></li>
+            <li>Encadear etapas em um <b>fluxo completo</b> — do dado bruto ao relatório final</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Python coberto neste módulo</div>
+            <div class="module__python-chips">
+              <code>import&nbsp;os</code><code>pathlib.Path</code><code>datetime</code><code>requests.get</code><code>response.json()</code><code>schedule</code><code class="k">.env / API keys</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Canvas de Automação — mapeia uma rotina do seu trabalho como fluxo executável.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal">
+        <div class="module__num">MÓD<em>09</em></div>
+        <div>
+          <div class="module__tag"><i></i>CÓDIGO LIMPO</div>
+          <h3>Funções, Organização &amp; <em>Debug</em></h3>
+          <p class="module__sub">Organizar código, evitar bagunça e corrigir erro com método. A diferença entre script de uso único e código reutilizável.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>Funções</span><span>Modularização</span><span>Boas práticas</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li>Funções com <code>def</code> — parâmetros, <code>return</code>, valor padrão</li>
+            <li>Escopo de variáveis — local vs. global e por que importa</li>
+            <li>Modularização em arquivos <code>.py</code> e <code>import</code> entre eles</li>
+            <li>Tratamento de erros com <code>try / except / finally</code></li>
+            <li><b>Boas práticas</b> — nomes, funções pequenas, código legível</li>
+            <li>Teste de mesa e leitura de <b>Traceback</b> com método</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Python coberto neste módulo</div>
+            <div class="module__python-chips">
+              <code class="b">def</code><code class="b">return</code><code>parâmetros</code><code class="b">try / except</code><code class="b">finally</code><code class="b">raise</code><code class="b">import</code><code>PEP&nbsp;8</code><code>Traceback</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo</b>
+            Checklist de Código Limpo — guia para revisar qualquer script que você escrever.
+          </div>
+        </div>
+      </article>
+
+      <article class="module reveal module--proj">
+        <div class="module__num">MÓD<em>10</em></div>
+        <div>
+          <div class="module__tag proj"><i></i>PROJETO FINAL</div>
+          <h3>Protótipo com Python, IA &amp; <em>Automação</em></h3>
+          <p class="module__sub">Consolidar tudo em uma solução prática, apresentável e conectada ao mundo real. Você escolhe o problema.</p>
+          <div class="module__meta"><span class="b">4h ao vivo</span><span>Escolha do problema</span><span>Construção</span><span>Apresentação</span></div>
+        </div>
+        <div>
+          <ul class="module__topics">
+            <li>Escolha do problema — relevante, escopo certo, viável em 40h</li>
+            <li>Desenho lógico — entrada, processamento, saída, regras</li>
+            <li>Construção iterativa — v1 funciona, v2 melhora, v3 entrega</li>
+            <li>Integração com IA — onde colocar IA no fluxo (e onde não)</li>
+            <li>Documentação com <code>README.md</code> e <code>docstrings</code></li>
+            <li>Apresentação do projeto — problema, solução, demo, próximos passos</li>
+          </ul>
+          <div class="module__python">
+            <div class="module__python-label">Tudo do curso aplicado</div>
+            <div class="module__python-chips">
+              <code class="b">lógica</code><code class="b">condicionais</code><code class="b">loops</code><code class="b">estruturas</code><code class="b">arquivos&nbsp;·&nbsp;csv</code><code class="b">funções</code><code class="b">IA&nbsp;copiloto</code><code class="b">automação</code>
+            </div>
+          </div>
+          <div class="module__deliverable">
+            <b>Entregável do módulo · Projeto final</b>
+            Protótipo Final + Explicação — sua primeira solução com Python, IA e Automação, pronta para portfólio.
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- PROJETO FINAL CALLOUT -->
+    <div class="projfinal reveal">
+      <div class="projfinal__head">
+        <h3>Onde a programação <em>deixa de ser teoria</em>.</h3>
+        <span class="projfinal__tag">PROJETO FINAL · APLICADO</span>
+      </div>
+      <p class="projfinal__lede">O aluno escolhe um problema simples — mas real — e constrói uma solução com lógica, Python, IA e automação. Não precisa ser complexo. Precisa <strong style="color:#fff">funcionar, fazer sentido</strong> e mostrar que você aprendeu a pensar como alguém que constrói soluções.</p>
+      <div class="projfinal__grid">
+        <div class="projfinal__ex"><i>01</i><span>Organizador automático de arquivos por tipo</span></div>
+        <div class="projfinal__ex"><i>02</i><span>Gerador de relatório a partir de CSV</span></div>
+        <div class="projfinal__ex"><i>03</i><span>Calculadora de orçamento, comissão ou metas</span></div>
+        <div class="projfinal__ex"><i>04</i><span>Classificador simples de prioridades</span></div>
+        <div class="projfinal__ex"><i>05</i><span>Mini-sistema de cadastro (clientes, produtos, tarefas)</span></div>
+        <div class="projfinal__ex"><i>06</i><span>Leitor de base com resumo automático por IA</span></div>
+        <div class="projfinal__ex"><i>07</i><span>Gerador de mensagens padronizadas</span></div>
+        <div class="projfinal__ex"><i>08</i><span>Conferência automática de dados de planilha</span></div>
+        <div class="projfinal__ex"><i>09</i><span>Assistente que transforma demanda em checklist</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ STACK ============================ -->
+<section class="stack" id="stack">
+  <div class="stack__inner">
+    <div class="reveal">
+      <div class="kicker"><span class="kicker__rule"></span><span class="kicker__num">04</span>STACK</div>
+      <h3>Ferramentas <em>acessíveis</em>, aplicadas e usadas no mercado.</h3>
+      <p>Sem complicação de setup. O ambiente começa em nuvem para tirar barreira inicial e evolui para VS Code conforme a turma cresce. Você aprende com a stack que o mercado adota — Python como linguagem-âncora, IA generativa como copiloto e bibliotecas <code>csv</code>, <code>pandas</code> e <code>requests</code> para trabalhar com dados e APIs do mundo real.</p>
+    </div>
+    <div class="stack__grid reveal-stagger">
+      <div class="tool">
+        <div class="tool__logo is-py"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.9 0C5.84 0 6.22 2.63 6.22 2.63l.01 2.72h5.78v.82H3.93s-3.87-.44-3.87 5.62c0 6.06 3.38 5.84 3.38 5.84h2.02v-2.83s-.11-3.38 3.32-3.38h5.73s3.22.05 3.22-3.11V3.27S18.22 0 11.9 0zm-3.19 1.83c.57 0 1.04.46 1.04 1.04 0 .57-.46 1.04-1.04 1.04-.57 0-1.04-.47-1.04-1.04 0-.58.46-1.04 1.04-1.04zM12.1 24c6.06 0 5.68-2.63 5.68-2.63v-2.72H12v-.82h8.07s3.87.44 3.87-5.62c0-6.06-3.38-5.84-3.38-5.84h-2.02v2.83s.11 3.38-3.32 3.38h-5.73s-3.22-.05-3.22 3.11v5.86s-.49 3.45 5.83 3.45zm3.19-1.83c-.57 0-1.04-.46-1.04-1.04 0-.57.46-1.04 1.04-1.04.57 0 1.04.47 1.04 1.04 0 .58-.46 1.04-1.04 1.04z"/></svg></div>
+        <span>Python</span><em>Linguagem-âncora</em>
+      </div>
+      <div class="tool">
+        <div class="tool__logo is-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="1"/><path d="M7 9h2M11 9h6M7 13h6M15 13h2"/></svg></div>
+        <span>Google Colab</span><em>Ambiente em nuvem</em>
+      </div>
+      <div class="tool">
+        <div class="tool__logo is-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5l9 5 9-5M3 5v14l9 5 9-5V5M3 5l9 14M21 5l-9 14"/></svg></div>
+        <span>VS Code</span><em>Editor profissional</em>
+      </div>
+      <div class="tool">
+        <div class="tool__logo is-lime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/></svg></div>
+        <span>ChatGPT / IA</span><em>Copiloto e debug</em>
+      </div>
+      <div class="tool">
+        <div class="tool__logo is-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 3v18"/></svg></div>
+        <span>CSV &amp; arquivos</span><em>Dados do trabalho real</em>
+      </div>
+      <div class="tool">
+        <div class="tool__logo is-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h6l2-6 4 12 2-6h4"/></svg></div>
+        <span>Bibliotecas</span><em>csv · os · pandas</em>
+      </div>
+      <div class="tool">
+        <div class="tool__logo is-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 17l5-5-5-5M12 19h8"/><circle cx="18" cy="6" r="2"/></svg></div>
+        <span>APIs &amp; requests</span><em>Dados externos no Python</em>
+      </div>
+      <div class="tool">
+        <div class="tool__logo is-lime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2.5 6 6.5.5-5 4.5 1.5 6.5L12 16l-5.5 3.5L8 13 3 8.5 9.5 8z"/></svg></div>
+        <span>Certificado</span><em>Impacta × Olhar Digital</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ENTREGÁVEIS ============================ -->
+<section class="section" id="entregaveis">
+  <div class="reveal" style="max-width:64ch">
+    <div class="kicker"><span class="kicker__rule"></span><span class="kicker__num">05</span>O QUE VOCÊ LEVA</div>
+    <h2 class="h2"><em>7 entregáveis</em> + projeto final. Portfólio inicial pronto.</h2>
+    <p class="lede">Cada módulo gera um artefato funcional. No fim do curso, você tem um <strong>portfólio inicial</strong> para mostrar no LinkedIn, em entrevista ou para o time — e um certificado oficial Impacta × Olhar Digital de 40h.</p>
+  </div>
+
+  <div class="deliverables reveal-stagger">
+    <div class="deli">
+      <div class="deli__num">01 · MÓD 01</div>
+      <h4>Mapa do Primeiro Algoritmo</h4>
+      <p>Seu primeiro algoritmo desenhado e codado — base mental para tudo que vem depois.</p>
+      <div class="deli__svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h18v6H3zM3 14h18v6H3zM7 7h10M7 17h10"/></svg></div>
+    </div>
+    <div class="deli">
+      <div class="deli__num">02 · MÓD 02</div>
+      <h4>Calculadora de Decisão</h4>
+      <p>Script que recebe dados, aplica regra e devolve resposta útil. Variáveis, tipos e operadores em ação.</p>
+      <div class="deli__svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h8M8 12h2M14 12h2M8 17h2M14 17h2"/></svg></div>
+    </div>
+    <div class="deli">
+      <div class="deli__num">03 · MÓD 03</div>
+      <h4>Classificador de Regras</h4>
+      <p>Programa que toma decisão com base em critérios reais — condicionais aplicadas a regras de negócio.</p>
+      <div class="deli__svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M6 12h12M9 18h6"/></svg></div>
+    </div>
+    <div class="deli">
+      <div class="deli__num">04 · MÓD 04</div>
+      <h4>Automação de Lista</h4>
+      <p>Loop que processa 10, 100 ou 10.000 linhas no mesmo tempo — a primeira automação de verdade.</p>
+      <div class="deli__svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></div>
+    </div>
+    <div class="deli">
+      <div class="deli__num">05 · MÓD 06</div>
+      <h4>Relatório Automatizado</h4>
+      <p>De planilha bruta para relatório limpo, pronto para enviar — Python lendo CSV e produzindo saída.</p>
+      <div class="deli__svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></div>
+    </div>
+    <div class="deli">
+      <div class="deli__num">06 · MÓD 07</div>
+      <h4>Biblioteca de Prompts</h4>
+      <p>Prompts reutilizáveis para estudar, gerar e debugar código — IA como copiloto de verdade.</p>
+      <div class="deli__svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+    </div>
+    <div class="deli">
+      <div class="deli__num">07 · MÓD 08</div>
+      <h4>Canvas de Automação</h4>
+      <p>Mapa visual de uma rotina do seu trabalho como fluxo executável — gatilho, processo, saída.</p>
+      <div class="deli__svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><path d="M6 9v3h12V9M12 12v3"/></svg></div>
+    </div>
+    <div class="deli deli--star">
+      <div class="deli__num">★ · PROJETO FINAL</div>
+      <h4>Protótipo Final + Explicação</h4>
+      <p>Sua primeira solução real com Python, IA e Automação — funcionando, documentada e apresentada para a turma.</p>
+      <div class="deli__svg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 6 6.5.5-5 4.5 1.5 6.5L12 16l-5.5 3.5L8 13 3 8.5 9.5 8z"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FORMATO ============================ -->
+<section class="section" id="formato">
+  <div class="reveal" style="max-width:64ch">
+    <div class="kicker"><span class="kicker__rule"></span><span class="kicker__num">06</span>FORMATO</div>
+    <h2 class="h2">40 horas <em>ao vivo</em>. Sem solidão de curso gravado.</h2>
+    <p class="lede">Aulas online ao vivo com professor conduzindo, prática guiada, tira-dúvidas em tempo real e gravações para revisão. Comunidade da turma para acompanhar evolução e tirar dúvidas entre encontros.</p>
+  </div>
+
+  <div class="format reveal-stagger">
+    <div class="format__list">
+      <div class="fmt">
+        <div class="fmt__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M22 8l-6 4 6 4z"/></svg></div>
+        <div><h4>Online ao vivo · 40h</h4><p>Aulas síncronas com professor conduzindo, raciocínio em voz alta e prática orientada passo a passo.</p></div>
+      </div>
+      <div class="fmt">
+        <div class="fmt__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div><h4>10 módulos · 4h cada</h4><p>Cada módulo com objetivo claro, conteúdo principal, prática em aula e <b>um entregável</b> ao final.</p></div>
+      </div>
+      <div class="fmt">
+        <div class="fmt__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div><h4>Tira-dúvidas em tempo real</h4><p>O professor para o código, mostra o erro, explica o porquê e segue. Você não fica sozinho.</p></div>
+      </div>
+      <div class="fmt">
+        <div class="fmt__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div><h4>Gravações sem prazo</h4><p>Todas as aulas ao vivo ficam gravadas para revisão. Acesso por tempo indeterminado para você revisitar.</p></div>
+      </div>
+      <div class="fmt">
+        <div class="fmt__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="4"/><circle cx="17" cy="10" r="3"/><path d="M2 22c0-4 3-7 7-7s7 3 7 7M14 22c0-2 2-4 4-4s4 2 4 4"/></svg></div>
+        <div><h4>Comunidade da turma</h4><p>Canal pós-treinamento para tirar dúvidas, compartilhar projetos e continuar a evolução depois das 40h.</p></div>
+      </div>
+      <div class="fmt">
+        <div class="fmt__icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><h4>Certificado oficial</h4><p>Selo <b>Impacta × Olhar Digital</b> com 40h de carga horária — válido para horas complementares e processo seletivo.</p></div>
+      </div>
+    </div>
+
+    <aside class="format__card">
+      <div class="num">METODOLOGIA · IMPACTA</div>
+      <h3><em>Zero</em><br>jargão.</h3>
+      <ul>
+        <li>Explicação sem jargão <b>técnico</b></li>
+        <li>Demonstração ao vivo do <b>raciocínio</b></li>
+        <li>Prática orientada passo a <b>passo</b></li>
+        <li>Desafios <b>progressivos</b></li>
+        <li>IA com <b>pensamento crítico</b></li>
+        <li>Projeto final <b>aplicado</b></li>
+      </ul>
+      <p style="font-size:13px;color:var(--t3);margin:0;line-height:1.6">Conceitos técnicos traduzidos para linguagem acessível. O professor mostra o raciocínio, não apenas o resultado. Exercícios aumentam em dificuldade sem quebrar a confiança.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================ PARCERIA ============================ -->
+<section class="partner" id="parceria">
+  <div class="partner__inner reveal">
+    <div class="kicker" style="justify-content:center;margin-left:auto;margin-right:auto"><span class="kicker__rule"></span><span class="kicker__num">07</span>PARCERIA</div>
+    <div class="partner__lockup">
+      <img src="assets/impacta-olhar-lockup.webp" alt="Impacta + Olhar Digital">
+    </div>
+    <h2 class="h2" style="font-size:clamp(34px,4.5vw,58px)">Educação tecnológica de ponta encontra a maior <em>mídia tech</em> do Brasil.</h2>
+    <p class="lede" style="margin:0 auto;text-align:left">A Impacta — referência em educação em tecnologia há mais de 36 anos — junta forças com o Olhar Digital, principal portal de tecnologia do país, para entregar uma formação que tira não programadores do zero com narrativa atualizada para a era da IA, automação e produtividade.</p>
+    <div class="partner__nums">
+      <div class="partner__num"><b>36+</b><span>anos da Impacta formando profissionais de tecnologia</span></div>
+      <div class="partner__num"><b>2M+</b><span>profissionais formados desde 1989</span></div>
+      <div class="partner__num"><b>1M+</b><span>leitores mensais do Olhar Digital — comunidade tech</span></div>
+      <div class="partner__num"><b>40h</b><span>de aulas ao vivo com tira-dúvidas em tempo real</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ INVESTIMENTO / LOTES ============================ -->
+<section class="section" id="investimento">
+  <div class="reveal pricing__head">
+    <div>
+      <div class="kicker"><span class="kicker__rule"></span><span class="kicker__num">08</span>INVESTIMENTO</div>
+      <h2 class="h2">Três lotes. <em>Quem chega antes, paga menos.</em></h2>
+      <p class="lede">Lote pioneiro de lançamento, preço comercial principal e preço cheio. Tudo incluso — 40h ao vivo, gravações, biblioteca de prompts, canvas de automação, projeto final e certificado Impacta × Olhar Digital.</p>
+    </div>
+    <div class="pricing__deadline">
+      <span class="pulse"></span>
+      <span>Início da turma<br><b id="lotCountdown">29 / 06 / 2026</b></span>
+    </div>
+  </div>
+
+  <div class="pricing reveal-stagger">
+    <!-- Lote 1 · Pioneiro · ATIVO -->
+    <article class="lot lot--active" data-lot="1">
+      <div class="lot__head">
+        <span class="lot__name">1º lote · Pioneiros</span>
+        <span class="lot__num">L01</span>
+      </div>
+      <div class="lot__strike"><em>de</em><s>R$ 1.500,00</s><em>por</em></div>
+      <div class="lot__price"><span class="cur">R$</span><span class="val">897</span><span class="lot__cents">,00</span></div>
+      <p class="lot__install">à vista ou <b>3× R$ 299,00</b> sem juros</p>
+      <div class="lot__deadline"><i></i>Lote de lançamento · <b style="color:#fff;font-weight:500">vagas limitadas</b></div>
+      <ul class="lot__perks">
+        <li>40h de aulas online <b>ao vivo</b></li>
+        <li>Gravações sem prazo + comunidade</li>
+        <li>Prática guiada em Python · IA · Automação</li>
+        <li>Biblioteca de prompts + canvas de automação</li>
+        <li>7 entregáveis + projeto final guiado</li>
+        <li><b style="color:#fff">Certificado</b> Impacta × Olhar Digital</li>
+      </ul>
+      <a id="enrollLink" href="https://impacta.site.engaged.com.br/p/checkout/codigo-zero" target="_blank" rel="noopener" class="lot__cta" data-track="cta-buy-lot1">
+        Garantir lote pioneiro
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </article>
+
+    <!-- Lote 2 · Regular -->
+    <article class="lot lot--future" data-lot="2">
+      <div class="lot__head">
+        <span class="lot__name">2º lote · Regular</span>
+        <span class="lot__num">L02</span>
+      </div>
+      <div class="lot__strike"><em>de</em><s>R$ 1.500,00</s><em>por</em></div>
+      <div class="lot__price"><span class="cur">R$</span><span class="val">997</span><span class="lot__cents">,00</span></div>
+      <p class="lot__install">à vista ou <b>3× R$ 349,00</b> sem juros</p>
+      <div class="lot__deadline"><i></i>Preço comercial principal · após validação inicial</div>
+      <ul class="lot__perks">
+        <li>40h de aulas online <b>ao vivo</b></li>
+        <li>Gravações sem prazo + comunidade</li>
+        <li>Prática guiada em Python · IA · Automação</li>
+        <li>Biblioteca de prompts + canvas de automação</li>
+        <li>7 entregáveis + projeto final guiado</li>
+        <li><b style="color:#fff">Certificado</b> Impacta × Olhar Digital</li>
+      </ul>
+      <a id="enrollLink2" href="https://impacta.site.engaged.com.br/p/checkout/codigo-zero" target="_blank" rel="noopener" class="lot__cta" data-track="cta-buy-lot2">
+        Quero esse lote
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </article>
+
+    <!-- Lote 3 · Último -->
+    <article class="lot lot--future" data-lot="3">
+      <div class="lot__head">
+        <span class="lot__name">3º lote · Últimas vagas</span>
+        <span class="lot__num">L03</span>
+      </div>
+      <div class="lot__strike"><em>preço</em><span style="color:var(--t2)">cheio</span></div>
+      <div class="lot__price"><span class="cur">R$</span><span class="val">1.197</span><span class="lot__cents">,00</span></div>
+      <p class="lot__install">à vista ou <b>3× R$ 399,00</b> sem juros</p>
+      <div class="lot__deadline"><i></i>Fechamento da turma · enquanto houver vagas</div>
+      <ul class="lot__perks">
+        <li>40h de aulas online <b>ao vivo</b></li>
+        <li>Gravações sem prazo + comunidade</li>
+        <li>Prática guiada em Python · IA · Automação</li>
+        <li>Biblioteca de prompts + canvas de automação</li>
+        <li>7 entregáveis + projeto final guiado</li>
+        <li><b style="color:#fff">Certificado</b> Impacta × Olhar Digital</li>
+      </ul>
+      <a id="enrollLink3" href="https://impacta.site.engaged.com.br/p/checkout/codigo-zero" target="_blank" rel="noopener" class="lot__cta" data-track="cta-buy-lot3">
+        Quero esse lote
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </article>
+  </div>
+
+  <div class="pricing__foot reveal">
+    <div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+      <div><h5>7 dias de garantia</h5><p>Se o curso não for para você, devolvemos 100% do investimento em 7 dias.</p></div>
+    </div>
+    <div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
+      <div><h5>3× sem juros no cartão</h5><p>Parcele em até 3× sem juros — ou pague à vista com PIX ou boleto.</p></div>
+    </div>
+    <div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+      <div><h5>Certificado oficial</h5><p>Selo Impacta × Olhar Digital de 40h — válido para horas complementares e portfólio.</p></div>
+    </div>
+  </div>
+
+  <div class="pricing__b2b reveal">
+    <div style="flex:1;min-width:280px">
+      <h4>Corporate · Capacitação de times <b style="color:var(--orange);font-weight:500">não técnicos</b></h4>
+      <p>Turmas fechadas para empresas — IA, lógica, Python e automação aplicados à realidade da sua operação, com diagnóstico inicial, projeto final por área e relatório de conclusão. <b>Condições sob consulta.</b></p>
+    </div>
+    <button type="button" class="pricing__b2b__cta" data-open-form data-track="cta-b2b">
+      Quero proposta corporativa
+      <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="section" id="faq">
+  <div class="reveal">
+    <div class="kicker"><span class="kicker__rule"></span><span class="kicker__num">09</span>FAQ</div>
+    <h2 class="h2">Perguntas <em>frequentes</em>.</h2>
+    <p class="lede">Não encontrou? Fale com a gente pelo WhatsApp ou pelo formulário — respondemos em até 1 dia útil.</p>
+  </div>
+  <div class="faq__list reveal">
+    <details class="qa" open>
+      <summary>Preciso saber programar para participar?<span class="plus">+</span></summary>
+      <div class="qa__body">Não. O curso foi desenhado para quem está começando <b>do zero absoluto</b> ou tem muita insegurança com programação. A linguagem, os exemplos e os projetos foram pensados para profissionais de áreas não técnicas.</div>
+    </details>
+    <details class="qa">
+      <summary>Preciso ser bom em matemática?<span class="plus">+</span></summary>
+      <div class="qa__body">Não. Você precisa de <b>raciocínio lógico</b> — e isso é desenvolvido ao longo do curso. A matemática usada é básica e sempre aplicada a exemplos práticos.</div>
+    </details>
+    <details class="qa">
+      <summary>O curso é para quem quer virar programador?<span class="plus">+</span></summary>
+      <div class="qa__body">Ele pode ser o <b>primeiro passo</b>, mas não promete formar um desenvolvedor completo em 40 horas. O objetivo é construir base sólida em lógica, Python, IA e automação — para você seguir trilhas como Análise de Dados, IA Aplicada ou Engenharia de Software depois.</div>
+    </details>
+    <details class="qa">
+      <summary>Vou aprender inteligência artificial?<span class="plus">+</span></summary>
+      <div class="qa__body">Sim. Você aprende <b>conceitos essenciais de IA generativa</b> e como usá-la como copiloto — para estudar, escrever, revisar e melhorar códigos. Não é um curso de machine learning; é IA aplicada à produtividade e ao aprendizado de programação.</div>
+    </details>
+    <details class="qa">
+      <summary>Vou aprender automação?<span class="plus">+</span></summary>
+      <div class="qa__body">Sim. Você aprende a identificar tarefas repetitivas, desenhar fluxos e criar <b>scripts simples em Python</b> para automatizar rotinas — manipulando arquivos, planilhas, datas e consumindo APIs externas.</div>
+    </details>
+    <details class="qa">
+      <summary>As aulas são gravadas?<span class="plus">+</span></summary>
+      <div class="qa__body">Sim. Todas as aulas ao vivo ficam <b>gravadas para revisão</b>, sem prazo de acesso. Você pode rever quantas vezes precisar.</div>
+    </details>
+    <details class="qa">
+      <summary>Preciso instalar programas no meu computador?<span class="plus">+</span></summary>
+      <div class="qa__body">Não no começo. O curso inicia com ambiente em nuvem (<b>Google Colab</b>) para reduzir barreira de instalação. Conforme a turma evolui, o professor orienta a transição para o VS Code — mas só se você quiser.</div>
+    </details>
+    <details class="qa">
+      <summary>Por que Python?<span class="plus">+</span></summary>
+      <div class="qa__body">Porque Python é <b>simples de ler, fácil de começar</b> e é a linguagem mais usada em automação, dados e IA hoje. Para quem não é programador, reduz a barreira inicial e permite ver resultado rapidamente.</div>
+    </details>
+    <details class="qa">
+      <summary>Recebo certificado ao final?<span class="plus">+</span></summary>
+      <div class="qa__body">Sim. Ao concluir as 40h, você recebe certificado oficial <b>Impacta × Olhar Digital</b> — válido para horas complementares, processo seletivo e portfólio.</div>
+    </details>
+    <details class="qa">
+      <summary>Empresas podem inscrever times?<span class="plus">+</span></summary>
+      <div class="qa__body">Sim. Oferecemos <b>condições especiais a partir de 5 inscrições</b> e turmas fechadas customizadas por área — com diagnóstico inicial, projeto final aplicado à operação, relatório de conclusão e certificado. <a href="#" data-open-form style="color:var(--blue);text-decoration:underline">Fale com um consultor</a>.</div>
+    </details>
+    <details class="qa">
+      <summary>E se eu não gostar?<span class="plus">+</span></summary>
+      <div class="qa__body">Garantia de <b>7 dias</b>. Se nas duas primeiras aulas você sentir que o curso não é para você, devolvemos 100% do investimento — sem perguntas.</div>
+    </details>
+  </div>
+</section>
+
+<!-- ============================ CTA FINAL ============================ -->
+<section class="cta-end">
+  <div class="cta-end__pattern" aria-hidden="true"></div>
+  <div class="cta-end__inner reveal">
+    <div class="kicker" style="justify-content:center"><span class="kicker__rule"></span>VAGAS LIMITADAS · LOTE PIONEIRO</div>
+    <h2>Saia do <em>zero</em>.<br>Entenda lógica. Use IA melhor.<br>Automatize seu primeiro processo.</h2>
+    <p>Você não precisa virar programador em 40 horas. Mas pode <strong style="color:#fff">deixar de ser zero</strong>. O Código Zero é o seu primeiro passo.</p>
+    <div class="cta-end__actions">
+      <a href="https://impacta.site.engaged.com.br/p/checkout/codigo-zero" target="_blank" rel="noopener" class="btn btn--primary" data-track="cta-buy-final">
+        Quero me matricular · R$ 897
+        <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button type="button" class="btn btn--ghost" data-open-form data-track="cta-form-final">
+        Falar com um consultor
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="foot">
+  <div class="foot__inner">
+    <div class="foot__brand">
+      <span class="lockup lockup--combo" aria-label="Impacta + Olhar Digital">
+        <img src="assets/impacta-olhar-lockup.webp" alt="Impacta + Olhar Digital">
+      </span>
+      <p>Código Zero: Python, IA e Automação para Não Programadores — uma parceria entre a Impacta e o Olhar Digital para profissionais que querem sair do zero e aprender a criar soluções simples com Python, IA e automação.</p>
+    </div>
+    <div>
+      <h5>Curso</h5>
+      <a href="#porque">Por que agora</a>
+      <a href="#publico">Para quem</a>
+      <a href="#jornada">Jornada</a>
+      <a href="#stack">Stack</a>
+      <a href="#formato">Formato</a>
+    </div>
+    <div>
+      <h5>Apoio</h5>
+      <a href="#faq">FAQ</a>
+      <a href="https://api.whatsapp.com/send?phone=551132548300&text=Olá!%20Quero%20saber%20mais%20sobre%20o%20Código%20Zero" target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+      <a href="#" data-open-form>Falar com um consultor</a>
+      <a href="#investimento">Inscrições corporativas</a>
+    </div>
+    <div>
+      <h5>Contato</h5>
+      <a href="mailto:cursos@impacta.com.br">cursos@impacta.com.br</a>
+      <a href="#">São Paulo · SP</a>
+      <a href="#">@faculdadeimpacta</a>
+      <a href="#">@olhardigital</a>
+    </div>
+  </div>
+  <div class="foot__copy">
+    <span>© 2026 Impacta · Olhar Digital. Todos os direitos reservados.</span>
+    <span>Código Zero · v1.0</span>
+  </div>
+</footer>
+
+<!-- ============================ FLOATING WHATSAPP ============================ -->
+<div class="float-actions" aria-hidden="false">
+  <a class="fab fab--wa" href="https://api.whatsapp.com/send?phone=551132548300&text=Olá!%20Quero%20saber%20mais%20sobre%20o%20Código%20Zero" target="_blank" rel="noopener" aria-label="WhatsApp" data-track="float-wa">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.595 5.39l-.999 3.648 3.893-1.737zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+    <span class="fab__label">WhatsApp</span>
+  </a>
+</div>
+
+<!-- ============================ LEAD MODAL ============================ -->
+<div class="modal-bg" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
+  <div class="modal" id="leadModalInner">
+    <button class="modal__close" type="button" data-close-form aria-label="Fechar">×</button>
+    <div class="modal__kicker">QUERO SABER MAIS</div>
+    <h3 id="leadTitle">Receba a <em>grade completa</em> e tire suas dúvidas com um consultor.</h3>
+    <p>Preencha os dados abaixo. Em até 1 dia útil, um consultor da Impacta entra em contato pelo WhatsApp ou e-mail com a grade detalhada e condições para você ou sua empresa.</p>
+    <form id="leadForm" novalidate>
+      <div class="field">
+        <label for="lf-name">Nome completo</label>
+        <input id="lf-name" name="name" type="text" required autocomplete="name" placeholder="Seu nome">
+      </div>
+      <div class="field">
+        <label for="lf-email">E-mail</label>
+        <input id="lf-email" name="email" type="email" required autocomplete="email" placeholder="voce@empresa.com.br">
+      </div>
+      <div class="field">
+        <label for="lf-phone">WhatsApp (com DDD)</label>
+        <input id="lf-phone" name="phone" type="tel" required autocomplete="tel" placeholder="(11) 99999-9999">
+      </div>
+      <div class="field">
+        <label for="lf-profile">Você é</label>
+        <select id="lf-profile" name="profile">
+          <option value="">Selecione um perfil</option>
+          <option value="nao-tech">Profissional não-tech (RH, financeiro, marketing, etc.)</option>
+          <option value="estudante">Estudante / universitário</option>
+          <option value="transicao">Em transição de carreira</option>
+          <option value="empreendedor">Empreendedor / autônomo</option>
+          <option value="empresa">Represento uma empresa (B2B)</option>
+        </select>
+      </div>
+      <input type="hidden" name="utm_source" value="">
+      <input type="hidden" name="utm_medium" value="">
+      <input type="hidden" name="utm_campaign" value="">
+      <input type="hidden" name="utm_content" value="">
+      <input type="hidden" name="utm_term" value="">
+      <input type="hidden" name="course" value="codigo-zero-python-ia-automacao">
+      <button class="btn btn--primary modal__submit" type="submit">
+        Quero receber o contato
+        <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+    <div class="modal__success" id="leadSuccess">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+      <h4>Recebemos seus dados.</h4>
+      <p>Em até 1 dia útil, um consultor entra em contato. Enquanto isso, fique à vontade para acelerar pelo WhatsApp.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== captureLead — envia o lead pro integracao-rd (cria Lead + Deal no RD CRM + webhook IRIS) ===== */
+window.captureLead = async function captureLead(payload) {
+  const CZ = window.CZ || {};
+  const u = CZ.utms || {};
+  const body = {
+    campaign_slug: CZ.CAMPAIGN_SLUG,
+    name:   payload.name   || '',
+    email:  payload.email  || '',
+    phone:  payload.phone  || '',
+    perfil: payload.profile || '',
+    channel: 'form',
+    source_page: location.href,
+    utm: {
+      source:   payload.utm_source   || u.utm_source   || null,
+      medium:   payload.utm_medium   || u.utm_medium   || null,
+      campaign: payload.utm_campaign || u.utm_campaign || null,
+      content:  payload.utm_content  || u.utm_content  || null,
+      term:     payload.utm_term     || u.utm_term     || null
+    }
+  };
+  /* GTM dataLayer + Meta Pixel Lead */
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({event:'lead_form_submit', lead_email:payload.email, lead_profile:payload.profile});
+  if (typeof window.fbq === 'function') {
+    window.fbq('track', 'Lead', {content_name:'Código Zero', content_category:'curso'});
+  }
+  /* IRIS cockpit — contador lead_form */
+  if (typeof CZ.sendIrisEvent === 'function') CZ.sendIrisEvent('lead_form');
+  /* integracao-rd → Lead + Deal no RD CRM + webhook IRIS */
+  const res = await fetch(CZ.INTEGRACAO_RD_URL + '/api/leads', {
+    method:  'POST',
+    headers: {'Content-Type':'application/json'},
+    body:    JSON.stringify(body),
+    mode:    'cors'
+  });
+  if (!res.ok) throw new Error('captureLead falhou: HTTP ' + res.status);
+  return res.json().catch(() => ({ok:true}));
+};
+
+/* ===== UTM capture ===== */
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  keys.forEach(k => { const v = params.get(k); if (v) try{sessionStorage.setItem(k,v)}catch(e){} });
+  keys.forEach(k => {
+    const el = document.querySelector(`input[name='${k}']`);
+    if (!el) return;
+    const v = params.get(k) || (function(){try{return sessionStorage.getItem(k)}catch(e){return null}})();
+    if (v) el.value = v;
+  });
+})();
+
+/* ===== Top bar shrink on scroll ===== */
+(() => {
+  const bar = document.getElementById('bar');
+  const onS = () => bar.classList.toggle('is-stuck', window.scrollY > 40);
+  window.addEventListener('scroll', onS, {passive:true}); onS();
+})();
+
+/* ===== Reveal on scroll ===== */
+(() => {
+  const els = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
+  }, {threshold: .12, rootMargin: '0px 0px -60px 0px'});
+  els.forEach(el => io.observe(el));
+})();
+
+/* ===== Journey rail progress ===== */
+(() => {
+  const rail = document.getElementById('rail');
+  const journey = document.getElementById('journey');
+  if (!rail || !journey) return;
+  const onS = () => {
+    const r = journey.getBoundingClientRect();
+    const total = r.height;
+    const passed = Math.max(0, Math.min(total, window.innerHeight*.5 - r.top));
+    const pct = Math.max(0, Math.min(100, (passed/total)*100));
+    rail.style.setProperty('--rail', pct + '%');
+  };
+  window.addEventListener('scroll', onS, {passive:true});
+  window.addEventListener('resize', onS);
+  onS();
+})();
+
+/* ===== Ticker duplicate for seamless loop ===== */
+(() => {
+  const t = document.getElementById('ticker');
+  if (!t) return;
+  t.innerHTML = t.innerHTML + t.innerHTML;
+})();
+
+/* ===== Lead form modal ===== */
+(() => {
+  const bg = document.getElementById('leadModal');
+  const inner = document.getElementById('leadModalInner');
+  const form = document.getElementById('leadForm');
+  const success = document.getElementById('leadSuccess');
+  if (!bg || !form) return;
+
+  const open = () => {
+    bg.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('lf-name')?.focus(), 200);
+    if (window.dataLayer) window.dataLayer.push({event:'lead_form_open'});
+  };
+  const close = () => {
+    bg.classList.remove('is-open');
+    document.body.style.overflow = '';
+  };
+
+  document.querySelectorAll('[data-open-form]').forEach(b => b.addEventListener('click', e => {e.preventDefault(); open();}));
+  document.querySelectorAll('[data-close-form]').forEach(b => b.addEventListener('click', close));
+  bg.addEventListener('click', e => {if (e.target === bg) close();});
+  document.addEventListener('keydown', e => {if (e.key === 'Escape' && bg.classList.contains('is-open')) close();});
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const payload = Object.fromEntries(fd.entries());
+    const submitBtn = form.querySelector('[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    try {
+      await window.captureLead(payload);
+      inner.classList.add('is-success');
+      success.classList.add('is-on');
+    } catch(err) {
+      console.error(err);
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Tentar novamente';
+    }
+  });
+})();
+
+/* ===== Track CTAs to dataLayer ===== */
+(() => {
+  document.querySelectorAll('[data-track]').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.getAttribute('data-track');
+      if (window.dataLayer) window.dataLayer.push({event:'cta_click', cta_id:id});
+    });
+  });
+})();
+</script>
+
+<!-- ===================== Código Zero · TRACKING IRIS + PIXEL ===================== -->
+<script>
+(() => {
+  const CZ = window.CZ || {};
+  const pixelOn = () => typeof window.fbq === 'function';
+  window.dataLayer = window.dataLayer || [];
+  const dl = (event, params) => window.dataLayer.push(Object.assign({event}, params || {}));
+
+  /* UTMs — query string ou sessionStorage (preenchido no bloco de UTM capture acima) */
+  const getUtm = (k) => {
+    const q = new URLSearchParams(location.search).get(k);
+    if (q) return q;
+    try { return sessionStorage.getItem(k) || null; } catch(e) { return null; }
+  };
+  const utms = {
+    utm_source:   getUtm('utm_source'),
+    utm_medium:   getUtm('utm_medium'),
+    utm_campaign: getUtm('utm_campaign'),
+    utm_content:  getUtm('utm_content'),
+    utm_term:     getUtm('utm_term')
+  };
+  CZ.utms = utms;
+
+  /* Caminho 1 — contadores do cockpit IRIS (POST /api/events) */
+  CZ.sendIrisEvent = function (eventName, extra) {
+    try {
+      const body = {
+        product_slug:  CZ.PRODUCT_SLUG,
+        event_name:    eventName,
+        campaign_slug: CZ.CAMPAIGN_SLUG,
+        page_url:      location.href,
+        utm_source:    utms.utm_source,
+        utm_medium:    utms.utm_medium,
+        utm_campaign:  utms.utm_campaign,
+        utm_content:   utms.utm_content,
+        utm_term:      utms.utm_term,
+        referrer:      document.referrer || null
+      };
+      if (extra && extra.value != null) body.value = extra.value;
+      if (extra && extra.currency)      body.currency = extra.currency;
+      if (extra)                        body.meta = extra;
+      fetch(CZ.IRIS_EVENTS_URL, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body), keepalive:true, mode:'cors'
+      }).catch(()=>{});
+    } catch(e) {}
+  };
+
+  /* Caminho 2 — registro nominal do lead (POST integracao-rd /api/leads/whatsapp-click) */
+  CZ.sendIrisLead = function (extra) {
+    try {
+      fetch(CZ.INTEGRACAO_RD_URL + '/api/leads/whatsapp-click', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          campaign_slug: CZ.CAMPAIGN_SLUG,
+          source_page: location.href,
+          utm: {
+            source: utms.utm_source, medium: utms.utm_medium,
+            campaign: utms.utm_campaign, content: utms.utm_content, term: utms.utm_term
+          }
+        }),
+        keepalive:true, mode:'cors'
+      }).catch(()=>{});
+    } catch(e) {}
+  };
+
+  /* Normaliza os CTAs de checkout para a URL única do Engaged (fonte única: CZ.CHECKOUT_URL) */
+  if (CZ.CHECKOUT_URL) {
+    document.querySelectorAll('a[data-track^="cta-buy-"]').forEach(a => {
+      const href = a.getAttribute('href') || '';
+      if (href.indexOf('engaged') !== -1) a.setAttribute('href', CZ.CHECKOUT_URL);
+    });
+  }
+
+  /* 1) lp_view — load da página */
+  CZ.sendIrisEvent('lp_view');
+  dl('lp_view');
+
+  /* 2) ViewContent — scroll 50% */
+  let vcSent = false;
+  const onScrollVC = () => {
+    if (vcSent) return;
+    if ((window.scrollY + window.innerHeight) < document.documentElement.scrollHeight * 0.5) return;
+    vcSent = true;
+    if (pixelOn()) window.fbq('track','ViewContent',{content_name:'Código Zero',content_category:'curso'});
+    dl('view_content');
+    window.removeEventListener('scroll', onScrollVC);
+  };
+  window.addEventListener('scroll', onScrollVC, {passive:true});
+  onScrollVC();
+
+  /* 3) click_compra — só os CTAs reais de checkout */
+  const BUY = ['cta-buy-lot1','cta-buy-lot2','cta-buy-lot3','cta-buy-final'];
+  document.querySelectorAll('[data-track]').forEach(el => {
+    const id = el.getAttribute('data-track');
+    if (BUY.indexOf(id) === -1) return;
+    el.addEventListener('click', () => {
+      const extra = {cta_id:id, value:CZ.TICKET_VALUE, currency:CZ.CURRENCY};
+      CZ.sendIrisEvent('click_compra', extra);
+      dl('click_compra', {cta_id:id, value:CZ.TICKET_VALUE, currency:CZ.CURRENCY});
+      if (pixelOn()) window.fbq('track','InitiateCheckout',{
+        value:CZ.TICKET_VALUE, currency:CZ.CURRENCY,
+        content_name:'Código Zero', content_category:'curso',
+        content_ids:['codigozero'], content_type:'product'
+      });
+    });
+  });
+
+  /* 4) click_whats — qualquer link de WhatsApp (FAB + rodapé + contato) */
+  document.querySelectorAll('a[href*="whatsapp"], a[href*="wa.me"]').forEach(el => {
+    el.addEventListener('click', () => {
+      const extra = {channel:'whatsapp', cta_id: el.getAttribute('data-track') || 'whatsapp'};
+      CZ.sendIrisEvent('click_whats', extra);   /* contador do cockpit */
+      CZ.sendIrisLead(extra);                    /* registro nominal (Lead row) */
+      dl('click_whats', {cta_id: extra.cta_id});
+      if (pixelOn()) window.fbq('track','Contact');
+    });
+  });
+
+  /* 5) click_consultor — abertura do formulário de lead */
+  document.querySelectorAll('[data-open-form]').forEach(el => {
+    el.addEventListener('click', () => {
+      CZ.sendIrisEvent('click_consultor', {cta_id: el.getAttribute('data-track') || 'form'});
+      dl('click_consultor');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
