@@ -1946,12 +1946,57 @@ window.captureLead = async function captureLead(payload) {
     } catch(e) {}
   };
 
-  /* Normaliza os CTAs de checkout para a URL única do Engaged (fonte única: CZ.CHECKOUT_URL) */
-  if (CZ.CHECKOUT_URL) {
-    document.querySelectorAll('a[data-track^="cta-buy-"]').forEach(a => {
-      const href = a.getAttribute('href') || '';
-      if (href.indexOf('engaged') !== -1) a.setAttribute('href', CZ.CHECKOUT_URL);
+  /* Normaliza CTAs de checkout pra CZ.CHECKOUT_URL E passa TUDO da URL atual
+     (UTMs, gclid, fbclid, cupom, custom) + fallback localStorage. Sem isso o
+     Engaged recebe URL limpa e a venda fica como "direto/null" no IRIS. */
+  function _czCheckoutUrlWithParams() {
+    if (!CZ.CHECKOUT_URL) return '';
+    try {
+      var current = new URLSearchParams(location.search);
+      var KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid'];
+      KEYS.forEach(function(k){
+        if (!current.has(k)) {
+          try {
+            var v = localStorage.getItem('cz_' + k);
+            if (v) current.set(k, v);
+          } catch(e){}
+        } else {
+          try { localStorage.setItem('cz_' + k, current.get(k)); } catch(e){}
+        }
+      });
+      var qs = current.toString();
+      return CZ.CHECKOUT_URL + (qs ? '?' + qs : '');
+    } catch(e) {
+      return CZ.CHECKOUT_URL;
+    }
+  }
+  function _czApplyCheckoutUrl() {
+    var url = _czCheckoutUrlWithParams();
+    if (!url) return;
+    var sel = 'a[data-track^="cta-buy-"], a[href*="engaged.com.br/p/checkout"]';
+    document.querySelectorAll(sel).forEach(function(a){
+      a.setAttribute('href', url);
     });
+  }
+  if (CZ.CHECKOUT_URL) {
+    _czApplyCheckoutUrl();
+    // Re-aplica em mutations (cobre CTAs injetados depois do load)
+    if (window.MutationObserver && document.body) {
+      try {
+        new MutationObserver(function(){ _czApplyCheckoutUrl(); })
+          .observe(document.body, { childList: true, subtree: true });
+      } catch(e){}
+    }
+    // Belt-and-suspenders: re-escreve href no click (capture=true)
+    document.addEventListener('click', function(e){
+      try {
+        var el = e.target && e.target.closest
+          ? e.target.closest('a[data-track^="cta-buy-"], a[href*="engaged.com.br/p/checkout"]')
+          : null;
+        if (!el) return;
+        el.setAttribute('href', _czCheckoutUrlWithParams());
+      } catch(err){}
+    }, true);
   }
 
   /* 1) lp_view — load da página */
