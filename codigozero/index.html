@@ -1773,16 +1773,49 @@ window.captureLead = async function captureLead(payload) {
   return res.json().catch(() => ({ok:true}));
 };
 
-/* ===== UTM capture ===== */
+/* ===== UTM resolution + capture =====
+   Prioridade: 1) URL  2) sessionStorage (mesma sessão)  3) classificação por referrer
+   (estilo GA4: (direct)/(none), <engine>/organic, <site>/social, <host>/referral).
+   Expõe em window.CZ.utms e preenche os hidden inputs do form de lead. */
 (() => {
-  const params = new URLSearchParams(window.location.search);
   const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
-  keys.forEach(k => { const v = params.get(k); if (v) try{sessionStorage.setItem(k,v)}catch(e){} });
+  const params = new URLSearchParams(location.search);
+  let resolved = {};
+  let fromUrl = false;
+  keys.forEach(k => { const v = params.get(k); if (v) { resolved[k] = v; fromUrl = true; } });
+  if (fromUrl) {
+    keys.forEach(k => { try { if (resolved[k]) sessionStorage.setItem(k, resolved[k]); } catch(e){} });
+  } else {
+    const fromS = {}; let any = false;
+    keys.forEach(k => { try { const v = sessionStorage.getItem(k); if (v) { fromS[k] = v; any = true; } } catch(e){} });
+    if (any) {
+      resolved = fromS;
+    } else {
+      let refHost = '';
+      try { refHost = document.referrer ? new URL(document.referrer).hostname.toLowerCase().replace(/^www\./,'') : ''; } catch(e){}
+      const here = location.hostname.toLowerCase().replace(/^www\./,'');
+      if (!refHost || refHost === here || refHost.endsWith('.' + here)) {
+        resolved = { utm_source:'(direct)', utm_medium:'(none)' };
+      } else if (/google|bing|yahoo|duckduckgo|baidu|yandex|ecosia/.test(refHost)) {
+        resolved = { utm_source: refHost.split('.')[0], utm_medium: 'organic' };
+      } else if (/facebook|instagram|linkedin|twitter|x\.com|t\.co|youtube|tiktok|whatsapp|pinterest|reddit/.test(refHost)) {
+        resolved = { utm_source: refHost.split('.')[0], utm_medium: 'social' };
+      } else {
+        resolved = { utm_source: refHost, utm_medium: 'referral' };
+      }
+    }
+  }
+  window.CZ = window.CZ || {};
+  window.CZ.utms = {
+    utm_source:   resolved.utm_source   || null,
+    utm_medium:   resolved.utm_medium   || null,
+    utm_campaign: resolved.utm_campaign || null,
+    utm_content:  resolved.utm_content  || null,
+    utm_term:     resolved.utm_term     || null,
+  };
   keys.forEach(k => {
     const el = document.querySelector(`input[name='${k}']`);
-    if (!el) return;
-    const v = params.get(k) || (function(){try{return sessionStorage.getItem(k)}catch(e){return null}})();
-    if (v) el.value = v;
+    if (el) el.value = window.CZ.utms[k] || '';
   });
 })();
 
@@ -1888,20 +1921,8 @@ window.captureLead = async function captureLead(payload) {
   window.dataLayer = window.dataLayer || [];
   const dl = (event, params) => window.dataLayer.push(Object.assign({event}, params || {}));
 
-  /* UTMs — query string ou sessionStorage (preenchido no bloco de UTM capture acima) */
-  const getUtm = (k) => {
-    const q = new URLSearchParams(location.search).get(k);
-    if (q) return q;
-    try { return sessionStorage.getItem(k) || null; } catch(e) { return null; }
-  };
-  const utms = {
-    utm_source:   getUtm('utm_source'),
-    utm_medium:   getUtm('utm_medium'),
-    utm_campaign: getUtm('utm_campaign'),
-    utm_content:  getUtm('utm_content'),
-    utm_term:     getUtm('utm_term')
-  };
-  CZ.utms = utms;
+  /* UTMs já resolvidos no bloco UTM resolution acima (URL > sessionStorage > referrer) */
+  const utms = CZ.utms || {utm_source:null,utm_medium:null,utm_campaign:null,utm_content:null,utm_term:null};
 
   /* Caminho 1 — contadores do cockpit IRIS (POST /api/events) */
   CZ.sendIrisEvent = function (eventName, extra) {
@@ -1946,57 +1967,12 @@ window.captureLead = async function captureLead(payload) {
     } catch(e) {}
   };
 
-  /* Normaliza CTAs de checkout pra CZ.CHECKOUT_URL E passa TUDO da URL atual
-     (UTMs, gclid, fbclid, cupom, custom) + fallback localStorage. Sem isso o
-     Engaged recebe URL limpa e a venda fica como "direto/null" no IRIS. */
-  function _czCheckoutUrlWithParams() {
-    if (!CZ.CHECKOUT_URL) return '';
-    try {
-      var current = new URLSearchParams(location.search);
-      var KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid'];
-      KEYS.forEach(function(k){
-        if (!current.has(k)) {
-          try {
-            var v = localStorage.getItem('cz_' + k);
-            if (v) current.set(k, v);
-          } catch(e){}
-        } else {
-          try { localStorage.setItem('cz_' + k, current.get(k)); } catch(e){}
-        }
-      });
-      var qs = current.toString();
-      return CZ.CHECKOUT_URL + (qs ? '?' + qs : '');
-    } catch(e) {
-      return CZ.CHECKOUT_URL;
-    }
-  }
-  function _czApplyCheckoutUrl() {
-    var url = _czCheckoutUrlWithParams();
-    if (!url) return;
-    var sel = 'a[data-track^="cta-buy-"], a[href*="engaged.com.br/p/checkout"]';
-    document.querySelectorAll(sel).forEach(function(a){
-      a.setAttribute('href', url);
-    });
-  }
+  /* Normaliza os CTAs de checkout para a URL única do Engaged (fonte única: CZ.CHECKOUT_URL) */
   if (CZ.CHECKOUT_URL) {
-    _czApplyCheckoutUrl();
-    // Re-aplica em mutations (cobre CTAs injetados depois do load)
-    if (window.MutationObserver && document.body) {
-      try {
-        new MutationObserver(function(){ _czApplyCheckoutUrl(); })
-          .observe(document.body, { childList: true, subtree: true });
-      } catch(e){}
-    }
-    // Belt-and-suspenders: re-escreve href no click (capture=true)
-    document.addEventListener('click', function(e){
-      try {
-        var el = e.target && e.target.closest
-          ? e.target.closest('a[data-track^="cta-buy-"], a[href*="engaged.com.br/p/checkout"]')
-          : null;
-        if (!el) return;
-        el.setAttribute('href', _czCheckoutUrlWithParams());
-      } catch(err){}
-    }, true);
+    document.querySelectorAll('a[data-track^="cta-buy-"]').forEach(a => {
+      const href = a.getAttribute('href') || '';
+      if (href.indexOf('engaged') !== -1) a.setAttribute('href', CZ.CHECKOUT_URL);
+    });
   }
 
   /* 1) lp_view — load da página */
