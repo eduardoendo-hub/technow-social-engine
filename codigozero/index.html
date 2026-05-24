@@ -1967,13 +1967,32 @@ window.captureLead = async function captureLead(payload) {
     } catch(e) {}
   };
 
-  /* Normaliza os CTAs de checkout para a URL única do Engaged (fonte única: CZ.CHECKOUT_URL) */
-  if (CZ.CHECKOUT_URL) {
-    document.querySelectorAll('a[data-track^="cta-buy-"]').forEach(a => {
-      const href = a.getAttribute('href') || '';
-      if (href.indexOf('engaged') !== -1) a.setAttribute('href', CZ.CHECKOUT_URL);
+  /* Normaliza os CTAs de checkout para a URL única do Engaged (fonte única: CZ.CHECKOUT_URL)
+   * E propaga UTMs + product + iris_campaign no querystring — sem isso, o Engaged
+   * recebe webhook com queryParams vazio e o IRIS não atribui a venda à campanha
+   * de origem (bug que afetou Claude Pro até 24/05/2026). */
+  const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  function rewriteEngagedLinks() {
+    if (!CZ.CHECKOUT_URL) return;
+    document.querySelectorAll('a[href*="impacta.site.engaged.com.br"], a[href*="engaged.com.br/p/checkout"]').forEach(a => {
+      try {
+        const u = new URL(CZ.CHECKOUT_URL);
+        UTM_KEYS.forEach(k => { if (utms[k]) u.searchParams.set(k, utms[k]); });
+        if (CZ.PRODUCT_SLUG)  u.searchParams.set('product', CZ.PRODUCT_SLUG);
+        if (CZ.CAMPAIGN_SLUG) u.searchParams.set('iris_campaign', CZ.CAMPAIGN_SLUG);
+        a.setAttribute('href', u.toString());
+      } catch(e) {
+        a.setAttribute('href', CZ.CHECKOUT_URL);
+      }
     });
   }
+  rewriteEngagedLinks();
+  try {
+    new MutationObserver(rewriteEngagedLinks).observe(
+      document.body || document.documentElement,
+      { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] }
+    );
+  } catch(e){}
 
   /* 1) lp_view — load da página */
   CZ.sendIrisEvent('lp_view');
