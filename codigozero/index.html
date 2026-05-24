@@ -1970,7 +1970,9 @@ window.captureLead = async function captureLead(payload) {
   /* Normaliza os CTAs de checkout para a URL única do Engaged (fonte única: CZ.CHECKOUT_URL)
    * E propaga UTMs + product + iris_campaign no querystring — sem isso, o Engaged
    * recebe webhook com queryParams vazio e o IRIS não atribui a venda à campanha
-   * de origem (bug que afetou Claude Pro até 24/05/2026). */
+   * de origem (bug que afetou Claude Pro até 24/05/2026).
+   * IMPORTANTE: o setter só executa se href novo != atual — sem isso o
+   * MutationObserver dispararia em loop infinito ao observar atributos. */
   const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
   function rewriteEngagedLinks() {
     if (!CZ.CHECKOUT_URL) return;
@@ -1980,17 +1982,20 @@ window.captureLead = async function captureLead(payload) {
         UTM_KEYS.forEach(k => { if (utms[k]) u.searchParams.set(k, utms[k]); });
         if (CZ.PRODUCT_SLUG)  u.searchParams.set('product', CZ.PRODUCT_SLUG);
         if (CZ.CAMPAIGN_SLUG) u.searchParams.set('iris_campaign', CZ.CAMPAIGN_SLUG);
-        a.setAttribute('href', u.toString());
+        const nh = u.toString();
+        if (a.getAttribute('href') !== nh) a.setAttribute('href', nh);
       } catch(e) {
-        a.setAttribute('href', CZ.CHECKOUT_URL);
+        if (a.getAttribute('href') !== CZ.CHECKOUT_URL) a.setAttribute('href', CZ.CHECKOUT_URL);
       }
     });
   }
   rewriteEngagedLinks();
+  // Observer só em childList/subtree (NÃO attributes) pra evitar loop com
+  // o próprio setAttribute('href') feito acima.
   try {
     new MutationObserver(rewriteEngagedLinks).observe(
       document.body || document.documentElement,
-      { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] }
+      { childList: true, subtree: true }
     );
   } catch(e){}
 
