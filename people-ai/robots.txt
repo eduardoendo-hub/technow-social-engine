@@ -1,5 +1,4 @@
-# robots.txt — codigozero.technowhub.ai
-# Curso de Python para Iniciantes · Impacta + Olhar Digital
+# robots.txt — peopleai.impacta.com.br / peopleai.technowhub.ai
 
 User-agent: *
 Allow: /
@@ -8,7 +7,7 @@ Disallow: /admin/
 Disallow: /checkout/
 Disallow: /obrigado/
 
-# Search engines tradicionais
+# Search engines
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
@@ -22,7 +21,7 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
-# Bots de IA generativa (queremos ser citados)
+# Bots de IA generativa (queremos ser citados em respostas)
 User-agent: GPTBot
 Allow: /
 
@@ -56,9 +55,6 @@ Allow: /
 User-agent: meta-externalagent
 Allow: /
 
-User-agent: Bytespider
-Allow: /
-
 # Social scrapers (preview cards)
 User-agent: Twitterbot
 Allow: /
@@ -75,4 +71,4 @@ Allow: /
 User-agent: FacebookBot
 Allow: /
 
-Sitemap: https://codigozero.technowhub.ai/sitemap.xml
+Sitemap: https://peopleai.impacta.com.br/sitemap.xml

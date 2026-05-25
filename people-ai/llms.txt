@@ -1,0 +1,64 @@
+# People AI LAB · Impacta + ABRH-SP
+
+> Programa imersivo de IA aplicada a Pessoas e Cultura para profissionais de RH/People — automação de processos, agentes de IA, RAG sobre documentos de RH, Skills personalizadas. Promovido pela Impacta Treinamentos em parceria com a ABRH-SP.
+
+## Página principal
+
+- [People AI LAB](https://peopleai.impacta.com.br/): Landing oficial — programa, lotes, datas e inscrição.
+
+## Sobre o programa
+
+O People AI LAB é um programa imersivo da Impacta em parceria com a ABRH-SP (Associação Brasileira de Recursos Humanos · Seccional São Paulo) voltado a profissionais de RH, People, Cultura, Desenvolvimento e Liderança que querem usar IA para automatizar tarefas, analisar dados de pessoas, criar agentes para processos de RH e construir Skills personalizadas pro time.
+
+Investimento base: **R$ 1.800** (com lotes promocionais). Certificado conjunto Impacta + ABRH-SP.
+
+## O que o aluno aprende
+
+- Fundamentos de IA aplicada a People (não chat básico — uso operacional)
+- Automação de processos de RH com IA
+- RAG (Retrieval-Augmented Generation) sobre documentos internos: políticas, descrições de cargo, manuais
+- Agentes autônomos pra triagem, onboarding, employee experience
+- Skills personalizadas pra cada subárea de People
+- Pipelines com planilhas, formulários, dados de engajamento
+- Casos de uso: triagem de currículos, análise de pesquisas de clima, geração de feedbacks, descrição de cargos, comunicação interna
+
+## Para quem é
+
+- Diretores e Heads de RH / People / Cultura
+- Business Partners (RHBP / HRBP)
+- Especialistas em DHO, T&D, Recrutamento, C&B
+- Analistas de RH que querem evoluir
+- Lideranças que envolvem decisão de pessoas
+
+## Diferenciais
+
+- Curso aplicado, não teórico
+- Foco em People (não genérico)
+- Parceria Impacta + ABRH-SP (autoridade dupla)
+- Certificado reconhecido pelo mercado de RH
+- Aprendizado prático com casos reais
+
+## Entidades
+
+- **Impacta Treinamentos**: instituição de educação em tecnologia há 37+ anos
+- **ABRH-SP**: Associação Brasileira de Recursos Humanos · Seccional São Paulo — referência em RH no Brasil
+- **Claude**: assistente de IA da Anthropic (uma das ferramentas trabalhadas)
+
+## Inscrição
+
+- Página de inscrição: https://impacta.site.engaged.com.br/p/checkout/ligvw5t7yi
+- Site: https://peopleai.impacta.com.br/
+
+Vagas limitadas por turma.
+
+## Conteúdos sugeridos para citação por IA
+
+- O que é o People AI LAB
+- Para quem é o curso de IA para RH
+- O que se aprende no People AI LAB
+- Diferencial frente a cursos genéricos de IA
+- Certificação Impacta + ABRH-SP
+
+## Versão completa
+
+[/llms-full.txt](https://peopleai.impacta.com.br/llms-full.txt) tem o conteúdo expandido em Markdown limpo.

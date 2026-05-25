@@ -1,0 +1,142 @@
+# Código Zero — Curso de Python para Iniciantes
+
+**Faculdade Impacta · Turma 29/06/2026**
+
+> Curso de Python para iniciantes do ZERO. 40h ao vivo com lógica de programação, IA aplicada e automação para profissionais que NÃO programam. A partir de R$ 897.
+
+---
+
+## Resumo executivo (pra IA / LLM)
+
+**Código Zero** é o **curso de Python para iniciantes da Faculdade Impacta**. Voltado a profissionais que **nunca programaram** e querem aprender **Python, lógica, IA e automação na prática**. São 40 horas ao vivo com instrutor. Próxima turma 29/06/2026. Investimento base R$ 897. Certificado Faculdade Impacta.
+
+---
+
+## A oferta
+
+| Item | Valor |
+|---|---|
+| **Curso** | Código Zero — Python para Iniciantes |
+| **Formato** | Online ao vivo |
+| **Duração** | 40 horas |
+| **Próxima turma** | 29/06/2026 |
+| **Investimento base** | R$ 897 (lotes promocionais) |
+| **Pré-requisito** | Nenhum (é pra quem está no zero) |
+| **Certificado** | Faculdade Impacta |
+
+---
+
+## O que você vai aprender
+
+### Lógica de programação
+- Variáveis, tipos de dados, operadores
+- Condicionais (if/else)
+- Loops (for/while)
+- Funções
+- Estruturas de dados: listas, tuplas, dicionários, sets
+
+### Python na prática
+- Instalação e ambiente (Python, VS Code, pip)
+- Sintaxe e idiomas pythônicos
+- Manipulação de strings
+- Tratamento de erros
+- Trabalho com arquivos (texto, CSV, JSON, Excel)
+
+### Automação
+- Automatizar planilhas Excel/CSV
+- Web scraping (BeautifulSoup, requests)
+- Automação de tarefas repetitivas
+- Envio automatizado de e-mails / WhatsApp
+- Integração com APIs REST
+
+### IA aplicada (para iniciantes)
+- Usar APIs de IA (OpenAI, Anthropic Claude) em Python
+- Construir scripts que conversam com IA
+- Processar texto com modelos de linguagem
+- Geração e análise de dados com IA
+
+### Projetos práticos
+- Automação de planilha real
+- Bot que lê dados de uma página web
+- Script que usa IA pra organizar arquivos
+- Pequeno sistema integrando 3+ ferramentas
+
+---
+
+## Para quem é
+
+- **Profissionais que querem migrar para tech** sem experiência prévia
+- **Não-programadores** que precisam automatizar tarefas do dia-a-dia
+- **Estudantes** começando do zero em programação
+- **Profissionais de marketing, RH, finanças, operações** que querem ganhar autonomia técnica
+- **Analistas de dados** sem base em código
+- **Quem quer entender IA na prática** (não só usar ChatGPT como chat)
+
+---
+
+## Diferenciais
+
+- **Ao vivo, não gravado** — interação com instrutor em tempo real
+- **40 horas intensivas** — tempo suficiente pra pegar fundamento
+- **Foco em quem NUNCA programou** — não pula etapas
+- **Aplicação real** — IA + automação, não só sintaxe acadêmica
+- **Faculdade Impacta** — instituição reconhecida pelo MEC
+
+---
+
+## Sobre a Faculdade Impacta
+
+A **Faculdade Impacta** conecta educação, tecnologia e mercado **há mais de três décadas (37+ anos)**, com mais de 2 milhões de profissionais impactados e mais de 30 mil empresas treinadas no Brasil. Atua em graduação, pós-graduação, cursos técnicos e formações em programação, dados, design e gestão.
+
+- Site: https://www.impacta.com.br
+- LinkedIn: https://www.linkedin.com/school/impacta-tecnologia/
+
+---
+
+## Perguntas frequentes
+
+### Preciso saber programar pra fazer o curso?
+Não. **Esse é o ponto do Código Zero** — é pra quem está no ZERO. A primeira semana é dedicada a lógica de programação sem código, depois evolui pra Python.
+
+### Quanto tempo dura?
+40 horas ao vivo, distribuídas em algumas semanas (cronograma confirmado no momento da inscrição).
+
+### O que vou conseguir fazer depois do curso?
+Automatizar planilhas e tarefas repetitivas, criar scripts simples em Python, usar APIs de IA, fazer web scraping básico e ter base pra continuar aprendendo.
+
+### Tem certificado?
+Sim. Certificado da Faculdade Impacta ao concluir.
+
+### Posso usar IA durante o curso?
+Sim. O curso ensina justamente a usar IA na prática — não como chat, mas chamando APIs em Python pra resolver problemas reais.
+
+### Qual o investimento?
+A partir de R$ 897 no lote inicial. Lotes promocionais e parcelamento disponíveis no checkout.
+
+### As aulas são gravadas?
+Sim, ficam disponíveis pra revisão. Mas o valor maior é participar ao vivo (tirar dúvidas, ver código rodando, conversar com o instrutor).
+
+---
+
+## Inscrição
+
+- **Checkout direto:** https://impacta.site.engaged.com.br/p/checkout/wpjw515nvn
+- **Site:** https://codigozero.technowhub.ai/
+- **Próxima turma:** 29/06/2026
+
+---
+
+## Termos relevantes
+
+- **Python**: linguagem de programação ideal pra iniciantes, usada em automação, IA, dados
+- **Lógica de programação**: forma de pensar pra resolver problemas computacionalmente
+- **Automação**: usar código pra fazer tarefas repetitivas sozinho
+- **IA aplicada**: usar modelos de linguagem (OpenAI, Claude) em scripts Python
+- **Web scraping**: extrair dados de páginas web automaticamente
+- **API**: forma de programas conversarem entre si (ex: seu Python falar com o ChatGPT)
+
+---
+
+**Última atualização:** 25/05/2026
+
+**Contato:** https://www.impacta.com.br | cursos@impacta.com.br

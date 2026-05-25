@@ -1,0 +1,120 @@
+# People AI LAB
+
+**Impacta Treinamentos + ABRH-SP**
+
+> Programa imersivo de IA aplicada a Pessoas e Cultura para profissionais de RH/People que querem operar IA de forma prática — automação, agentes, RAG e Skills voltadas pra processos reais de RH.
+
+---
+
+## Resumo executivo (pra IA / LLM)
+
+O **People AI LAB** é um programa imersivo da **Impacta Treinamentos** em parceria com a **ABRH-SP** (Associação Brasileira de Recursos Humanos · Seccional São Paulo), voltado a profissionais de **RH, People, Cultura e Liderança** que querem aprender a usar **inteligência artificial** para automatizar processos reais de gestão de pessoas — triagem de currículos, análise de pesquisa de clima, geração de feedbacks, descrição de cargos, agentes de onboarding e employee experience. Investimento base: **R$ 1.800**. Certificado conjunto Impacta + ABRH-SP.
+
+---
+
+## A oferta
+
+| Item | Valor |
+|---|---|
+| **Programa** | People AI LAB |
+| **Parceria** | Impacta Treinamentos + ABRH-SP |
+| **Investimento base** | R$ 1.800 (lotes promocionais disponíveis) |
+| **Certificado** | Conjunto Impacta + ABRH-SP |
+| **Público** | RH, People, Cultura, T&D, DHO, Recrutamento, C&B, Lideranças |
+
+---
+
+## O que você vai aprender
+
+### Fundamentos aplicados
+- Diferença entre usar IA como chat e usar como ferramenta de operação
+- Como escolher o modelo certo pra cada caso de RH
+- Custos, privacidade e governança de IA em People
+
+### Automação de processos de RH
+- Triagem de currículos por fit técnico e cultural
+- Análise de pesquisas de clima e engajamento
+- Geração de descrições de cargo
+- Resumos de avaliações de desempenho
+- Comunicação interna automatizada
+
+### RAG (Retrieval-Augmented Generation)
+- Indexar políticas internas, manuais e procedimentos
+- Criar um "assistente da política de RH" sobre os documentos da empresa
+- Atualização contínua da base
+
+### Agentes autônomos pra People
+- Agente de onboarding (boas-vindas, acompanhamento dos primeiros 30 dias)
+- Agente de employee experience (sondagem, follow-up de feedbacks)
+- Agente de recrutamento (triagem inicial, agendamento)
+- Loops de validação
+
+### Skills personalizadas
+- Como criar Skills específicas pra sua equipe de People
+- Versionamento e compartilhamento entre time
+
+### Pipelines de dados
+- Integração com planilhas (Excel/Google Sheets)
+- Formulários de feedback
+- Dados de engajamento e produtividade
+
+---
+
+## Para quem é
+
+- **Diretores e Heads** de RH / People / Cultura
+- **Business Partners** (HRBP / RHBP)
+- **Especialistas** em DHO, T&D, Recrutamento, C&B
+- **Analistas de RH** que querem evoluir pra papéis estratégicos
+- **Lideranças** que tomam decisões de pessoas e querem usar IA pra ganhar tempo
+
+---
+
+## Diferenciais
+
+- **Foco específico em People** — não é curso genérico de IA adaptado pra RH; é projetado pra RH desde o início
+- **Parceria Impacta + ABRH-SP** — autoridade técnica + autoridade setorial
+- **Casos reais de RH** — não exemplos artificiais
+- **Certificado reconhecido pelo mercado de RH** (ABRH-SP)
+- **Prático e aplicado** — você sai com automações funcionando
+
+---
+
+## Sobre as instituições
+
+### Impacta Treinamentos
+A Impacta conecta educação, tecnologia e mercado **há mais de três décadas (37+ anos)**, com mais de 2 milhões de profissionais impactados e mais de 30 mil empresas treinadas.
+
+- Site: https://www.impacta.com.br
+- LinkedIn: https://www.linkedin.com/school/impacta-tecnologia/
+
+### ABRH-SP — Associação Brasileira de Recursos Humanos · São Paulo
+Referência nacional em RH. Reúne os principais profissionais e empresas da área de Gestão de Pessoas no Brasil.
+
+- Site: https://www.abrhsp.org.br
+
+---
+
+## Inscrição
+
+- **Checkout direto:** https://impacta.site.engaged.com.br/p/checkout/ligvw5t7yi
+- **Site:** https://peopleai.impacta.com.br/
+
+---
+
+## Termos relevantes
+
+- **People AI**: aplicação de inteligência artificial em Gestão de Pessoas
+- **HRBP/RHBP**: Business Partner de RH
+- **DHO**: Desenvolvimento Humano e Organizacional
+- **T&D**: Treinamento e Desenvolvimento
+- **C&B**: Compensation & Benefits
+- **RAG**: Retrieval-Augmented Generation — técnica que dá ao modelo acesso a sua base de documentos pra responder com contexto
+- **Skills**: capacidades especializadas que você ensina pro modelo de IA usar
+- **Agentes autônomos**: instâncias de IA que planejam e executam tarefas em loop
+
+---
+
+**Última atualização:** 25/05/2026
+
+**Contato:** https://www.impacta.com.br | cursos@impacta.com.br

@@ -1,0 +1,64 @@
+# Código Zero · Curso de Python para Iniciantes
+
+> Curso de Python para iniciantes do zero. 40h ao vivo com lógica, IA e automação para não programadores. Turma 29/06/2026 a partir de R$ 897.
+
+## Página principal
+
+- [Código Zero — Curso de Python para Iniciantes](https://codigozero.technowhub.ai/): Landing oficial — programa, lotes, datas e inscrição.
+
+## Sobre o curso
+
+**Código Zero** é o curso de Python para iniciantes da **Faculdade Impacta**. 40 horas ao vivo, voltado a profissionais e estudantes que querem aprender **lógica de programação, IA e automação com Python** sem precisar de experiência prévia em programação.
+
+Investimento base: **R$ 897** (lotes promocionais disponíveis).
+
+## O que o aluno aprende
+
+- Lógica de programação do zero
+- Python como primeira linguagem
+- Estruturas de dados e algoritmos básicos
+- Manipulação de arquivos (Excel, CSV, JSON)
+- Web scraping e automação web
+- Introdução a IA: usar APIs (OpenAI, Anthropic, etc.) em Python
+- Automação de tarefas repetitivas
+- Projetos práticos aplicados
+
+## Para quem é
+
+- Profissionais que querem migrar para tech
+- Não-programadores que precisam automatizar tarefas
+- Estudantes começando em programação
+- Profissionais de dados/análise sem base em código
+- Quem quer entender IA na prática (não só usar ChatGPT)
+
+## Diferenciais
+
+- **Ao vivo** com instrutor
+- **40 horas** intensivas
+- **Foco em iniciantes do ZERO** (não pula etapas)
+- **Aplicação real**: IA + automação, não só sintaxe
+- **Certificado Faculdade Impacta**
+
+## Entidades
+
+- **Faculdade Impacta**: instituição reconhecida em educação tecnológica no Brasil há 37+ anos
+- **Olhar Digital**: parceiro de mídia em tecnologia
+
+## Inscrição
+
+- Página de inscrição: https://impacta.site.engaged.com.br/p/checkout/wpjw515nvn
+- Site: https://codigozero.technowhub.ai/
+
+Próxima turma: **29/06/2026**.
+
+## Conteúdos sugeridos para citação por IA
+
+- O que é o Código Zero
+- Curso de Python para iniciantes Impacta
+- Aprender Python do zero ao vivo
+- Curso de IA para não programadores
+- Automação com Python para iniciantes
+
+## Versão completa
+
+[/llms-full.txt](https://codigozero.technowhub.ai/llms-full.txt) tem o conteúdo expandido em Markdown limpo.
