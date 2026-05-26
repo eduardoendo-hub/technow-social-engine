@@ -1975,8 +1975,11 @@ button{font-family:inherit}
     </form>
     <div class="modal__success" id="waSuccess">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
-      <h4>Pronto! Abrindo o WhatsApp...</h4>
-      <p>Se não abrir automaticamente, <a id="waManualLink" href="#" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:underline">clica aqui</a>.</p>
+      <h4>Pronto! O WhatsApp abriu em uma nova aba.</h4>
+      <p style="margin-bottom:14px">Se não abriu (bloqueador de popup), clique no botão abaixo:</p>
+      <p style="text-align:center">
+        <a id="waManualLink" href="#" target="_blank" rel="noopener" style="display:inline-block;background:#25D366;color:#fff;text-decoration:none;font-weight:bold;padding:12px 24px;border-radius:8px;font-size:15px">Abrir WhatsApp →</a>
+      </p>
     </div>
   </div>
 </div>
@@ -2302,6 +2305,28 @@ window.__czWa = { url: null, ctaId: null };
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
 
+    /* Pré-abre nova aba AGORA, ainda dentro do gesto do submit
+       (popup blocker permite quando aberto antes de await).
+       Conteúdo placeholder mantém uma tela amigável durante o fetch. */
+    let popup = null;
+    try {
+      popup = window.open('about:blank', '_blank');
+      if (popup && popup.document) {
+        popup.document.write(
+          '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">' +
+          '<title>Abrindo WhatsApp…</title><meta name="color-scheme" content="light">' +
+          '<style>html,body{margin:0;height:100%;font-family:-apple-system,system-ui,Segoe UI,Arial,sans-serif;background:#F4F6F8;color:#0F4C81}' +
+          '.wrap{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:14px;text-align:center;padding:24px}' +
+          '.dot{width:10px;height:10px;border-radius:50%;background:#25D366;animation:p 1s infinite alternate}' +
+          '@keyframes p{from{opacity:.3;transform:scale(.8)}to{opacity:1;transform:scale(1.2)}}</style>' +
+          '</head><body><div class="wrap"><div class="dot"></div>' +
+          '<div><b>Abrindo WhatsApp…</b></div>' +
+          '<div style="color:#6B7280;font-size:14px">Pode fechar essa janela quando o WhatsApp carregar.</div>' +
+          '</div></body></html>'
+        );
+      }
+    } catch(e) {}
+
     try {
       await window.captureWaLead(payload);
       const url = window.__czWa.url;
@@ -2309,9 +2334,13 @@ window.__czWa = { url: null, ctaId: null };
       if (manualLink && url) manualLink.setAttribute('href', url);
       inner.classList.add('is-success');
       success.classList.add('is-on');
-      /* Redirect na mesma aba após pequeno delay pra mostrar o estado "Pronto!" */
-      setTimeout(() => { if (url) window.location.href = url; }, 700);
+      /* Navega a aba pré-aberta pro WhatsApp. LP NÃO fecha — usuário fica nela. */
+      if (popup && !popup.closed && url) {
+        try { popup.location.href = url; } catch(e) { /* fallback no link manual visível */ }
+      }
+      /* Se popup foi bloqueado, o success state mostra o botão verde "Abrir WhatsApp" pro usuário clicar. */
     } catch(err) {
+      if (popup) { try { popup.close(); } catch(e) {} }
       console.error('[WA Barrier] submit failed:', err);
       submitBtn.disabled = false;
       submitBtn.innerHTML = 'Tentar novamente';
