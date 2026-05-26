@@ -2200,6 +2200,54 @@ window.__czWa = { url: null, ctaId: null };
   const success = document.getElementById('waSuccess');
   if (!bg || !form) return;
 
+  /* ---- helpers de validação e feedback visual de erro ---- */
+  const cleanDigits = (s) => (s || '').replace(/\D/g, '');
+  const isValidEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((s || '').trim());
+  const normalizePhone = (s) => {
+    const d = cleanDigits(s);
+    if (d.length >= 12 && d.startsWith('55')) return '+' + d;             // já tem country code
+    if (d.length === 10 || d.length === 11) return '+55' + d;             // DDD + fixo (10) ou celular (11)
+    return null;                                                          // inválido
+  };
+  const clearFieldError = (input) => {
+    if (!input) return;
+    input.style.borderColor = '';
+    const err = input.parentElement.querySelector('.field-err');
+    if (err) err.remove();
+  };
+  const showFieldError = (input, msg) => {
+    if (!input) return;
+    input.style.borderColor = '#dc2626';
+    let err = input.parentElement.querySelector('.field-err');
+    if (!err) {
+      err = document.createElement('div');
+      err.className = 'field-err';
+      err.style.cssText = 'color:#dc2626;font-size:13px;line-height:18px;margin-top:6px;';
+      input.parentElement.appendChild(err);
+    }
+    err.textContent = msg;
+    input.focus();
+  };
+  const clearFormError = () => {
+    const err = form.querySelector('.form-err');
+    if (err) err.remove();
+  };
+  const showFormError = (msg) => {
+    let err = form.querySelector('.form-err');
+    if (!err) {
+      err = document.createElement('div');
+      err.className = 'form-err';
+      err.style.cssText = 'background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:10px 14px;border-radius:6px;margin-top:12px;font-size:14px;line-height:20px;';
+      form.appendChild(err);
+    }
+    err.textContent = msg;
+  };
+  /* limpa erro inline quando o usuário começa a corrigir */
+  ['name','email','phone'].forEach(n => {
+    const inp = form.querySelector('[name=' + n + ']');
+    if (inp) inp.addEventListener('input', () => { clearFieldError(inp); clearFormError(); });
+  });
+
   const open = (url, ctaId) => {
     window.__czWa.url = url;
     window.__czWa.ctaId = ctaId || 'whatsapp';
@@ -2208,6 +2256,8 @@ window.__czWa = { url: null, ctaId: null };
     const sub = form.querySelector('[type="submit"]');
     sub.disabled = false;
     sub.textContent = 'Abrir WhatsApp';
+    clearFormError();
+    ['name','email','phone'].forEach(n => clearFieldError(form.querySelector('[name=' + n + ']')));
     bg.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     setTimeout(() => document.getElementById('wa-name')?.focus(), 200);
@@ -2228,13 +2278,30 @@ window.__czWa = { url: null, ctaId: null };
     e.preventDefault();
     const fd = new FormData(form);
     const payload = Object.fromEntries(fd.entries());
+    const nameIn  = form.querySelector('[name=name]');
+    const emailIn = form.querySelector('[name=email]');
+    const phoneIn = form.querySelector('[name=phone]');
+
+    /* --- validação ANTES de bater na API (evita 422 silencioso) --- */
+    clearFormError();
+    [nameIn, emailIn, phoneIn].forEach(clearFieldError);
+    if (!payload.name || payload.name.trim().length < 2) {
+      showFieldError(nameIn, 'Digite seu nome completo.'); return;
+    }
+    if (!isValidEmail(payload.email)) {
+      showFieldError(emailIn, 'Digite um e-mail válido (ex: voce@empresa.com.br).'); return;
+    }
+    const normPhone = normalizePhone(payload.phone);
+    if (!normPhone) {
+      showFieldError(phoneIn, 'Digite um WhatsApp válido com DDD. Ex: 11 99999-9999.'); return;
+    }
+    payload.phone   = normPhone;
     payload._cta_id = window.__czWa.ctaId;
+
     const submitBtn = form.querySelector('[type="submit"]');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
-    /* abre um popup vazio AGORA, ainda dentro do gesto do usuário (evita popup blocker) */
-    let popup = null;
-    try { popup = window.open('about:blank', '_blank'); } catch(e) {}
+
     try {
       await window.captureWaLead(payload);
       const url = window.__czWa.url;
@@ -2242,17 +2309,13 @@ window.__czWa = { url: null, ctaId: null };
       if (manualLink && url) manualLink.setAttribute('href', url);
       inner.classList.add('is-success');
       success.classList.add('is-on');
-      if (popup && !popup.closed) {
-        popup.location.href = url;
-      } else if (url) {
-        /* popup foi bloqueado — navega na mesma aba depois de um instante */
-        setTimeout(() => { window.location.href = url; }, 600);
-      }
+      /* Redirect na mesma aba após pequeno delay pra mostrar o estado "Pronto!" */
+      setTimeout(() => { if (url) window.location.href = url; }, 700);
     } catch(err) {
-      console.error(err);
-      if (popup) try { popup.close(); } catch(e) {}
+      console.error('[WA Barrier] submit failed:', err);
       submitBtn.disabled = false;
       submitBtn.innerHTML = 'Tentar novamente';
+      showFormError('Não consegui registrar agora. Verifique e-mail e telefone e tente de novo. Se persistir, fale com a gente pelo formulário "Falar com consultor".');
     }
   });
 })();
