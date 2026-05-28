@@ -802,6 +802,8 @@ button{font-family:inherit}
 .modal__success h4{margin:0 0 10px;font-size:24px;font-weight:600}
 .modal__success p{margin:0;color:var(--t2)}
 .modal.is-success form{display:none}
+.wa-skip{display:block;width:100%;margin-top:14px;background:none;border:none;color:var(--t3);font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;transition:color .15s;font-family:inherit}
+.wa-skip:hover{color:var(--blue)}
 </style>
 </head>
 <body>
@@ -2276,6 +2278,27 @@ window.__czWa = { url: null, ctaId: null };
   document.querySelectorAll('[data-close-wa]').forEach(b => b.addEventListener('click', close));
   bg.addEventListener('click', e => { if (e.target === bg) close(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && bg.classList.contains('is-open')) close(); });
+
+  /* Barreira SOFT — "Prefiro só conversar": abre o WhatsApp SEM preencher
+     o form. NÃO chama captureWaLead → NÃO cria Lead no RD nem linha de
+     lead no IRIS. O clique já foi contado em click_whats (no momento em
+     que o botão WhatsApp abriu o modal), então aqui é só abrir o WA.
+     Dispara dataLayer wa_skip_form pra análise de funil (não cria lead). */
+  const skipBtn = document.getElementById('waSkip');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', () => {
+      const url = window.__czWa.url;
+      if (window.dataLayer) {
+        window.dataLayer.push({ event: 'wa_skip_form', cta_id: window.__czWa.ctaId || 'whatsapp' });
+      }
+      close();
+      if (url) {
+        // abre em nova aba; se popup bloqueado, navega a própria
+        const w = window.open(url, '_blank', 'noopener');
+        if (!w) window.location.href = url;
+      }
+    });
+  }
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
