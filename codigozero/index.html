@@ -2340,7 +2340,41 @@ window.__czWa = { url: null, ctaId: null };
           '</head><body><div class="wrap"><div class="dot"></div>' +
           '<div><b>Abrindo WhatsApp…</b></div>' +
           '<div style="color:#6B7280;font-size:14px">Pode fechar essa janela quando o WhatsApp carregar.</div>' +
-          '</div></body></html>'
+          '</div>
+<!-- ==== LP→Engaged: cupom universal (padrao Impacta) =======================
+     ?cupom= (aliases coupon/voucher_code) na URL do anuncio vira ?voucher_code=
+     no link de checkout do Engaged — que aplica o desconto sozinho. Independe
+     da estrutura da LP: reescreve qualquer link engaged.com.br/p/checkout no
+     load e no clique. Persiste na sessao (nao gruda entre sessoes). Idempotente.
+     ========================================================================= -->
+<script>
+(function(){
+  function cupom(){
+    try{
+      var p=new URLSearchParams(location.search);
+      var c=p.get('cupom')||p.get('coupon')||p.get('voucher_code');
+      if(c){c=c.trim();try{sessionStorage.setItem('lp_cupom',c);}catch(e){}return c;}
+      try{return sessionStorage.getItem('lp_cupom')||null;}catch(e){return null;}
+    }catch(e){return null;}
+  }
+  function patch(a,c){
+    try{
+      var url=new URL(a.getAttribute('href'),location.href);
+      if(!url.searchParams.get('voucher_code')){url.searchParams.set('voucher_code',c);a.setAttribute('href',url.toString());}
+    }catch(e){}
+  }
+  function applyAll(){
+    var c=cupom(); if(!c) return;
+    document.querySelectorAll('a[href*="engaged.com.br/p/checkout"]').forEach(function(a){patch(a,c);});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',applyAll);else applyAll();
+  document.addEventListener('click',function(e){
+    var el=e.target&&e.target.closest?e.target.closest('a[href*="engaged.com.br/p/checkout"]'):null;
+    if(!el)return; var c=cupom(); if(c)patch(el,c);
+  },true);
+})();
+</script>
+</body></html>'
         );
       }
     } catch(e) {}
