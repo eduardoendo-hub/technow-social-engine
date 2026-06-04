@@ -2345,7 +2345,7 @@ window.__czWa = { url: null, ctaId: null };
      ?cupom= (aliases coupon/voucher_code) na URL do anuncio vira ?voucher_code=
      no link de checkout do Engaged — que aplica o desconto sozinho. Independe
      da estrutura da LP: reescreve qualquer link engaged.com.br/p/checkout no
-     load e no clique. Persiste na sessao (nao gruda entre sessoes). Idempotente.
+     load e no clique. So aplica quando vem na URL (nao persiste). Idempotente.
      ========================================================================= -->
 <script>
 (function(){
@@ -2353,8 +2353,7 @@ window.__czWa = { url: null, ctaId: null };
     try{
       var p=new URLSearchParams(location.search);
       var c=p.get('cupom')||p.get('coupon')||p.get('voucher_code');
-      if(c){c=c.trim();try{sessionStorage.setItem('lp_cupom',c);}catch(e){}return c;}
-      try{return sessionStorage.getItem('lp_cupom')||null;}catch(e){return null;}
+      return c?c.trim():null; // SO da URL: nao persiste
     }catch(e){return null;}
   }
   function patch(a,c){
