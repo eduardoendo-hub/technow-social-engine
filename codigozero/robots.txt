@@ -1,4 +1,4 @@
-# robots.txt — codigozero.technowhub.ai
+# robots.txt — Código Zero (host: codigozero.technowhub.ai · canonical: www.impacta.com.br/cursos/codigo-zero)
 # Curso de Python para Iniciantes · Impacta + Olhar Digital
 
 User-agent: *

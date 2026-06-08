@@ -4,7 +4,7 @@
 
 ## Página principal
 
-- [Código Zero — Curso de Python para Iniciantes](https://codigozero.technowhub.ai/): Landing oficial — programa, lotes, datas e inscrição.
+- [Código Zero — Curso de Python para Iniciantes](https://www.impacta.com.br/cursos/codigo-zero): Landing oficial — programa, lotes, datas e inscrição.
 
 ## Sobre o curso
 
@@ -47,7 +47,7 @@ Investimento base: **R$ 897** (lotes promocionais disponíveis).
 ## Inscrição
 
 - Página de inscrição: https://impacta.site.engaged.com.br/p/checkout/wpjw515nvn
-- Site: https://codigozero.technowhub.ai/
+- Site: https://www.impacta.com.br/cursos/codigo-zero
 
 Próxima turma: **29/06/2026**.
 
@@ -61,4 +61,4 @@ Próxima turma: **29/06/2026**.
 
 ## Versão completa
 
-[/llms-full.txt](https://codigozero.technowhub.ai/llms-full.txt) tem o conteúdo expandido em Markdown limpo.
+[/llms-full.txt](https://www.impacta.com.br/cursos/codigo-zero/llms-full.txt) tem o conteúdo expandido em Markdown limpo.
