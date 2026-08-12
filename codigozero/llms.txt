@@ -1,6 +1,6 @@
 # Código Zero · Curso de Python para Iniciantes
 
-> Curso de Python para iniciantes do zero. 40h ao vivo com lógica, IA e automação para não programadores. Turma 29/06/2026 a partir de R$ 897.
+> Curso de Python para iniciantes do zero. 40h ao vivo com lógica, IA e automação para não programadores. Turma 28/09/2026 a partir de R$ 897.
 
 ## Página principal
 
@@ -49,7 +49,7 @@ Investimento base: **R$ 897** (lotes promocionais disponíveis).
 - Página de inscrição: https://impacta.site.engaged.com.br/p/checkout/wpjw515nvn
 - Site: https://www.impacta.com.br/cursos/codigo-zero
 
-Próxima turma: **29/06/2026**.
+Próxima turma: **28/09/2026**.
 
 ## Conteúdos sugeridos para citação por IA
 

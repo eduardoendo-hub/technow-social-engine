@@ -1,6 +1,6 @@
 # Código Zero — Curso de Python para Iniciantes
 
-**Faculdade Impacta · Turma 29/06/2026**
+**Faculdade Impacta · Turma 28/09/2026**
 
 > Curso de Python para iniciantes do ZERO. 40h ao vivo com lógica de programação, IA aplicada e automação para profissionais que NÃO programam. A partir de R$ 897.
 
@@ -8,7 +8,7 @@
 
 ## Resumo executivo (pra IA / LLM)
 
-**Código Zero** é o **curso de Python para iniciantes da Faculdade Impacta**. Voltado a profissionais que **nunca programaram** e querem aprender **Python, lógica, IA e automação na prática**. São 40 horas ao vivo com instrutor. Próxima turma 29/06/2026. Investimento base R$ 897. Certificado Faculdade Impacta.
+**Código Zero** é o **curso de Python para iniciantes da Faculdade Impacta**. Voltado a profissionais que **nunca programaram** e querem aprender **Python, lógica, IA e automação na prática**. São 40 horas ao vivo com instrutor. Próxima turma 28/09/2026. Investimento base R$ 897. Certificado Faculdade Impacta.
 
 ---
 
@@ -19,7 +19,7 @@
 | **Curso** | Código Zero — Python para Iniciantes |
 | **Formato** | Online ao vivo |
 | **Duração** | 40 horas |
-| **Próxima turma** | 29/06/2026 |
+| **Próxima turma** | 28/09/2026 |
 | **Investimento base** | R$ 897 (lotes promocionais) |
 | **Pré-requisito** | Nenhum (é pra quem está no zero) |
 | **Certificado** | Faculdade Impacta |
@@ -122,7 +122,7 @@ Sim, ficam disponíveis pra revisão. Mas o valor maior é participar ao vivo (t
 
 - **Checkout direto:** https://impacta.site.engaged.com.br/p/checkout/wpjw515nvn
 - **Site:** https://www.impacta.com.br/cursos/codigo-zero
-- **Próxima turma:** 29/06/2026
+- **Próxima turma:** 28/09/2026
 
 ---
 
@@ -137,6 +137,6 @@ Sim, ficam disponíveis pra revisão. Mas o valor maior é participar ao vivo (t
 
 ---
 
-**Última atualização:** 25/05/2026
+**Última atualização:** 12/08/2026
 
 **Contato:** https://www.impacta.com.br | cursos@impacta.com.br
