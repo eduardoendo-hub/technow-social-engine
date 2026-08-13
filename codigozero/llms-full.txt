@@ -2,13 +2,13 @@
 
 **Faculdade Impacta · Turma 28/09/2026**
 
-> Curso de Python para iniciantes do ZERO. 40h ao vivo com lógica de programação, IA aplicada e automação para profissionais que NÃO programam. A partir de R$ 897.
+> Curso de Python para iniciantes do ZERO. 40h ao vivo com lógica de programação, IA aplicada e automação para profissionais que NÃO programam. A partir de R$ 997.
 
 ---
 
 ## Resumo executivo (pra IA / LLM)
 
-**Código Zero** é o **curso de Python para iniciantes da Faculdade Impacta**. Voltado a profissionais que **nunca programaram** e querem aprender **Python, lógica, IA e automação na prática**. São 40 horas ao vivo com instrutor. Próxima turma 28/09/2026. Investimento base R$ 897. Certificado Faculdade Impacta.
+**Código Zero** é o **curso de Python para iniciantes da Faculdade Impacta**. Voltado a profissionais que **nunca programaram** e querem aprender **Python, lógica, IA e automação na prática**. São 40 horas ao vivo com instrutor. Próxima turma 28/09/2026. Investimento base R$ 997 (2º lote, o lote atual). Certificado Faculdade Impacta.
 
 ---
 
@@ -20,7 +20,7 @@
 | **Formato** | Online ao vivo |
 | **Duração** | 40 horas |
 | **Próxima turma** | 28/09/2026 |
-| **Investimento base** | R$ 897 (lotes promocionais) |
+| **Investimento base** | R$ 997 (2º lote — atual); 3º lote R$ 1.197 |
 | **Pré-requisito** | Nenhum (é pra quem está no zero) |
 | **Certificado** | Faculdade Impacta |
 
@@ -111,7 +111,7 @@ Sim. Certificado da Faculdade Impacta ao concluir.
 Sim. O curso ensina justamente a usar IA na prática — não como chat, mas chamando APIs em Python pra resolver problemas reais.
 
 ### Qual o investimento?
-A partir de R$ 897 no lote inicial. Lotes promocionais e parcelamento disponíveis no checkout.
+R$ 997 no 2º lote, que é o lote atual, em até 3× de R$ 349,00 sem juros. O 3º lote (últimas vagas) sai por R$ 1.197,00. O 1º lote pioneiro, de R$ 897, está esgotado.
 
 ### As aulas são gravadas?
 Sim, ficam disponíveis pra revisão. Mas o valor maior é participar ao vivo (tirar dúvidas, ver código rodando, conversar com o instrutor).
