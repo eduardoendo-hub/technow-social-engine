@@ -20,10 +20,14 @@
   --tn-deep-teal:     #080F0F;   /* Background base */
   --tn-surface:       #0F2020;   /* Cards, surface 1 */
   --tn-surface-2:     #06100F;   /* Surface deeper / alt panels */
-  --tn-muted:         #1A3535;   /* Borders, low-emphasis text on dark */
-  --tn-muted-2:       #2A4040;   /* Secondary muted */
+  /* ATENÇÃO: muted e muted-2 são cores de BORDA, nunca de texto.
+     Sobre o Deep Teal rendem 1.5:1 e 1.8:1 — o mínimo legível é 4.5:1.
+     Para texto secundário no escuro use --fg2 (#9ABABA, 9.3:1). */
+  --tn-muted:         #1A3535;   /* Borders on dark — NOT text */
+  --tn-muted-2:       #2A4040;   /* Stronger borders on dark — NOT text */
   --tn-pearl:         #EDF4F4;   /* Primary text on dark */
-  --tn-pearl-9ABABA:  #9ABABA;   /* Secondary text on light backgrounds */
+  --tn-pearl-9ABABA:  #9ABABA;   /* Secondary text on DARK backgrounds (9.3:1).
+                                    Não serve no claro: sobre pearl dá 1.9:1. */
 
   /* Brand */
   --tn-tiffany:       #0ABAB5;   /* Primary brand color */
@@ -44,9 +48,9 @@
   --bg-surface:       var(--tn-surface);
   --bg-surface-2:     var(--tn-surface-2);
 
-  --fg1:              var(--tn-pearl);     /* primary text */
-  --fg2:              var(--tn-muted);     /* secondary, captions */
-  --fg3:              var(--tn-muted-2);   /* tertiary / placeholders */
+  --fg1:              var(--tn-pearl);       /* primary text — 17.4:1 on deep teal */
+  --fg2:              var(--tn-pearl-9ABABA); /* secondary, captions — 9.3:1 */
+  --fg3:              #6E8C8C;                /* tertiary / placeholders — 5.3:1 */
   --fg-on-brand:      var(--tn-deep-teal); /* text on tiffany surface */
 
   --brand:            var(--tn-tiffany);
@@ -240,9 +244,9 @@ html, body {
   --bg:           var(--tn-pearl);
   --bg-surface:   #FFFFFF;
   --bg-surface-2: #F5FAFA;
-  --fg1:          var(--tn-deep-teal);
-  --fg2:          var(--tn-pearl-9ABABA);
-  --fg3:          #9ABABA;
+  --fg1:          var(--tn-deep-teal);  /* 17.4:1 on pearl */
+  --fg2:          #456060;              /* secondary — 6.1:1 (9ABABA dava 1.9:1) */
+  --fg3:          #5A7373;              /* tertiary — 4.6:1 */
   --border:       #E0EAEA;
   --border-strong:#C8D8D8;
   background: var(--bg);

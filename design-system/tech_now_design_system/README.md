@@ -109,6 +109,25 @@ darken by ~10%. Text links underline on hover with a 4-px offset.
 **Borders.** 1 px in `#0F2020` (Surface) on dark backgrounds — almost
 invisible, just a delineation. Stronger borders use `#1A3535` (Muted).
 
+> **Borda não é texto.** `--tn-muted` (`#1A3535`) e `--tn-muted-2` (`#2A4040`)
+> existem para delinear, e só. Como cor de texto sobre o Deep Teal rendem
+> **1,5:1** e **1,8:1** — o mínimo legível é 4,5:1, então o texto simplesmente
+> desaparece. Isso foi descoberto na prática: a primeira tela de operação do
+> NEXO saiu ilegível por seguir `--fg2` ao pé da letra, quando ele apontava para
+> `--tn-muted`.
+>
+> Para texto, use sempre os papéis semânticos:
+>
+> | papel | escuro | contraste | claro | contraste |
+> |---|---|---|---|---|
+> | `--fg1` primário | `#EDF4F4` | 17,4:1 | `#080F0F` | 17,4:1 |
+> | `--fg2` secundário | `#9ABABA` | 9,3:1 | `#456060` | 6,1:1 |
+> | `--fg3` terciário | `#6E8C8C` | 5,3:1 | `#5A7373` | 4,6:1 |
+>
+> Repare que `#9ABABA` é texto secundário **no escuro**, não no claro — sobre
+> Pearl ele dá 1,9:1. Os dois temas tinham esse valor trocado de lado até
+> 25/09/2026.
+
 **Shadows.**
 - Resting: `0 1px 2px rgba(0,0,0,0.30)`.
 - Cards: `0 18px 48px -16px rgba(0,0,0,0.55)` (deep, soft drop).
